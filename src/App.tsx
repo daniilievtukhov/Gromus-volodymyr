@@ -19,6 +19,7 @@ import { AuthPage } from "./pages/AuthPage";
 import { ChatDataPage } from "./pages/ChatDataPage";
 import { MainPage } from "./pages/MainPage";
 import { SchedulePage } from "./pages/SchedulePage";
+import { PersonalizedHashtagsPage } from "./pages/PersonalizedHashtagsPage";
 import { RisingSoundsPage } from "./pages/sounds/RisingSoundsPage";
 import { ApiUserInfo } from "./requests/account/info";
 import { ApiMessage } from "./requests/conversation/message";
@@ -101,6 +102,10 @@ const router = createBrowserRouter([
       {
         path: "/time-to-post",
         element: <SchedulePage />,
+      },
+      {
+        path: "/hashtags",
+        element: <PersonalizedHashtagsPage />,
       },
       {
         path: "/ai-calendar",

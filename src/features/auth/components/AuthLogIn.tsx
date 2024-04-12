@@ -20,7 +20,8 @@ import { notify } from "../../notification";
 import { useAuthStore } from "../store/auth";
 import { IAuthState } from "../types";
 import { Info } from "./Info";
-import { OAuth, TikTokAuthButton } from "./OAuth";
+import { TikTokAuthButton } from "./OAuth";
+import { OAuth } from "./OAuth";
 
 interface IProps {
   onChange: (state: IAuthState) => void;
@@ -65,9 +66,9 @@ export const AuthLogIn = ({ onChange }: IProps) => {
             description="Please log in to your account and start the adventure."
             onClose={() => onChange("methods")}
           />
+          <TikTokAuthButton />
           <OAuth />
           <Text ta={"center"}>or</Text>
-          <TikTokAuthButton />
           <TextInput
             tabIndex={2}
             label="Email"

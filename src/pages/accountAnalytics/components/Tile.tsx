@@ -6,6 +6,7 @@ import styled, { css } from "styled-components";
 
 import { percentFormat } from "../../../core/helpers/format";
 import { formatShortNumber } from "../../../core/helpers/formatShortNumber";
+import { useAIAuthorAnalyticStore } from "../../../features/chat/store";
 
 type TileType = "first" | "second" | "third";
 
@@ -15,12 +16,14 @@ type TileProps = {
   value: number;
   header?: { label: string; value: number; percent?: number };
   type: TileType;
+  authorId: string | number;
 };
 
-export const Tile = ({ subTitle, title, value, header, type }: TileProps) => {
+export const Tile = ({ subTitle, title, value, header, type, authorId }: TileProps) => {
+  const id =  useAIAuthorAnalyticStore().authorId;
   return (
     <Root $type={type}>
-      {header && (
+      {header && ( !id || authorId === id ) && (
         <Header>
           <Text fz={12} fw={500} c={"#7A7B81"} py={10} px={20}>
             {header.label}

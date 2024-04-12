@@ -7,34 +7,87 @@ import { RisingTable } from "../../../features/risingSounds";
 import { RisingSoundsPagination } from "../../../features/risingSounds/RisingSoundsPagination";
 import { ISoundData } from "../../../features/risingSounds/store";
 import { useSoundsByAuthorData } from "../hooks/useSoundsByAuthorData";
+import { useAIAuthorAnalyticStore } from "../../../features/chat/store";
+
+import { useEffect, useState } from "react";
 
 export const AuthorRisingSounds = memo(({ authorId }: { authorId: number | string }) => {
   const {
-    query: { data, isSuccess, isLoading, isError },
+    query: {
+      data: fetchData,
+      isSuccess: fetchIsSuccess,
+      isLoading: fetchIsLoading,
+      isError: fetchIsError,
+    },
     page,
     setPage,
   } = useSoundsByAuthorData(authorId);
 
+  const [data, setData] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
+  const store = useAIAuthorAnalyticStore();
+
+  useEffect(() => {
+    console.log(fetchData);
+    setData(fetchData);
+    setIsSuccess(fetchIsSuccess);
+    setIsError(fetchIsError);
+    setIsLoading(fetchIsLoading);
+  }, [fetchData]);
+
+  useEffect(() => {
+    if (store.data.length) {
+      const data = store.data.find((item) => item.DataType === "SongsUsedByAuthor")?.Data;
+      console.log(store);
+
+      setData(data);
+      setIsSuccess(true);
+      setIsError(false);
+      setIsLoading(false);
+    }
+  }, [store]);
+
   const tableData = useMemo<ISoundData[]>(() => {
     return (
-      data?.sounds.map((el) => ({
-        cover: el.cover,
-        dailyRise: el.dailyRise,
-        growth: 0,
-        lastWeekViewStats: el.lastWeekViewStats,
-        musicId: el.musicId,
-        musicOriginal: el.musicOriginal,
-        notAvailable: el.notAvailable,
-        playUrl: el.url,
-        reposts: el.reposts,
-        shazamLink: el.recognitionLink,
-        tikTokLink: el.link,
-        title: el.title,
-        topAudienceLocation: el.topAudienceLocation,
-        id: el.musicId,
-        author: el.authorNickname || el.authorUniqueId || el.creator || "",
-        authorId: el.authorIdLong,
-      })) ?? []
+      data?.sounds.map(
+        (el: {
+          cover: any;
+          dailyRise: any;
+          lastWeekViewStats: any;
+          musicId: any;
+          musicOriginal: any;
+          notAvailable: any;
+          url: any;
+          reposts: any;
+          recognitionLink: any;
+          link: any;
+          title: any;
+          topAudienceLocation: any;
+          authorNickname: any;
+          authorUniqueId: any;
+          creator: any;
+          authorIdLong: any;
+        }) => ({
+          cover: el.cover,
+          dailyRise: el.dailyRise,
+          growth: 0,
+          lastWeekViewStats: el.lastWeekViewStats,
+          musicId: el.musicId,
+          musicOriginal: el.musicOriginal,
+          notAvailable: el.notAvailable,
+          playUrl: el.url,
+          reposts: el.reposts,
+          shazamLink: el.recognitionLink,
+          tikTokLink: el.link,
+          title: el.title,
+          topAudienceLocation: el.topAudienceLocation,
+          id: el.musicId,
+          author: el.authorNickname || el.authorUniqueId || el.creator || "",
+          authorId: el.authorIdLong,
+        }),
+      ) ?? []
     );
   }, [data?.sounds]);
 
@@ -51,7 +104,7 @@ export const AuthorRisingSounds = memo(({ authorId }: { authorId: number | strin
       {isSuccess && tableData.length > 0 && (
         <Stack gap={8}>
           <RisingTable tableData={tableData} />
-          <RisingSoundsPagination page={page} setPage={setPage} total={data.totalPages} />
+          <RisingSoundsPagination page={page} setPage={setPage} total={data?.totalPages || 0} />
         </Stack>
       )}
 

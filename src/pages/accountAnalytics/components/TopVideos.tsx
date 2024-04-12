@@ -9,13 +9,68 @@ import {
   IconShare3,
 } from "@tabler/icons-react";
 
+import { useState, useEffect } from "react";
 import { TitleCircle, White } from "../../../components/Styled";
 import { formatShortNumber } from "../../../core/helpers/formatShortNumber";
 import { useAuthorAnalyticsData } from "../hooks/useAuthorAnalyticsData";
+import { useAIAuthorAnalyticStore } from "../../../features/chat/store";
 import { Video } from "./Video";
 
 export const TopVideos = ({ authorId }: { authorId: number | string }) => {
-  const { data, isLoading, isSuccess, isError } = useAuthorAnalyticsData(authorId);
+  const {
+    data: fetchData,
+    isLoading: fetchIsLoading,
+    isSuccess: fetchIsSuccess,
+    isError: fetchIsError,
+  } = useAuthorAnalyticsData(authorId);
+  const [data, setData] = useState<{
+    mostViews?: { cover: string; playCount: number };
+    mostShares?: { cover: string; shares: number };
+    mostEngagement?: { cover: string; likes: number; playCount: number };
+    mostComments?: { cover: string; commentsCount: number };
+    mostLiked?: { cover: string; likes: number };
+  }>({
+    mostViews: undefined,
+    mostShares: undefined,
+    mostEngagement: undefined,
+    mostComments: undefined,
+    mostLiked: undefined,
+  });
+
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
+
+  const store = useAIAuthorAnalyticStore();
+
+  useEffect(() => {
+    if (fetchData) {
+      const { mostViews, mostShares, mostEngagement, mostComments, mostLiked } = fetchData;
+      setData({
+        mostViews: mostViews || undefined,
+        mostShares: mostShares || undefined,
+        mostEngagement: mostEngagement || undefined,
+        mostComments: mostComments || undefined,
+        mostLiked: mostLiked || undefined,
+      });
+      setIsSuccess(fetchIsSuccess);
+      setIsError(fetchIsError);
+      setIsLoading(fetchIsLoading);
+    }
+  }, [fetchData, fetchIsSuccess, fetchIsError, fetchIsLoading]);
+
+  useEffect(() => {
+    if (store.data.length) {
+      const data = store.data.find((item) => item.DataType === "AuthorStatesAnalytic")?.Data;
+
+      if (data) {
+        setData(data);
+        setIsSuccess(true);
+        setIsError(false);
+        setIsLoading(false);
+      }
+    }
+  }, [store]);
 
   const hasData =
     data?.mostViews ||

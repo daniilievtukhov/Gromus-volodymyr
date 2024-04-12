@@ -28,35 +28,36 @@ import { ApiAuthorAnalytics } from "../../../requests/authorAnalytics";
 import { useAuthorAnalyticsData } from "../hooks/useAuthorAnalyticsData";
 import { VerifiedLabel } from "./VerifiedLabel";
 import { useEffect, useState } from "react";
-import { useAuthorAnalytic, clearAuthorAnalytic } from "../../../features/chat/store";
+import { useAIAuthorAnalyticStore } from "../../../features/chat/store";
 
 export const Header = ({ authorId }: { authorId: number | string }) => {
-  const [data, setData] = useState<any>();
+  const [data, setData] = useState<ApiAuthorAnalytics.IResponse | undefined>(undefined);
+
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
-  const { data: data2, isSuccess: isSuccess2 } = useAuthorAnalyticsData(authorId);
-  useEffect(() => {
-    if (data2 && isSuccess) {
-      setData(data2);
-      setIsSuccess(isSuccess2);
-    }
-  }, [authorId, data2, isSuccess]);
+  const store = useAIAuthorAnalyticStore();
+  const { data: fetchData, isSuccess: fetchIsSuccess } = useAuthorAnalyticsData(authorId);
 
-  const store = useAuthorAnalytic();
+  const updateData = (isSuccess: boolean, data: ApiAuthorAnalytics.IResponse | undefined) => {
+    setData(data);
+    setIsSuccess(isSuccess);
+  };
 
   useEffect(() => {
-    if (Object.keys(store)?.length > 0) {
-      const authorAnalytic = store?.data?.filter(
-        (item: any) => item.DataType === "AuthorAnalytic",
-      )[0];
-      setIsSuccess(true);
-      setData(authorAnalytic?.Data);
+    if (fetchData) {
+      updateData(fetchIsSuccess, fetchData);
     }
+  }, [fetchData]);
 
-    return () => clearAuthorAnalytic;
+  useEffect(() => {
+    if (store.data.length) {
+      const data = store.data.find((item) => item.DataType === "AuthorAnalytic")?.Data;
+
+      if (data) {
+        updateData(true, data as ApiAuthorAnalytics.IResponse);
+      }
+    }
   }, [store]);
 
-  // const { data, isSuccess } = useAuthorAnalyticsData(authorId);
-  console.log(store);
   return (
     <div>
       {isSuccess && data && data.author && (
@@ -160,15 +161,15 @@ export const Header = ({ authorId }: { authorId: number | string }) => {
             <Divider orientation="vertical" color="#FFFFFF0D" />
 
             <Stack justify="space-between">
-              <Box>
-                {data?.chartPositions?.length === 2 && (
+              {/* <Box>
+                {data.chartPositions.length === 2 && (
                   <Grid $gap={16}>
                     <PositionCard title="User Place" data={data.chartPositions[0]} />
                     <Divider orientation="vertical" color="#FFFFFF0D" />
                     <PositionCard title="Artist Place" data={data.chartPositions[1]} />
                   </Grid>
                 )}
-              </Box>
+              </Box> */}
 
               <Box>
                 <Text mb={16} fz={12} fw={600} c={"#BCBFC7"}>

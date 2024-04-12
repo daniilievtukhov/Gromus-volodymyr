@@ -7,7 +7,7 @@ import { useGlobalStore } from "../../../globalStore";
 import { useLayoutStore } from "../../../layoutStore";
 import { ApiMessage } from "../../../requests/conversation/message";
 import { ApiLLM } from "../../../requests/llm";
-import { addMessage, useAuthorAnalytic, useChatStore } from "../store";
+import { addMessage, useAIAuthorAnalyticStore, setAIAuthorAnalyticStore, useChatStore, useOriginAuthorIdStore } from "../store";
 
 const userRegion = navigator.language;
 
@@ -60,11 +60,11 @@ export const useSendMessage = () => {
       });
 
       if (data.DataType === "AuthorAnalytic" && data.Data) {
-        useAuthorAnalytic.setState({
-          data: data.Data,
-        });
+        console.log(data)
+        setAIAuthorAnalyticStore(data);
         navigate("/ai-data-my-account-analytics");
       }
+
       ApiMessage.fromCopilot({
         conversationId: data.ConversationId,
         date,

@@ -24,9 +24,12 @@ import { RecommendationMap } from "./components/RecommendationMap";
 import { Statistics } from "./components/Statistics";
 import { TopVideos } from "./components/TopVideos";
 import { useAuthorAnalyticsData } from "./hooks/useAuthorAnalyticsData";
+import { useAIAuthorAnalyticStore } from "../../features/chat/store";
+import { AuthorRisingSounds } from "./components/AuthorRisingSounds";
 
 const Content = ({ authorId }: { authorId: number | string }) => {
   const { isError, error } = useAuthorAnalyticsData(authorId);
+  const { authorId: id } = useAIAuthorAnalyticStore();
 
   if (isError) {
     if (isAxiosError(error) && error.response?.status === 400) {
@@ -49,11 +52,11 @@ const Content = ({ authorId }: { authorId: number | string }) => {
   return (
     <Stack p={32} pb={102} gap={52} bg="#0D0D0E" mih="100vh">
       <Header authorId={authorId} />
-
+      {(!id || id === authorId) && <Categories authorId={authorId} />}
       <Statistics authorId={authorId} />
-      <Competitors authorId={authorId} />
+      {(!id || id === authorId) && <Competitors authorId={authorId} />}
       <TopVideos authorId={authorId} />
-
+      <AuthorRisingSounds authorId={authorId} />
       <RecommendationMap authorId={authorId} />
     </Stack>
   );

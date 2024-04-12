@@ -14,7 +14,6 @@ import axios from "axios";
 const _Message = ({ message }: { message: IMessage }) => {
   const navigate = useNavigate();
   const isMobile = useMediaQuery(`(max-width: 768px)`);
-  console.log(message);
 
   const handleButtonClick = async (link: string) => {
     await axios
@@ -31,7 +30,7 @@ const _Message = ({ message }: { message: IMessage }) => {
         console.error("Error fetching data:", error);
       });
   };
-
+  console.log(message);
   return (
     <FadeBlock>
       <Stack>

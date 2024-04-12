@@ -37,7 +37,7 @@ export const Navigation = () => {
           { label: "Time to Post", link: "/time-to-post" },
           { label: "Account Analytics", link: "/my-account-analytics" },
           { label: "Sound Analytics", link: "/sound-analytics", isComing: true },
-          { label: "Hashtags", link: "/hashtags", isComing: true },
+          { label: "Hashtags", link: "/hashtags" },
           { label: "Performance", link: "/performance", isComing: true },
           { label: "Collaborations", link: "/collaborations", isComing: true },
           { label: "Reports", link: "/reports", isComing: true },

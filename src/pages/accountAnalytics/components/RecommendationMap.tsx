@@ -7,9 +7,57 @@ import WorldMap from "../../../assets/world.svg?react";
 import { Flag } from "../../../components/Flag";
 import { PercentBar } from "../../../components/PercentBar";
 import { useAuthorAnalyticsData } from "../hooks/useAuthorAnalyticsData";
+import { useState, useEffect } from "react";
+import { useAIAuthorAnalyticStore } from "../../../features/chat/store";
+
+interface LocationData {
+  locationCode: string;
+  rate: number;
+}
+
+interface AuthorData {
+  locations: LocationData[];
+  risingSinceWeek?: {
+    riseSubscribersSinceWeek: number;
+    riseLikesSinceWeek: number;
+    riseClipsSinceWeek: number;
+  };
+}
 
 export const RecommendationMap = ({ authorId }: { authorId: number | string }) => {
-  const { data, isSuccess, isLoading, isError } = useAuthorAnalyticsData(authorId);
+  const {
+    data: fetchData,
+    isLoading: fetchIsLoading,
+    isSuccess: fetchIsSuccess,
+    isError: fetchIsError,
+  } = useAuthorAnalyticsData(authorId);
+  const [data, setData] = useState<AuthorData>();
+
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
+
+  const store = useAIAuthorAnalyticStore();
+
+  useEffect(() => {
+    setData(fetchData);
+    setIsSuccess(fetchIsSuccess);
+    setIsError(fetchIsError);
+    setIsLoading(fetchIsLoading);
+  }, [fetchData]);
+
+  useEffect(() => {
+    if (store.data.length) {
+      const data = store.data.find((item) => item.DataType === "AuthorAnalytic")
+        ?.Data as AuthorData;
+      console.log(data);
+
+      setData(data);
+      setIsSuccess(true);
+      setIsError(false);
+      setIsLoading(false);
+    }
+  }, [store]);
 
   const totalRate = sum(data?.locations.map((el) => el.rate) || []);
 

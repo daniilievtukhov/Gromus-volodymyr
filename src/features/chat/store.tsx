@@ -81,9 +81,45 @@ export const clearChat = () => {
   });
 };
 
-export const useAuthorAnalytic = create(() => ({
-  isAuthorAnalyticEmpty: true,
+interface AIAnalyticItem {
+  DataType: string;
+  Data: object;
+}
+
+interface AIAuthorAnalyticStore {
+  authorId: number | string;
+  data: Array<AIAnalyticItem>;
+}
+
+export const useAIAuthorAnalyticStore = create<AIAuthorAnalyticStore>(() => ({
+  chatId: "",
+  authorId: "",
+  data: [],
 }));
 
-export const clearAuthorAnalytic = () =>
-  useAuthorAnalytic.setState(() => ({ isAuthorAnalitycEmpty: true }));
+export const clearAIAuthorAnalyticStore = () =>
+  useAIAuthorAnalyticStore.setState(() => ({
+    chatId: "",
+    authorId: "",
+    data: [],
+  }));
+
+export const setAIAuthorAnalyticStore = (newData: { ConversationId: any; Data: any[] }) =>
+  useAIAuthorAnalyticStore.setState(() => ({
+    chatId: newData.ConversationId,
+    authorId: newData.Data.find((item) => item.DataType === "AuthorAnalytic").Data.author.authorId,
+    data: newData.Data,
+  }));
+
+export const getDataByParam = (searchParam: string, store: AIAuthorAnalyticStore) => {
+  console.log(useAIAuthorAnalyticStore());
+  const authorAnalytic = store.data.find(
+    (item: { DataType: string }) => item.DataType === searchParam,
+  )?.Data;
+
+  return authorAnalytic ? authorAnalytic : {};
+};
+
+export const useOriginAuthorIdStore = create(() => {
+  originAuthorId: "";
+});
