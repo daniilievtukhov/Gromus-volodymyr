@@ -24,15 +24,25 @@ import statystic from "../../../assets/images/statystic.png";
 import styled from "styled-components";
 import { useState } from "react";
 import axios from "axios";
+import { formatShortNumber } from "../../../core/helpers/formatShortNumber";
+import { ApiHashtagsAnalytics } from "../../../requests/hashtagsAnalytics";
 
-export const HashtagCard = () => {
-  const [hashtag, setHashtag] = useState("#пісняукраїнською");
+export const HashtagCard:React.FC<ApiHashtagsAnalytics.ISoundHashtag> = ({
+  dailyGrowth,
+  hashtag,
+  link,
+  posts,
+  probableNextWeekTrend,
+  status,
+  views
+}) => {
+  const [textHashtag, setHashtag] = useState(hashtag);
 
   const [showCheckbox, setShowCheckbox] = useState(false);
 
   const handleCopyClick = () => {
     navigator.clipboard
-      .writeText(hashtag)
+      .writeText(textHashtag)
       .then(() => {
         setShowCheckbox(true);
         setTimeout(() => {
@@ -69,7 +79,7 @@ export const HashtagCard = () => {
                 <IconHash size={30} color="white" />
               </Paper>
               <Text fz={16} fw={600} c={"#fff"} lh={1.25} truncate="end" style={{ marginLeft: 8 }}>
-                {hashtag}
+                {textHashtag}
               </Text>
             </Flex>
             {showCheckbox ? (
@@ -87,7 +97,7 @@ export const HashtagCard = () => {
                   Views
                 </Text>
                 <Text fz={18} fw={700} c={"#fff"}>
-                  196.1b
+                  {formatShortNumber(views)}
                 </Text>
               </Box>
               <Divider orientation="vertical" />
@@ -96,7 +106,7 @@ export const HashtagCard = () => {
                   Since last day
                 </Text>
                 <Text fz={18} fw={700} c={"#00b469"}>
-                  150%
+                  {`${dailyGrowth}%`}
                 </Text>
               </Box>
               <Divider orientation="vertical" />
@@ -105,7 +115,7 @@ export const HashtagCard = () => {
                   Posts
                 </Text>
                 <Text fz={18} fw={700} c={"#fff"}>
-                  20K
+                  {formatShortNumber(posts)}
                 </Text>
               </Box>
             </Flex>
@@ -207,6 +217,7 @@ export const HashtagCard = () => {
     </>
   );
 };
+
 const Wrapper = styled.div`
   min-width: 280px;
   background-color: #212122;

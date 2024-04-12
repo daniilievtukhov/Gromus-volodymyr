@@ -22,9 +22,20 @@ import tiktok from "../../../assets/images/tiktok.png";
 import fire from "../../../assets/images/fire.png";
 import statystic from "../../../assets/images/statystic.png";
 import styled from "styled-components";
-import { useState } from "react";
+import React, { useState } from "react";
 
-export const BalancedGroupCard = ({ color }) => {
+type Props = {
+  color: string,
+  groupName: string,
+  hahtags: string[]
+}
+
+export const BalancedGroupCard:React.FC<Props> = ({ 
+    color,
+    groupName,
+    hahtags 
+  }) => {
+    
   const [heartColor, setHeartColor] = useState(false);
 
   const handleClickHeart = () => {
@@ -43,7 +54,7 @@ export const BalancedGroupCard = ({ color }) => {
           <Flex align="center" justify="space-between">
             <Flex align="center">
               <Text fz={16} fw={600} c={"#fff"} lh={1.25} truncate="end" style={{ marginLeft: 8 }}>
-                Relevant A
+                {`Relevant ${groupName}`}
               </Text>
             </Flex>
             <Flex align="center">
@@ -100,9 +111,9 @@ export const BalancedGroupCard = ({ color }) => {
             truncate="end"
             style={{ display: "flex", flexDirection: "column" }}
           >
-            <span style={{ marginBottom: "4px" }}>#humor</span>
-            <span style={{ marginBottom: "4px" }}>#relatable</span>
-            <span style={{ marginBottom: "4px" }}>#comedy </span>
+            {hahtags.map(hashtag => (
+              <span style={{ marginBottom: "4px" }}>{hashtag}</span>
+            ))}
           </Text>
         </Wrapper>
       </Box>

@@ -9,9 +9,9 @@ export const SchedulePage = () => {
     <Stack gap={128} px={40} py={32} mih="100vh" bg="#0D0D0E" justify="space-between">
       <Stack gap={28}>
         <AccentTitle icon={<IconSparkles />}>
-          AI Recommendations on times and days for posting sounds in{" "}
-          <AccentTitle.Color>this month</AccentTitle.Color> in{" "}
-          <AccentTitle.Color>your country</AccentTitle.Color>
+          AI recommendations on the best time and day to post content on TikTok{" "}
+          <AccentTitle.Color>this week</AccentTitle.Color> in{" "}
+          <AccentTitle.Color>(in the chosen country)</AccentTitle.Color>
         </AccentTitle>
         <Text size="lg" fw={500} c="white" ff="mono">
           This recommendation is built on the analytics of your account, competitors, audience, and
