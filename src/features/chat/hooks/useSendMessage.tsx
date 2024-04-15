@@ -7,7 +7,8 @@ import { useGlobalStore } from "../../../globalStore";
 import { useLayoutStore } from "../../../layoutStore";
 import { ApiMessage } from "../../../requests/conversation/message";
 import { ApiLLM } from "../../../requests/llm";
-import { addMessage, useAIAuthorAnalyticStore, setAIAuthorAnalyticStore, useChatStore, useOriginAuthorIdStore } from "../store";
+import { addMessage, setAIAuthorAnalyticStore, useAIAuthorAnalyticStore,  useChatStore, useOriginAuthorIdStore } from "../store";
+import { redirect } from "react-router-dom";
 
 const userRegion = navigator.language;
 
@@ -41,7 +42,7 @@ export const useSendMessage = () => {
         text: data.text,
       });
     },
-    onSuccess: (data: {
+    onSuccess: async (data: {
       Data: any;
       DataType: any;
       Text: any;
@@ -60,9 +61,34 @@ export const useSendMessage = () => {
       });
 
       if (data.DataType === "AuthorAnalytic" && data.Data) {
-        console.log(data)
-        setAIAuthorAnalyticStore(data);
+        
+        const authorAnalyticItem = data.Data.find((item: any) => item.DataType === "AuthorData").Data;
+        const authorAuthorStatesAnalytic = data.Data.find((item: any) => item.DataType === "AuthorStatesAnalytic").Data;
+        const authorSongsUsedByAuthor = data.Data.find((item: any) => item.DataType === "SongsUsedByAuthor").Data;
+      
+        const authorId = authorAnalyticItem?.author?.authorId || "";
+        // console.log(authorAnalyticItem);
+        // console.log(authorAuthorStatesAnalytic);
+        // console.log(authorSongsUsedByAuthor);
+
+        useAIAuthorAnalyticStore.setState(() => ({
+          chatId: data.ConversationId,
+          authorId: authorId,
+          data: {
+            authorData: {...authorAnalyticItem},
+            authorStatesAnalytic: {...authorAuthorStatesAnalytic},
+            songsUsedByAuthor: {...authorSongsUsedByAuthor}
+          } 
+        }));
+        
         navigate("/ai-data-my-account-analytics");
+      }
+
+      if (data.DataType === "SoundSearch" && data.Data) {
+        useChatStore.setState({
+          data: data.Data,
+        });
+        navigate("/ai-data");
       }
 
       ApiMessage.fromCopilot({
@@ -109,6 +135,20 @@ export const useSendMessage = () => {
             isCopilot: true,
             message:
               "Please try another request, as I was unable to process this one. I'm working on your previous request and I will provide you with the answer shortly.",
+            buttons: [
+                {
+                  label: "Time to post",
+                  onClick: () => navigate("/time-to-post"),
+                },
+                {
+                  label: " Account analytics",
+                  onClick: () => navigate("/my-account-analytics"),
+                },
+                {
+                  label: "Hashtags",
+                  onClick: () => navigate("/hashtags"),
+                },
+              ],
           });
         }
         if (error.status === 401) {
@@ -139,6 +179,20 @@ export const useSendMessage = () => {
           date: new Date().toISOString(),
           isCopilot: true,
           message: "Please try another request, as I was unable to process this one.",
+          buttons: [
+            {
+              label: "Time to post",
+              onClick: () => navigate("/time-to-post"),
+            },
+            {
+              label: " Account analytics",
+              onClick: () => navigate("/my-account-analytics"),
+            },
+            {
+              label: "Hashtags",
+              onClick: () => navigate("/hashtags"),
+            },
+          ],
         });
 
         return;

@@ -31,7 +31,7 @@ export const RecommendationMap = ({ authorId }: { authorId: number | string }) =
     isSuccess: fetchIsSuccess,
     isError: fetchIsError,
   } = useAuthorAnalyticsData(authorId);
-  const [data, setData] = useState<AuthorData>();
+  const [data, setData] = useState<any>();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
@@ -47,9 +47,8 @@ export const RecommendationMap = ({ authorId }: { authorId: number | string }) =
   }, [fetchData]);
 
   useEffect(() => {
-    if (store.data.length) {
-      const data = store.data.find((item) => item.DataType === "AuthorAnalytic")
-        ?.Data as AuthorData;
+    if (Object.entries(store.data).length && 'authorData' in store.data) {
+      const data = store.data.authorData; //AuthorData;
       console.log(data);
 
       setData(data);
@@ -59,9 +58,9 @@ export const RecommendationMap = ({ authorId }: { authorId: number | string }) =
     }
   }, [store]);
 
-  const totalRate = sum(data?.locations.map((el) => el.rate) || []);
+  const totalRate = sum(data?.locations.map((el: any) => el.rate) || []);
 
-  const countries = data?.locations.map((el) => el.locationCode.toLowerCase()) || [];
+  const countries = data?.locations.map((el: any) => el.locationCode.toLowerCase()) || [];
 
   return (
     <Stack gap={0}>
@@ -105,7 +104,7 @@ export const RecommendationMap = ({ authorId }: { authorId: number | string }) =
             </Grid.Col>
             <Grid.Col span={{ base: 12, md: 6 }}>
               <Stack gap={18}>
-                {data?.locations.map((el) => (
+                {data?.locations.map((el: any) => (
                   <PercentBar
                     key={el.locationCode}
                     label={el.locationCode}

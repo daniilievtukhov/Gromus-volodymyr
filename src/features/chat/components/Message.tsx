@@ -30,7 +30,7 @@ const _Message = ({ message }: { message: IMessage }) => {
         console.error("Error fetching data:", error);
       });
   };
-  console.log(message);
+  // console.log(message);
   return (
     <FadeBlock>
       <Stack>
@@ -50,7 +50,8 @@ const _Message = ({ message }: { message: IMessage }) => {
         <StyledText component={typeof message.message === "string" ? "p" : "div"}>
           {message.message}
         </StyledText>
-        {message.dataType === "TimePost" && message.buttons && (
+
+        {((message.dataType === "TimePost") || (!message.data && !message.dataType)) && message.buttons && (
           <>
             <Text c="#D1FD0A" fz={14}>
               Choose an option:
@@ -62,7 +63,9 @@ const _Message = ({ message }: { message: IMessage }) => {
                   radius="xl"
                   color="#D1FD0A"
                   onClick={() => {
-                    handleButtonClick(btn?.link || "");
+                    (!message.data && !message.dataType && btn.onClick) 
+                    ? btn.onClick()
+                    : handleButtonClick(btn?.link || "");
 
                     if (isMobile) {
                       useLayoutStore.setState({

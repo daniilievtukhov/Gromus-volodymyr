@@ -49,8 +49,8 @@ export const Header = ({ authorId }: { authorId: number | string }) => {
   }, [fetchData]);
 
   useEffect(() => {
-    if (store.data.length) {
-      const data = store.data.find((item) => item.DataType === "AuthorAnalytic")?.Data;
+    if (Object.entries(store.data).length && 'authorData' in store.data) {
+      const data = store.data.authorData;
 
       if (data) {
         updateData(true, data as ApiAuthorAnalytics.IResponse);

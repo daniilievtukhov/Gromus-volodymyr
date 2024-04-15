@@ -81,44 +81,62 @@ export const clearChat = () => {
   });
 };
 
-interface AIAnalyticItem {
-  DataType: string;
-  Data: object;
+interface IAIAnalyticData {
+  authorData: object;
+  authorStatesAnalytic: object;
+  songsUsedByAuthor: object;
 }
 
 interface AIAuthorAnalyticStore {
+  chatId: string | number;
   authorId: number | string;
-  data: Array<AIAnalyticItem>;
+  data: IAIAnalyticData | object;
 }
 
 export const useAIAuthorAnalyticStore = create<AIAuthorAnalyticStore>(() => ({
   chatId: "",
   authorId: "",
-  data: [],
+  data: {},
 }));
 
 export const clearAIAuthorAnalyticStore = () =>
   useAIAuthorAnalyticStore.setState(() => ({
     chatId: "",
     authorId: "",
-    data: [],
+    data: {},
   }));
 
-export const setAIAuthorAnalyticStore = (newData: { ConversationId: any; Data: any[] }) =>
+interface IAiAccountData {
+  Context: string,
+  ConversationId: string,
+  ConversationName: string,
+  Data: any[],
+  DataType: string,
+  Date: Date | null,
+  Text: string,
+  UniqueId: string
+}
+
+export const setAIAuthorAnalyticStore = (newData: IAiAccountData) => {
+  const authorAnalyticItem = newData.Data.find((item) => item.DataType === "AuthorData").Data;
+  const authorStatesAnalytic = newData.Data.find((item) => item.DataType === "AuthorStatesAnalytic").Data;
+  const songsUsedByAuthor = newData.Data.find((item) => item.DataType === "SongsUsedByAuthor").Data;
+
+  console.log(authorAnalyticItem);
+  const authorId = authorAnalyticItem?.author?.authorId || "";
+  console.log(authorId);
+
   useAIAuthorAnalyticStore.setState(() => ({
     chatId: newData.ConversationId,
-    authorId: newData.Data.find((item) => item.DataType === "AuthorAnalytic").Data.author.authorId,
-    data: newData.Data,
+    authorId: authorId,
+    data: {
+      authorData: {...authorAnalyticItem},
+      authorStatesAnalytic: {...authorStatesAnalytic},
+      songsUsedByAuthor: {...songsUsedByAuthor}
+    } 
   }));
+}
 
-export const getDataByParam = (searchParam: string, store: AIAuthorAnalyticStore) => {
-  console.log(useAIAuthorAnalyticStore());
-  const authorAnalytic = store.data.find(
-    (item: { DataType: string }) => item.DataType === searchParam,
-  )?.Data;
-
-  return authorAnalytic ? authorAnalytic : {};
-};
 
 export const useOriginAuthorIdStore = create(() => {
   originAuthorId: "";

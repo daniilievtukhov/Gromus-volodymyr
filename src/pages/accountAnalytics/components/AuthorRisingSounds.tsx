@@ -38,9 +38,10 @@ export const AuthorRisingSounds = memo(({ authorId }: { authorId: number | strin
   }, [fetchData]);
 
   useEffect(() => {
-    if (store.data.length) {
-      const data = store.data.find((item) => item.DataType === "SongsUsedByAuthor")?.Data;
+    if (Object.entries(store.data).length && 'songsUsedByAuthor' in store.data) {
       console.log(store);
+      const data = store.data.songsUsedByAuthor;
+      console.log(data);
 
       setData(data);
       setIsSuccess(true);

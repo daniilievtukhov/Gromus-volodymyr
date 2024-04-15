@@ -1,6 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-
 import { ApiAuth } from "../requests/account/auth";
 
 export const useLogout = (userName: string) => {
@@ -11,6 +10,7 @@ export const useLogout = (userName: string) => {
     onSuccess: () => {
       localStorage.removeItem("BEARER_TOKEN");
       navigate("/auth");
+      
     },
   });
 };

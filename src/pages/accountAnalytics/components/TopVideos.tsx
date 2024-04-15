@@ -60,8 +60,8 @@ export const TopVideos = ({ authorId }: { authorId: number | string }) => {
   }, [fetchData, fetchIsSuccess, fetchIsError, fetchIsLoading]);
 
   useEffect(() => {
-    if (store.data.length) {
-      const data = store.data.find((item) => item.DataType === "AuthorStatesAnalytic")?.Data;
+    if (Object.entries(store.data).length && 'authorStatesAnalytic' in store.data) {
+      const data = store.data?.authorStatesAnalytic;
 
       if (data) {
         setData(data);

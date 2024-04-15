@@ -26,6 +26,7 @@ import { useState } from "react";
 import axios from "axios";
 import { formatShortNumber } from "../../../core/helpers/formatShortNumber";
 import { ApiHashtagsAnalytics } from "../../../requests/hashtagsAnalytics";
+import { start } from "repl";
 
 export const HashtagCard:React.FC<ApiHashtagsAnalytics.ISoundHashtag> = ({
   dailyGrowth,
@@ -146,8 +147,7 @@ export const HashtagCard:React.FC<ApiHashtagsAnalytics.ISoundHashtag> = ({
                     </Flex>
                   }
                   position="top"
-                  placement="start"
-                  transition="fade"
+                  transitionProps={{ transition: "fade", duration: 300}}
                   color="#3f3f41"
                 >
                   <Image

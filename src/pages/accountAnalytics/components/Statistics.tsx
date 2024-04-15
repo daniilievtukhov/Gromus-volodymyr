@@ -36,8 +36,8 @@ export const Statistics = ({ authorId }: { authorId: number | string }) => {
   }, [fetchData]);
 
   useEffect(() => {
-    if (store.data.length) {
-      const data = store.data.find((item) => item.DataType === "AuthorAnalytic")?.Data;
+    if (Object.entries(store.data).length && 'authorData' in store.data) {
+      const data = store.data.authorData;
       setData(data as AnalyticsData); // Явное приведение типа
       setIsLoading(false);
     }
