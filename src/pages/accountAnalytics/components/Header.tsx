@@ -28,11 +28,12 @@ import { ApiAuthorAnalytics } from "../../../requests/authorAnalytics";
 import { useAuthorAnalyticsData } from "../hooks/useAuthorAnalyticsData";
 import { VerifiedLabel } from "./VerifiedLabel";
 import { useEffect, useState } from "react";
-import { useAIAuthorAnalyticStore } from "../../../features/chat/store";
+import { useAIAuthorAnalyticStore } from "../store/accountAnalytic";
+import { useLocation } from "react-router-dom";
 
 export const Header = ({ authorId }: { authorId: number | string }) => {
   const [data, setData] = useState<ApiAuthorAnalytics.IResponse | undefined>(undefined);
-
+  const { pathname } = useLocation();
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const store = useAIAuthorAnalyticStore();
   const { data: fetchData, isSuccess: fetchIsSuccess } = useAuthorAnalyticsData(authorId);
@@ -43,10 +44,10 @@ export const Header = ({ authorId }: { authorId: number | string }) => {
   };
 
   useEffect(() => {
-    if (fetchData) {
+    if ((fetchData && !Object.entries(store.data).length) || (pathname === "/my-account-analytics")) {
       updateData(fetchIsSuccess, fetchData);
     }
-  }, [fetchData]);
+  }, [fetchData, pathname]);
 
   useEffect(() => {
     if (Object.entries(store.data).length && 'authorData' in store.data) {

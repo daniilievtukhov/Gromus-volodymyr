@@ -8,7 +8,8 @@ import { Flag } from "../../../components/Flag";
 import { PercentBar } from "../../../components/PercentBar";
 import { useAuthorAnalyticsData } from "../hooks/useAuthorAnalyticsData";
 import { useState, useEffect } from "react";
-import { useAIAuthorAnalyticStore } from "../../../features/chat/store";
+import { useAIAuthorAnalyticStore } from "../store/accountAnalytic";
+import { useLocation } from 'react-router-dom'
 
 interface LocationData {
   locationCode: string;
@@ -32,7 +33,7 @@ export const RecommendationMap = ({ authorId }: { authorId: number | string }) =
     isError: fetchIsError,
   } = useAuthorAnalyticsData(authorId);
   const [data, setData] = useState<any>();
-
+  const { pathname } = useLocation();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
@@ -40,10 +41,12 @@ export const RecommendationMap = ({ authorId }: { authorId: number | string }) =
   const store = useAIAuthorAnalyticStore();
 
   useEffect(() => {
-    setData(fetchData);
-    setIsSuccess(fetchIsSuccess);
-    setIsError(fetchIsError);
-    setIsLoading(fetchIsLoading);
+    if ((fetchData && !Object.entries(store.data).length) || (pathname === "/my-account-analytics")) {
+      setData(fetchData);
+      setIsSuccess(fetchIsSuccess);
+      setIsError(fetchIsError);
+      setIsLoading(fetchIsLoading);
+    }
   }, [fetchData]);
 
   useEffect(() => {

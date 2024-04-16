@@ -1,8 +1,9 @@
 import { Grid, Skeleton } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { useAuthorAnalyticsData } from "../hooks/useAuthorAnalyticsData";
-import { useAIAuthorAnalyticStore } from "../../../features/chat/store";
+import { useAIAuthorAnalyticStore } from "../store/accountAnalytic";
 import { Tile } from "./Tile";
+import { useLocation } from "react-router-dom";
 interface AnalyticsData {
   author: {
     subscribers: number;
@@ -26,14 +27,17 @@ interface AnalyticsData {
 
 export const Statistics = ({ authorId }: { authorId: number | string }) => {
   const [data, setData] = useState<AnalyticsData | undefined>(undefined);
+  const { pathname } = useLocation();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const store = useAIAuthorAnalyticStore();
   const { data: fetchData, isLoading: fetchIsLoading } = useAuthorAnalyticsData(authorId);
 
   useEffect(() => {
-    setData(fetchData);
-    setIsLoading(fetchIsLoading);
-  }, [fetchData]);
+    if ((fetchData && !Object.entries(store.data).length) || (pathname === "/my-account-analytics") ) {
+      setData(fetchData);
+      setIsLoading(fetchIsLoading);
+    }
+  }, [fetchData, pathname]);
 
   useEffect(() => {
     if (Object.entries(store.data).length && 'authorData' in store.data) {

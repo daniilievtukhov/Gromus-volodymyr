@@ -6,7 +6,7 @@ import styled, { css } from "styled-components";
 
 import { percentFormat } from "../../../core/helpers/format";
 import { formatShortNumber } from "../../../core/helpers/formatShortNumber";
-import { useAIAuthorAnalyticStore } from "../../../features/chat/store";
+import { useAIAuthorAnalyticStore } from "../store/accountAnalytic";
 
 type TileType = "first" | "second" | "third";
 

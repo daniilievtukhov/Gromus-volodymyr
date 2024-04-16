@@ -13,8 +13,9 @@ import { useState, useEffect } from "react";
 import { TitleCircle, White } from "../../../components/Styled";
 import { formatShortNumber } from "../../../core/helpers/formatShortNumber";
 import { useAuthorAnalyticsData } from "../hooks/useAuthorAnalyticsData";
-import { useAIAuthorAnalyticStore } from "../../../features/chat/store";
+import { useAIAuthorAnalyticStore } from "../store/accountAnalytic";
 import { Video } from "./Video";
+import { useLocation } from "react-router-dom";
 
 export const TopVideos = ({ authorId }: { authorId: number | string }) => {
   const {
@@ -40,31 +41,39 @@ export const TopVideos = ({ authorId }: { authorId: number | string }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
-
+  
+  const { pathname } = useLocation();
+  
   const store = useAIAuthorAnalyticStore();
 
   useEffect(() => {
-    if (fetchData) {
-      const { mostViews, mostShares, mostEngagement, mostComments, mostLiked } = fetchData;
+    if ((fetchData && !Object.entries(store.data).length) || (pathname === "/my-account-analytics")) {
+      const { mostViews, mostShares, mostEngagement, mostComments, mostLiked } = fetchData ?? {};
       setData({
-        mostViews: mostViews || undefined,
-        mostShares: mostShares || undefined,
-        mostEngagement: mostEngagement || undefined,
-        mostComments: mostComments || undefined,
-        mostLiked: mostLiked || undefined,
+        mostViews: mostViews,
+        mostShares: mostShares,
+        mostEngagement: mostEngagement,
+        mostComments: mostComments,
+        mostLiked: mostLiked,
       });
       setIsSuccess(fetchIsSuccess);
       setIsError(fetchIsError);
       setIsLoading(fetchIsLoading);
     }
-  }, [fetchData, fetchIsSuccess, fetchIsError, fetchIsLoading]);
+  }, [fetchData, fetchIsSuccess, fetchIsError, fetchIsLoading, pathname]);
 
   useEffect(() => {
-    if (Object.entries(store.data).length && 'authorStatesAnalytic' in store.data) {
-      const data = store.data?.authorStatesAnalytic;
+    if (Object.entries(store.data).length && "authorData" in store.data) {
+      const { mostViews, mostShares, mostEngagement, mostComments, mostLiked } = store.data?.authorData;
 
       if (data) {
-        setData(data);
+        setData({
+          mostViews: mostViews || undefined,
+          mostShares: mostShares || undefined,
+          mostEngagement: mostEngagement || undefined,
+          mostComments: mostComments || undefined,
+          mostLiked: mostLiked || undefined,
+        });
         setIsSuccess(true);
         setIsError(false);
         setIsLoading(false);

@@ -23,10 +23,8 @@ import fire from "../../../assets/images/fire.png";
 import statystic from "../../../assets/images/statystic.png";
 import styled from "styled-components";
 import { useState } from "react";
-import axios from "axios";
 import { formatShortNumber } from "../../../core/helpers/formatShortNumber";
 import { ApiHashtagsAnalytics } from "../../../requests/hashtagsAnalytics";
-import { start } from "repl";
 
 export const HashtagCard:React.FC<ApiHashtagsAnalytics.ISoundHashtag> = ({
   dailyGrowth,

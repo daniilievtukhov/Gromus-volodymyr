@@ -22,10 +22,10 @@ export namespace ApiAuthorAnalytics {
     avgSubscribersDailyRise: number;
     influencerStatus: Status;
     mostEngagement: Most;
-    mostLiked: Most | null;
-    mostShares: Most | null;
-    mostViews: Most | null;
-    mostComments: Most | null;
+    mostLiked: Most;
+    mostShares: Most;
+    mostViews: Most;
+    mostComments: Most;
     competitorsGeo: Author[];
     competitorsAudience: Author[];
     isFavorite: boolean;

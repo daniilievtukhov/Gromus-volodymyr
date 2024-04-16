@@ -26,10 +26,8 @@ import { RecommendationMap } from "./components/RecommendationMap";
 import { Statistics } from "./components/Statistics";
 import { TopVideos } from "./components/TopVideos";
 import { useAuthorAnalyticsData } from "./hooks/useAuthorAnalyticsData";
-import { useOriginAuthorIdStore } from "../../features/chat/store";
 const Content = ({ authorId }: { authorId: number | string }) => {
   const { isError, error, isSuccess } = useAuthorAnalyticsData(authorId);
-  useOriginAuthorIdStore.setState((prev: any) => ({ ...prev, originAuthorId: authorId }));
 
   if (isError) {
     if (isAxiosError(error) && error.response?.status === 400) {

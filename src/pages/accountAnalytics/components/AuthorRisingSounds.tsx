@@ -7,9 +7,9 @@ import { RisingTable } from "../../../features/risingSounds";
 import { RisingSoundsPagination } from "../../../features/risingSounds/RisingSoundsPagination";
 import { ISoundData } from "../../../features/risingSounds/store";
 import { useSoundsByAuthorData } from "../hooks/useSoundsByAuthorData";
-import { useAIAuthorAnalyticStore } from "../../../features/chat/store";
-
+import { useAIAuthorAnalyticStore } from "../store/accountAnalytic";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 export const AuthorRisingSounds = memo(({ authorId }: { authorId: number | string }) => {
   const {
@@ -27,15 +27,19 @@ export const AuthorRisingSounds = memo(({ authorId }: { authorId: number | strin
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
+
+  const { pathname } = useLocation();
+
   const store = useAIAuthorAnalyticStore();
 
   useEffect(() => {
-    console.log(fetchData);
-    setData(fetchData);
-    setIsSuccess(fetchIsSuccess);
-    setIsError(fetchIsError);
-    setIsLoading(fetchIsLoading);
-  }, [fetchData]);
+    if (fetchData && !Object.entries(store.data).length || (pathname === "/my-account-analytics")) {
+      setData(fetchData);
+      setIsSuccess(fetchIsSuccess);
+      setIsError(fetchIsError);
+      setIsLoading(fetchIsLoading);
+    }
+  }, [fetchData, pathname]);
 
   useEffect(() => {
     if (Object.entries(store.data).length && 'songsUsedByAuthor' in store.data) {

@@ -7,7 +7,9 @@ import { useGlobalStore } from "../../../globalStore";
 import { useLayoutStore } from "../../../layoutStore";
 import { ApiMessage } from "../../../requests/conversation/message";
 import { ApiLLM } from "../../../requests/llm";
-import { addMessage, setAIAuthorAnalyticStore, useAIAuthorAnalyticStore,  useChatStore, useOriginAuthorIdStore } from "../store";
+import { addMessage,  useChatStore } from "../store";
+import { useAIAuthorAnalyticStore } from "../../../pages/accountAnalytics/store/accountAnalytic";
+
 import { redirect } from "react-router-dom";
 
 const userRegion = navigator.language;

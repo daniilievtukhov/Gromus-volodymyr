@@ -24,7 +24,7 @@ import { RecommendationMap } from "./components/RecommendationMap";
 import { Statistics } from "./components/Statistics";
 import { TopVideos } from "./components/TopVideos";
 import { useAuthorAnalyticsData } from "./hooks/useAuthorAnalyticsData";
-import { useAIAuthorAnalyticStore } from "../../features/chat/store";
+import { useAIAuthorAnalyticStore } from "./store/accountAnalytic";
 import { AuthorRisingSounds } from "./components/AuthorRisingSounds";
 
 const Content = ({ authorId }: { authorId: number | string }) => {

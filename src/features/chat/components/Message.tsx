@@ -30,7 +30,7 @@ const _Message = ({ message }: { message: IMessage }) => {
         console.error("Error fetching data:", error);
       });
   };
-  // console.log(message);
+  console.log(message);
   return (
     <FadeBlock>
       <Stack>

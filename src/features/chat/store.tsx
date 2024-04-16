@@ -7,6 +7,7 @@ import { ApiSounds } from "../../requests/stats/sounds";
 import { Message } from "./components/Message";
 
 import { ApiSchedule } from "../../requests/schedule";
+import { Url } from "url";
 
 type IState = {
   chatId: string;
@@ -80,63 +81,6 @@ export const clearChat = () => {
     messages: [],
   });
 };
-
-interface IAIAnalyticData {
-  authorData: object;
-  authorStatesAnalytic: object;
-  songsUsedByAuthor: object;
-}
-
-interface AIAuthorAnalyticStore {
-  chatId: string | number;
-  authorId: number | string;
-  data: IAIAnalyticData | object;
-}
-
-export const useAIAuthorAnalyticStore = create<AIAuthorAnalyticStore>(() => ({
-  chatId: "",
-  authorId: "",
-  data: {},
-}));
-
-export const clearAIAuthorAnalyticStore = () =>
-  useAIAuthorAnalyticStore.setState(() => ({
-    chatId: "",
-    authorId: "",
-    data: {},
-  }));
-
-interface IAiAccountData {
-  Context: string,
-  ConversationId: string,
-  ConversationName: string,
-  Data: any[],
-  DataType: string,
-  Date: Date | null,
-  Text: string,
-  UniqueId: string
-}
-
-export const setAIAuthorAnalyticStore = (newData: IAiAccountData) => {
-  const authorAnalyticItem = newData.Data.find((item) => item.DataType === "AuthorData").Data;
-  const authorStatesAnalytic = newData.Data.find((item) => item.DataType === "AuthorStatesAnalytic").Data;
-  const songsUsedByAuthor = newData.Data.find((item) => item.DataType === "SongsUsedByAuthor").Data;
-
-  console.log(authorAnalyticItem);
-  const authorId = authorAnalyticItem?.author?.authorId || "";
-  console.log(authorId);
-
-  useAIAuthorAnalyticStore.setState(() => ({
-    chatId: newData.ConversationId,
-    authorId: authorId,
-    data: {
-      authorData: {...authorAnalyticItem},
-      authorStatesAnalytic: {...authorStatesAnalytic},
-      songsUsedByAuthor: {...songsUsedByAuthor}
-    } 
-  }));
-}
-
 
 export const useOriginAuthorIdStore = create(() => {
   originAuthorId: "";
