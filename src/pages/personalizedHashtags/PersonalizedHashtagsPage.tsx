@@ -24,13 +24,13 @@ export const PersonalizedHashtagsPage = () => {
           <AccentTitle.Color> for your sound </AccentTitle.Color>
           this month
         </AccentTitle>
-        <BalancedGroups accountHashtagBalancedGroup={data.accountHashtagBalancedGroup} />
+        <BalancedGroups accountHashtagBalancedGroup={data.soundHashtagBalancedGroup} />
         <AccentTitle icon={<IconHash />}>
           <AccentTitle.Color>Hashtags</AccentTitle.Color> balanced groups{" "}
           <AccentTitle.Color> for your account </AccentTitle.Color>
           this month
         </AccentTitle>
-        <BalancedGroups accountHashtagBalancedGroup={data.soundHashtagBalancedGroup} />
+        <BalancedGroups accountHashtagBalancedGroup={data.accountHashtagBalancedGroup} />
       </Stack>
     </Stack>
   );

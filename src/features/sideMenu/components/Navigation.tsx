@@ -36,8 +36,8 @@ export const Navigation = () => {
         children: [
           { label: "Time to Post", link: "/time-to-post" },
           { label: "Account Analytics", link: "/my-account-analytics" },
-          { label: "Sound Analytics", link: "/sound-analytics", isComing: true },
           { label: "Hashtags", link: "/hashtags" },
+          { label: "Sound Analytics", link: "/sound-analytics", isComing: true },
           { label: "Performance", link: "/performance", isComing: true },
           { label: "Collaborations", link: "/collaborations", isComing: true },
           { label: "Reports", link: "/reports", isComing: true },
