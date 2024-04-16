@@ -1,9 +1,10 @@
-import { Center, Stack, Text } from "@mantine/core";
+import { Center, Stack, Text, Image, Group } from "@mantine/core";
 import { useState } from "react";
 import { isMobile } from "react-device-detect";
 import styled from "styled-components";
 
-import { ellipseBg } from "../assets";
+import { ellipseBg, discordSvg, instagramSvg } from "../assets";
+import { IconBrandTelegram } from "@tabler/icons-react";
 import {
   AuthConfirm,
   AuthLogIn,
@@ -17,13 +18,29 @@ export const AuthPage = () => {
   const [state, setState] = useState<IAuthState>("start");
   if (isMobile) {
     return (
-      <Center style={{ minHeight: "100vh" }}>
-        <Stack spacing="md">
-          <Text size="xl">
-            Sorry, we are working to make the site available on mobile devices in the near future.
-          </Text>
-        </Stack>
-      </Center>
+      <Wrapper>
+        <Center style={{ minHeight: "100vh" }}>
+          <Stack align="center">
+            <Text style={{ textAlign: "center" }}>
+              Our project is currently only available for tablets and desktop devices. If you are
+              seeing this message, you are likely accessing it from a mobile device. We would be
+              happy to see you using a tablet or laptop. Our team is already working on implementing
+              a mobile version.
+            </Text>
+            <Group>
+              <a href="https://discord.com/invite/7gdu2gFFFC" target="_blank">
+                <Image src={discordSvg} width={50} />
+              </a>
+              <a href="https://www.instagram.com/gromus.ai" target="_blank">
+                <Image src={instagramSvg} width={50} />
+              </a>
+              <a href="https://t.me/GROMUSai" target="_blank">
+                <IconBrandTelegram style={{ color: "white" }} />
+              </a>
+            </Group>
+          </Stack>
+        </Center>
+      </Wrapper>
     );
   } else {
     return (
