@@ -5,7 +5,7 @@ import { ApiSounds } from "./stats/sounds";
 import { ApiAuthorAnalytics } from "./authorAnalytics";
 
 export namespace ApiLLM {
-  const link = `${Links.llm}/copilot/prompt`;
+  const link = `${Links.llm}/v2/copilot/prompt`;
 
   interface IRequest {
     user_id: string;

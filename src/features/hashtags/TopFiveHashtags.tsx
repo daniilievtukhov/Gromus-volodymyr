@@ -4,17 +4,16 @@ import { ApiHashtagsAnalytics } from "../../requests/hashtagsAnalytics";
 import React from "react";
 
 type Props = {
-  topSoundHashtags: ApiHashtagsAnalytics.ISoundHashtag[]
-}
+  topSoundHashtags: ApiHashtagsAnalytics.ISoundHashtag[];
+};
 
-export const TopFiveHashtags:React.FC<Props> = ({ topSoundHashtags }) => {
-
+export const TopFiveHashtags: React.FC<Props> = ({ topSoundHashtags }) => {
   return (
     <>
       <Stack gap={24}>
         <Tabs defaultValue="geo">
           <Tabs.Panel value="geo">
-            <ScrollArea offsetScrollbars>
+            <ScrollArea scrollbarSize={8} offsetScrollbars>
               <Flex gap={12} align={"stretch"} py={12}>
                 {topSoundHashtags.map(
                   ({
@@ -24,17 +23,17 @@ export const TopFiveHashtags:React.FC<Props> = ({ topSoundHashtags }) => {
                     posts,
                     probableNextWeekTrend,
                     status,
-                    views
-                  }:{
-                    dailyGrowth: number,
-                    hashtag: string,
-                    link: string,
-                    posts: number,
-                    probableNextWeekTrend: boolean,
-                    status: string,
-                    views: number
+                    views,
+                  }: {
+                    dailyGrowth: number;
+                    hashtag: string;
+                    link: string;
+                    posts: number;
+                    probableNextWeekTrend: boolean;
+                    status: string;
+                    views: number;
                   }) => (
-                    <HashtagCard 
+                    <HashtagCard
                       dailyGrowth={dailyGrowth}
                       hashtag={hashtag}
                       link={link}
@@ -43,7 +42,8 @@ export const TopFiveHashtags:React.FC<Props> = ({ topSoundHashtags }) => {
                       status={status}
                       views={views}
                     />
-                ))}
+                  ),
+                )}
               </Flex>
             </ScrollArea>
           </Tabs.Panel>

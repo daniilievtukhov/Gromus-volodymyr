@@ -26,14 +26,13 @@ import { useState } from "react";
 import { formatShortNumber } from "../../../core/helpers/formatShortNumber";
 import { ApiHashtagsAnalytics } from "../../../requests/hashtagsAnalytics";
 
-export const HashtagCard:React.FC<ApiHashtagsAnalytics.ISoundHashtag> = ({
+export const HashtagCard: React.FC<ApiHashtagsAnalytics.ISoundHashtag> = ({
   dailyGrowth,
   hashtag,
   link,
   posts,
-  probableNextWeekTrend,
   status,
-  views
+  views,
 }) => {
   const [textHashtag, setHashtag] = useState(hashtag);
 
@@ -121,11 +120,13 @@ export const HashtagCard:React.FC<ApiHashtagsAnalytics.ISoundHashtag> = ({
             <Flex justify="space-between">
               <Badge color="rgba(239, 104, 32, 0.15)" size="lg">
                 <Flex style={{ alignItems: "center" }}>
-                  <span style={{ color: "rgba(255, 148, 91, 1)" }}>trending</span>
+                  <span style={{ color: "rgba(255, 148, 91, 1)" }}>{status}</span>
                   <IconInfoCircle style={{ marginLeft: 5, color: "rgba(255, 148, 91, 1)" }} />
                 </Flex>
               </Badge>
-              <Image w={24} src={tiktok} />
+              <a href={link} target="_blank">
+                <Image w={24} src={tiktok} />
+              </a>
               <Flex justify={"space-between"}>
                 <Image w={24} src={fire} />
                 <Tooltip
@@ -145,7 +146,7 @@ export const HashtagCard:React.FC<ApiHashtagsAnalytics.ISoundHashtag> = ({
                     </Flex>
                   }
                   position="top"
-                  transitionProps={{ transition: "fade", duration: 300}}
+                  transitionProps={{ transition: "fade", duration: 300 }}
                   color="#3f3f41"
                 >
                   <Image
@@ -187,16 +188,20 @@ export const HashtagCard:React.FC<ApiHashtagsAnalytics.ISoundHashtag> = ({
               </Button>
 
               <Button
-                fullWidth
-                radius={"xl"}
+                radius={"50%"}
                 variant="filled"
                 color="gray"
                 h={40}
-                style={{ pointerEvents: "none" }}
+                w={40}
+                style={{
+                  pointerEvents: "none",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginLeft: "10px",
+                }}
               >
-                <Flex align="center">
-                  <IconHeart />
-                </Flex>
+                <IconHeart />
               </Button>
 
               <IconLockFilled

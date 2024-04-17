@@ -1,46 +1,33 @@
-import { IconHash, IconCopy } from "@tabler/icons-react";
-import {
-  Badge,
-  Box,
-  Button,
-  Divider,
-  Flex,
-  Stack,
-  Text,
-  Paper,
-  Image,
-  Tooltip,
-} from "@mantine/core";
-import {
-  IconChartAreaLineFilled,
-  IconLockFilled,
-  IconHeart,
-  IconInfoCircle,
-  IconHeartFilled,
-} from "@tabler/icons-react";
-import tiktok from "../../../assets/images/tiktok.png";
-import fire from "../../../assets/images/fire.png";
-import statystic from "../../../assets/images/statystic.png";
+import { IconCopy } from "@tabler/icons-react";
+import { Box, Flex, Text, Paper } from "@mantine/core";
+import { IconHeart, IconHeartFilled, IconCheckbox } from "@tabler/icons-react";
+
 import styled from "styled-components";
-import React, { useState } from "react";
+import { useState } from "react";
 
 type Props = {
-  color: string,
-  groupName: string,
-  hahtags: string[]
-}
+  color: string;
+  groupName: string;
+  hahtags: string[];
+};
 
-export const BalancedGroupCard:React.FC<Props> = ({ 
-    color,
-    groupName,
-    hahtags 
-  }) => {
-    
+export const BalancedGroupCard: React.FC<Props> = ({ color, groupName, hahtags }) => {
   const [heartColor, setHeartColor] = useState(false);
+  const [copyIcon, setCopyIcon] = useState(false);
 
   const handleClickHeart = () => {
     setHeartColor(!heartColor);
   };
+
+  const handleClickCopy = () => {
+    setCopyIcon(true);
+    const textToCopy = hahtags.join("\n");
+    navigator.clipboard.writeText(textToCopy);
+    setTimeout(() => {
+      setCopyIcon(false);
+    }, 3000);
+  };
+
   return (
     <>
       <Box style={{ margin: 0 }}>
@@ -96,8 +83,9 @@ export const BalancedGroupCard:React.FC<Props> = ({
                   justifyContent: "center",
                   borderRadius: 0,
                 }}
+                onClick={handleClickCopy}
               >
-                <IconCopy />
+                {!copyIcon ? <IconCopy /> : <IconCheckbox />}
               </Paper>
             </Flex>
           </Flex>
@@ -111,8 +99,10 @@ export const BalancedGroupCard:React.FC<Props> = ({
             truncate="end"
             style={{ display: "flex", flexDirection: "column" }}
           >
-            {hahtags.map(hashtag => (
-              <span style={{ marginBottom: "4px" }}>{hashtag}</span>
+            {hahtags.map((hashtag, index) => (
+              <span key={index} style={{ marginBottom: "10px" }}>
+                {hashtag}
+              </span>
             ))}
           </Text>
         </Wrapper>
@@ -120,6 +110,7 @@ export const BalancedGroupCard:React.FC<Props> = ({
     </>
   );
 };
+
 const Wrapper = styled.div`
   min-width: 280px;
   background-color: #212122;

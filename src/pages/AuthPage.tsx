@@ -1,4 +1,4 @@
-import { Center, Stack, Text, Image, Group } from "@mantine/core";
+import { Center, Stack, Text, Image, Group, Container } from "@mantine/core";
 import { useState } from "react";
 import { isMobile } from "react-device-detect";
 import styled from "styled-components";
@@ -21,12 +21,14 @@ export const AuthPage = () => {
       <Wrapper>
         <Center style={{ minHeight: "100vh" }}>
           <Stack align="center">
-            <Text style={{ textAlign: "center" }}>
-              Our project is currently only available for tablets and desktop devices. If you are
-              seeing this message, you are likely accessing it from a mobile device. We would be
-              happy to see you using a tablet or laptop. Our team is already working on implementing
-              a mobile version.
-            </Text>
+            <Container size={600}>
+              <Text style={{ textAlign: "center" }}>
+                Our project is currently only available for tablets and desktop devices. If you are
+                seeing this message, you are likely accessing it from a mobile device. We would be
+                happy to see you using a tablet or laptop. Our team is already working on
+                implementing a mobile version.
+              </Text>
+            </Container>
             <Group>
               <a href="https://discord.com/invite/7gdu2gFFFC" target="_blank">
                 <Image src={discordSvg} width={50} />

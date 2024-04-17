@@ -2,15 +2,12 @@ import { useMutation } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { useGlobalStore } from "../../../globalStore";
 import { useLayoutStore } from "../../../layoutStore";
 import { ApiMessage } from "../../../requests/conversation/message";
 import { ApiLLM } from "../../../requests/llm";
-import { addMessage,  useChatStore } from "../store";
+import { addMessage, useChatStore } from "../store";
 import { useAIAuthorAnalyticStore } from "../../../pages/accountAnalytics/store/accountAnalytic";
-
-import { redirect } from "react-router-dom";
 
 const userRegion = navigator.language;
 
@@ -63,11 +60,16 @@ export const useSendMessage = () => {
       });
 
       if (data.DataType === "AuthorAnalytic" && data.Data) {
-        
-        const authorAnalyticItem = data.Data.find((item: any) => item.DataType === "AuthorData").Data;
-        const authorAuthorStatesAnalytic = data.Data.find((item: any) => item.DataType === "AuthorStatesAnalytic").Data;
-        const authorSongsUsedByAuthor = data.Data.find((item: any) => item.DataType === "SongsUsedByAuthor").Data;
-      
+        const authorAnalyticItem = data.Data.find(
+          (item: any) => item.DataType === "AuthorData",
+        ).Data;
+        const authorAuthorStatesAnalytic = data.Data.find(
+          (item: any) => item.DataType === "AuthorStatesAnalytic",
+        ).Data;
+        const authorSongsUsedByAuthor = data.Data.find(
+          (item: any) => item.DataType === "SongsUsedByAuthor",
+        ).Data;
+
         const authorId = authorAnalyticItem?.author?.authorId || "";
         // console.log(authorAnalyticItem);
         // console.log(authorAuthorStatesAnalytic);
@@ -77,12 +79,12 @@ export const useSendMessage = () => {
           chatId: data.ConversationId,
           authorId: authorId,
           data: {
-            authorData: {...authorAnalyticItem},
-            authorStatesAnalytic: {...authorAuthorStatesAnalytic},
-            songsUsedByAuthor: {...authorSongsUsedByAuthor}
-          } 
+            authorData: { ...authorAnalyticItem },
+            authorStatesAnalytic: { ...authorAuthorStatesAnalytic },
+            songsUsedByAuthor: { ...authorSongsUsedByAuthor },
+          },
         }));
-        
+
         navigate("/ai-data-my-account-analytics");
       }
 
@@ -138,19 +140,19 @@ export const useSendMessage = () => {
             message:
               "Please try another request, as I was unable to process this one. I'm working on your previous request and I will provide you with the answer shortly.",
             buttons: [
-                {
-                  label: "Time to post",
-                  onClick: () => navigate("/time-to-post"),
-                },
-                {
-                  label: " Account analytics",
-                  onClick: () => navigate("/my-account-analytics"),
-                },
-                {
-                  label: "Hashtags",
-                  onClick: () => navigate("/hashtags"),
-                },
-              ],
+              {
+                label: "Time to post",
+                onClick: () => navigate("/time-to-post"),
+              },
+              {
+                label: " Account analytics",
+                onClick: () => navigate("/my-account-analytics"),
+              },
+              {
+                label: "Hashtags",
+                onClick: () => navigate("/hashtags"),
+              },
+            ],
           });
         }
         if (error.status === 401) {

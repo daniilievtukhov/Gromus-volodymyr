@@ -4,7 +4,6 @@ import { Avatar, Button, Flex, Group, Stack, Text } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { IconBolt } from "@tabler/icons-react";
 import { formatDistance } from "date-fns";
-import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
 import { FadeBlock } from "../../../components/FadeBlock";
 import { useLayoutStore } from "../../../layoutStore";
@@ -30,7 +29,7 @@ const _Message = ({ message }: { message: IMessage }) => {
         console.error("Error fetching data:", error);
       });
   };
-  console.log(message);
+
   return (
     <FadeBlock>
       <Stack>
@@ -51,35 +50,36 @@ const _Message = ({ message }: { message: IMessage }) => {
           {message.message}
         </StyledText>
 
-        {((message.dataType === "TimePost") || (!message.data && !message.dataType)) && message.buttons && (
-          <>
-            <Text c="#D1FD0A" fz={14}>
-              Choose an option:
-            </Text>
-            <Group gap={6}>
-              {message.buttons.map((btn) => (
-                <StyledButton
-                  variant="outline"
-                  radius="xl"
-                  color="#D1FD0A"
-                  onClick={() => {
-                    (!message.data && !message.dataType && btn.onClick) 
-                    ? btn.onClick()
-                    : handleButtonClick(btn?.link || "");
+        {(message.dataType === "TimePost" || (!message.data && !message.dataType)) &&
+          message.buttons && (
+            <>
+              <Text c="#D1FD0A" fz={14}>
+                Choose an option:
+              </Text>
+              <Group gap={6}>
+                {message.buttons.map((btn) => (
+                  <StyledButton
+                    variant="outline"
+                    radius="xl"
+                    color="#D1FD0A"
+                    onClick={() => {
+                      !message.data && !message.dataType && btn.onClick
+                        ? btn.onClick()
+                        : handleButtonClick(btn?.link || "");
 
-                    if (isMobile) {
-                      useLayoutStore.setState({
-                        chatOpened: false,
-                      });
-                    }
-                  }}
-                >
-                  {btn.label}
-                </StyledButton>
-              ))}
-            </Group>
-          </>
-        )}
+                      if (isMobile) {
+                        useLayoutStore.setState({
+                          chatOpened: false,
+                        });
+                      }
+                    }}
+                  >
+                    {btn.label}
+                  </StyledButton>
+                ))}
+              </Group>
+            </>
+          )}
       </Stack>
     </FadeBlock>
   );
