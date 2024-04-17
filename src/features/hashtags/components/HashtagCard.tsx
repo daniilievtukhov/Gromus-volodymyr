@@ -18,6 +18,7 @@ import {
   IconInfoCircle,
   IconCheckbox,
 } from "@tabler/icons-react";
+import { arrowSvg } from "../../../assets";
 import tiktok from "../../../assets/images/tiktok.png";
 import fire from "../../../assets/images/fire.png";
 import statystic from "../../../assets/images/statystic.png";
@@ -103,9 +104,12 @@ export const HashtagCard: React.FC<ApiHashtagsAnalytics.ISoundHashtag> = ({
                 <Text fz={12} fw={500} c={"#7A7B81"}>
                   Since last day
                 </Text>
-                <Text fz={18} fw={700} c={"#00b469"}>
-                  {`${dailyGrowth}%`}
-                </Text>
+                <Flex align="center">
+                  <Image src={arrowSvg} />
+                  <Text fz={18} fw={700} c={"#00b469"} style={{ marginLeft: "5px" }}>
+                    {dailyGrowth}%
+                  </Text>
+                </Flex>
               </Box>
               <Divider orientation="vertical" />
               <Box>
@@ -128,7 +132,7 @@ export const HashtagCard: React.FC<ApiHashtagsAnalytics.ISoundHashtag> = ({
                 <Image w={24} src={tiktok} />
               </a>
               <Flex justify={"space-between"}>
-                <Image w={24} src={fire} />
+                {/* <Image w={24} src={fire} /> */}
                 <Tooltip
                   label={
                     <Flex align="center">
@@ -141,7 +145,7 @@ export const HashtagCard: React.FC<ApiHashtagsAnalytics.ISoundHashtag> = ({
                         truncate="end"
                         style={{ marginLeft: 3 }}
                       >
-                        Probable trend in the next 7 days?
+                        Probable trend in the next 7 days
                       </Text>
                     </Flex>
                   }
@@ -174,7 +178,7 @@ export const HashtagCard: React.FC<ApiHashtagsAnalytics.ISoundHashtag> = ({
               Show Category
             </Button>
 
-            <Flex justify="space-between" style={{ position: "relative" }}>
+            {/* <Flex justify="space-between" style={{ position: "relative" }}>
               <Button
                 fullWidth
                 radius={"xl"}
@@ -213,7 +217,7 @@ export const HashtagCard: React.FC<ApiHashtagsAnalytics.ISoundHashtag> = ({
                   color: "#d1fd08",
                 }}
               />
-            </Flex>
+            </Flex> */}
           </Stack>
         </Wrapper>
       </Box>

@@ -1,6 +1,11 @@
-import { IconCopy } from "@tabler/icons-react";
 import { Box, Flex, Text, Paper } from "@mantine/core";
-import { IconHeart, IconHeartFilled, IconCheckbox } from "@tabler/icons-react";
+import {
+  IconHeart,
+  IconHeartFilled,
+  IconCheckbox,
+  IconInfoCircle,
+  IconCopy,
+} from "@tabler/icons-react";
 
 import styled from "styled-components";
 import { useState } from "react";
@@ -41,7 +46,8 @@ export const BalancedGroupCard: React.FC<Props> = ({ color, groupName, hahtags }
           <Flex align="center" justify="space-between">
             <Flex align="center">
               <Text fz={16} fw={600} c={"#fff"} lh={1.25} truncate="end" style={{ marginLeft: 8 }}>
-                {`Relevant ${groupName}`}
+                {`Relevant ${groupName} `}
+                <IconInfoCircle stroke={1.5} style={{ verticalAlign: "middle" }} />
               </Text>
             </Flex>
             <Flex align="center">

@@ -6,7 +6,18 @@ type Props = {
   accountHashtagBalancedGroup: ApiHashtagsAnalytics.IHashtagBalance[];
 };
 
+const balanceGroup = (accountHashtagBalancedGroup) => {
+  const maxLength = Math.max(accountHashtagBalancedGroup.map((el) => el.hahtags.length));
+  const equalsHashtagsBalancedGroup = accountHashtagBalancedGroup.map(({ hahtags }) => {
+    const restEl = maxLength - hahtags.length;
+
+    return hahtags.push(...Array.from(restEl, () => null));
+  });
+  return equalsHashtagsBalancedGroup;
+};
 export const BalancedGroups: React.FC<Props> = ({ accountHashtagBalancedGroup }) => {
+  const equalsHashtagsBalancedGroup = balanceGroup(accountHashtagBalancedGroup);
+
   const colors = [
     "rgba(0, 190, 110, 1)",
     "rgba(0, 179, 190, 1)",
@@ -19,9 +30,9 @@ export const BalancedGroups: React.FC<Props> = ({ accountHashtagBalancedGroup })
       <Stack gap={24}>
         <Tabs defaultValue="geo">
           <Tabs.Panel value="geo">
-            <ScrollArea offsetScrollbars>
+            <ScrollArea scrollbarSize={8} offsetScrollbars>
               <Flex gap={12} align={"stretch"} py={12}>
-                {accountHashtagBalancedGroup.map(
+                {equalsHashtagsBalancedGroup.map(
                   (
                     {
                       groupName,

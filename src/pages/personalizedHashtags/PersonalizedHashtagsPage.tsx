@@ -1,5 +1,5 @@
-import { Stack, Image } from "@mantine/core";
-import { IconSparkles, IconHash } from "@tabler/icons-react";
+import { Stack, Image, Text } from "@mantine/core";
+import { IconSparkles } from "@tabler/icons-react";
 import { AccentTitle } from "../../components/AccentTitle";
 import { TopFiveHashtags } from "../../features/hashtags/TopFiveHashtags";
 import { BalancedGroups } from "../../features/hashtags/BalancedGroups";
@@ -22,20 +22,24 @@ export const PersonalizedHashtagsPage = () => {
         <Stack gap={12}>
           <AccentTitle icon={<IconSparkles />}>
             AI Recommendations <AccentTitle.Color>TOP 5 hashtags</AccentTitle.Color> for your sound{" "}
-            <AccentTitle.Color>this month</AccentTitle.Color>
+            <AccentTitle.Color>this week</AccentTitle.Color>
           </AccentTitle>
           <TopFiveHashtags topSoundHashtags={data.topSoundHashtags} />
           <AccentTitle icon={<Image w={24} src={hashtagSvg} />}>
-            <AccentTitle.Color>Hashtags</AccentTitle.Color> balanced groups{" "}
-            <AccentTitle.Color> for your sound </AccentTitle.Color>
-            this month
+            <AccentTitle.Color>Hashtag</AccentTitle.Color> sets this week{" "}
+            <Text size="lg" fw={500} c="white" ff="mono">
+              Use a set of recommended hashtags to cast a wider net across diverse audiences and
+              trends
+            </Text>
           </AccentTitle>
           <BalancedGroups accountHashtagBalancedGroup={data.soundHashtagBalancedGroup} />
           <AccentTitle icon={<Image w={24} src={hashtagSvg} />}>
-            <AccentTitle.Color>Hashtags</AccentTitle.Color> balanced groups{" "}
-            <AccentTitle.Color> for your account </AccentTitle.Color>
-            this month
+            <AccentTitle.Color>Hashtags</AccentTitle.Color> for your account this week{" "}
+            <Text size="lg" fw={500} c="white" ff="mono">
+              Use these hashtags picked for your account (based on category, and country)
+            </Text>
           </AccentTitle>
+
           <BalancedGroups accountHashtagBalancedGroup={data.accountHashtagBalancedGroup} />
         </Stack>
       </Stack>
