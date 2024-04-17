@@ -70,10 +70,8 @@ export const useSendMessage = () => {
           (item: any) => item.DataType === "SongsUsedByAuthor",
         ).Data;
 
-        const authorId = authorAnalyticItem?.author?.authorId || "";
-        // console.log(authorAnalyticItem);
-        // console.log(authorAuthorStatesAnalytic);
-        // console.log(authorSongsUsedByAuthor);
+        const authorId = authorAnalyticItem.author.authorId || "";
+        console.log(authorId)
 
         useAIAuthorAnalyticStore.setState(() => ({
           chatId: data.ConversationId,

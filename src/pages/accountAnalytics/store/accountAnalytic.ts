@@ -9,8 +9,8 @@ import { ApiAuthorAnalytics } from "../../../requests/authorAnalytics";
   }
   
   interface AIAuthorAnalyticStore {
-    chatId: string | number;
-    authorId: number | string;
+    chatId: string | number | undefined;
+    authorId: number | string | undefined;
     data: IAIAnalyticData | object;
   }
   

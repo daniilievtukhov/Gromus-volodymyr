@@ -7,6 +7,8 @@ import styled, { css } from "styled-components";
 import { percentFormat } from "../../../core/helpers/format";
 import { formatShortNumber } from "../../../core/helpers/formatShortNumber";
 import { useAIAuthorAnalyticStore } from "../store/accountAnalytic";
+import { useLocation } from "react-router-dom";
+
 
 type TileType = "first" | "second" | "third";
 
@@ -20,10 +22,11 @@ type TileProps = {
 };
 
 export const Tile = ({ subTitle, title, value, header, type, authorId }: TileProps) => {
-  const id =  useAIAuthorAnalyticStore().authorId;
+  const id =  useAIAuthorAnalyticStore(state => state.authorId);
+  const { pathname } = useLocation();
   return (
     <Root $type={type}>
-      {header && ( !id || authorId === id ) && (
+      {header && (pathname==="/my-account-analytics" || authorId === id ) && (
         <Header>
           <Text fz={12} fw={500} c={"#7A7B81"} py={10} px={20}>
             {header.label}

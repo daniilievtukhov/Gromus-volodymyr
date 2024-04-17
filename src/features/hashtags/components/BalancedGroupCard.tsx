@@ -107,7 +107,7 @@ export const BalancedGroupCard: React.FC<Props> = ({ color, groupName, hahtags }
           >
             {hahtags.map((hashtag, index) => (
               <span key={index} style={{ marginBottom: "10px" }}>
-                {hashtag}
+                {hashtag}&nbsp;
               </span>
             ))}
           </Text>

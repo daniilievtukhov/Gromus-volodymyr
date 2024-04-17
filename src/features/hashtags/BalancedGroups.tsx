@@ -6,15 +6,28 @@ type Props = {
   accountHashtagBalancedGroup: ApiHashtagsAnalytics.IHashtagBalance[];
 };
 
-const balanceGroup = (accountHashtagBalancedGroup) => {
-  const maxLength = Math.max(accountHashtagBalancedGroup.map((el) => el.hahtags.length));
-  const equalsHashtagsBalancedGroup = accountHashtagBalancedGroup.map(({ hahtags }) => {
-    const restEl = maxLength - hahtags.length;
+const balanceGroup = (accountHashtagBalancedGroup: ApiHashtagsAnalytics.IHashtagBalance[]) => {
+  let maxLength = 0;
 
-    return hahtags.push(...Array.from(restEl, () => null));
+  accountHashtagBalancedGroup.forEach((el) => {
+      if (el.hahtags.length > maxLength) {
+          maxLength = el.hahtags.length;
+      }
+  });  
+  
+  const equalsHashtagsBalancedGroup = accountHashtagBalancedGroup.map((el) => {
+    const restEl = maxLength - el.hahtags.length;
+
+    return {
+      ...el,
+      hahtags: [...el.hahtags, ...Array(restEl).fill(null)]
+    } 
   });
+
   return equalsHashtagsBalancedGroup;
 };
+
+
 export const BalancedGroups: React.FC<Props> = ({ accountHashtagBalancedGroup }) => {
   const equalsHashtagsBalancedGroup = balanceGroup(accountHashtagBalancedGroup);
 
@@ -47,6 +60,7 @@ export const BalancedGroups: React.FC<Props> = ({ accountHashtagBalancedGroup })
                       color={colors[index % colors.length]}
                       groupName={groupName}
                       hahtags={hahtags}
+                      key={index}
                     />
                   ),
                 )}

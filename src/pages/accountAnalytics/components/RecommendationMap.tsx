@@ -47,7 +47,7 @@ export const RecommendationMap = ({ authorId }: { authorId: number | string }) =
       setIsError(fetchIsError);
       setIsLoading(fetchIsLoading);
     }
-  }, [fetchData]);
+  }, [fetchData, pathname]);
 
   useEffect(() => {
     if (Object.entries(store.data).length && 'authorData' in store.data) {

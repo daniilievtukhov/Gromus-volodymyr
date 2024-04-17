@@ -3,6 +3,7 @@ import { IconSparkles } from "@tabler/icons-react";
 import { AccentTitle } from "../../components/AccentTitle";
 import { TopFiveHashtags } from "../../features/hashtags/TopFiveHashtags";
 import { BalancedGroups } from "../../features/hashtags/BalancedGroups";
+import { HashtagsModal } from "../../features/hashtags/HashtagsModal";
 import { useHashtagFilters } from "./hooks/useHashtagFilters";
 import { useHashtagsAnalytics } from "./hooks/useHashtagsAnalytics";
 import { hashtagSvg } from "../../assets";

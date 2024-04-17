@@ -4,11 +4,37 @@ import { format, setHours } from "date-fns";
 import { useState } from "react";
 import { Fragment } from "react/jsx-runtime";
 import styled, { css } from "styled-components";
-
+import { useEffect } from "react";
 import { Links } from "../../../core/links";
 import { ApiSchedule } from "../../../requests/schedule";
+import { usePostsStore } from "../../chat/store";
 
 export const Calendar = () => {
+  const store = usePostsStore();
+
+  const [posts, setPosts] = useState<{
+    categoryId: number;
+    country: string;
+    daysStats: {
+      dayOfWeek: number;
+      dayName: string;
+      hoursStats: {
+        hour: number;
+        percent: number;
+      }[];
+    }[];
+    followers: number;
+  }>({
+    categoryId: 0,
+    country: "",
+    daysStats: [],
+    followers: 0,
+  });
+
+  useEffect(() => {
+    setPosts(store);
+  }, [store]);
+
   const [country, setCountry] = useState<string | null>(null);
 
   const { data: filters } = useQuery({
@@ -34,23 +60,19 @@ export const Calendar = () => {
   });
 
   const schedule = useQuery({
-    queryKey: ["schedule", country, filters?.category, filters?.followers],
+    queryKey: ["schedule", country, posts, filters?.category, filters?.followers],
     queryFn: async () => {
       if (!country) return null;
 
-      const res = await ApiSchedule.get({
-        country,
-        category: filters?.category,
-        followers: filters?.followers,
-      });
-      const stats = res.data.daysStats;
+      const res = posts;
+      const stats = res.daysStats;
 
       const getStats = (day: number): IScheduleData[] => {
         const array: (ApiSchedule.HoursStat | null)[] = Array(6).fill(null);
         const current = stats.find((el) => el.dayOfWeek === day);
         if (!current) return [];
 
-        current.hoursStats.forEach((el) => {
+        current.hoursStats.forEach((el: ApiSchedule.HoursStat) => {
           const currentIdx = ~~((el.hour - 1) / 4);
 
           const currentEl = array[currentIdx];

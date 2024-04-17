@@ -24,9 +24,6 @@ import { RisingSoundsPage } from "./pages/sounds/RisingSoundsPage";
 import { ApiUserInfo } from "./requests/account/info";
 import { ApiMessage } from "./requests/conversation/message";
 import { mantineTheme } from "./theme/mantine-theme";
-import { ChatAccountAnalyticsPage } from "./pages/accountAnalytics/ChatAccountAnalyticsPage";
-import { AiCalendar } from "./features/schedule/components/AiCalendar";
-import { ChatAccountAnalyticsPersonalPage } from "./pages/accountAnalytics/ChatAccountAnalyticsPersonalPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -93,11 +90,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/ai-data-my-account-analytics",
-        element: <ChatAccountAnalyticsPage />,
-      },
-      {
-        path: "/ai-data-my-personal-account-analytics",
-        element: <ChatAccountAnalyticsPersonalPage />,
+        element: <MyAccountAnalyticsPage />,
       },
       {
         path: "/time-to-post",
@@ -109,7 +102,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/ai-calendar",
-        element: <AiCalendar />,
+        element: <SchedulePage />,
       },
     ],
     errorElement: <ErrorBoundary />,

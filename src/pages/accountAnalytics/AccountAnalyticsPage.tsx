@@ -11,7 +11,7 @@ import { IconInfoCircle, IconMoodSad } from "@tabler/icons-react";
 import { isAxiosError } from "axios";
 import { isNil } from "lodash-es";
 import qs from "qs";
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -26,8 +26,20 @@ import { RecommendationMap } from "./components/RecommendationMap";
 import { Statistics } from "./components/Statistics";
 import { TopVideos } from "./components/TopVideos";
 import { useAuthorAnalyticsData } from "./hooks/useAuthorAnalyticsData";
+import { useAIAuthorAnalyticStore } from "./store/accountAnalytic";
+import { useLocation } from "react-router-dom";
+
 const Content = ({ authorId }: { authorId: number | string }) => {
   const { isError, error, isSuccess } = useAuthorAnalyticsData(authorId);
+  const store = useAIAuthorAnalyticStore();
+  const [id, setId] = useState<undefined | string | number>(); 
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    setId(store.authorId);
+    console.log(id);
+    console.log(authorId);
+  }, [store]);
 
   if (isError) {
     if (isAxiosError(error) && error.response?.status === 400) {
@@ -50,11 +62,11 @@ const Content = ({ authorId }: { authorId: number | string }) => {
   return (
     <Stack p={32} pb={102} gap={52} bg="#0D0D0E" mih="100vh">
       <Header authorId={authorId} />
-      <Categories authorId={authorId} />
+      {(id === authorId || pathname==="/my-account-analytics") && <Categories authorId={authorId} />}
       <Statistics authorId={authorId} />
-      <Competitors authorId={authorId} />
+      {(id === authorId || pathname==="/my-account-analytics") && <Competitors authorId={authorId} />}
       <TopVideos authorId={authorId} />
-      {isSuccess && <AuthorRisingSounds authorId={authorId} />}
+      <AuthorRisingSounds authorId={authorId} />
       <RecommendationMap authorId={authorId} />
     </Stack>
   );

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useState, createContext, useMemo } from "react";
+import { useState, createContext, useMemo, useEffect } from "react";
 import { Avatar, Button, Flex, Group, Stack, Text } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { IconBolt } from "@tabler/icons-react";
@@ -10,25 +10,35 @@ import { useLayoutStore } from "../../../layoutStore";
 import { IMessage, setPosts } from "../store";
 import axios from "axios";
 
+const fetchPosts = async (link: string) => {
+  return await axios.get(link, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("BEARER_TOKEN")}`,
+    },
+  });
+};
+
 const _Message = ({ message }: { message: IMessage }) => {
   const navigate = useNavigate();
   const isMobile = useMediaQuery(`(max-width: 768px)`);
 
   const handleButtonClick = async (link: string) => {
-    await axios
-      .get(link, {
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyTmFtZSI6ImlldnR1a2hvdm9mZmljaWFsIiwiUm9sZSI6Ik1haW4iLCJTZWN1cml0eVN0YW1wIjoiTTJDWjVPUTNXVFJJR1g1NVg2RzJQN1lNR0tIMk1VS1YiLCJDb3VudHJ5IjoiIiwiQXV0aG9ySWQiOiI2Nzc2MjI1NzI0MDUyMzA4OTk3IiwibmJmIjoxNzEyNjYzMDU5LCJleHAiOjE3MTMyNjc4NTksImlhdCI6MTcxMjY2MzA1OSwiaXNzIjoiU2VydmVyIiwiYXVkIjoiQ2xpZW50In0.g35WYaxd4ow-KqjZyR55rieAwV9vFt_1SWTuOIQONZE`,
-        },
-      })
-      .then((response) => {
-        setPosts(response.data);
-        navigate("/ai-calendar");
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
+    const res = await fetchPosts(link);
+
+    setPosts(res.data);
+    navigate("/ai-calendar");
   };
+
+  useEffect(() => {
+    (async () => {
+      if (message && message.buttons && message.buttons[0] && message.buttons[0].link) {
+        const res = await fetchPosts(message.buttons[0].link);
+
+        setPosts(res.data);
+        navigate("/ai-calendar");
+      }
+    })();
+  }, [message]);
 
   return (
     <FadeBlock>

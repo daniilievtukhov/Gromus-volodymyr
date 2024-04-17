@@ -33,7 +33,7 @@ export const AuthorRisingSounds = memo(({ authorId }: { authorId: number | strin
   const store = useAIAuthorAnalyticStore();
 
   useEffect(() => {
-    if (fetchData && !Object.entries(store.data).length || (pathname === "/my-account-analytics")) {
+    if ((fetchData && !Object.entries(store.data).length) || (pathname === "/my-account-analytics")) {
       setData(fetchData);
       setIsSuccess(fetchIsSuccess);
       setIsError(fetchIsError);

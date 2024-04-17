@@ -32,7 +32,7 @@ export const TopFiveHashtags: React.FC<Props> = ({ topSoundHashtags }) => {
                     probableNextWeekTrend: boolean;
                     status: string;
                     views: number;
-                  }) => (
+                  }, index: number) => (
                     <HashtagCard
                       dailyGrowth={dailyGrowth}
                       hashtag={hashtag}
@@ -41,6 +41,7 @@ export const TopFiveHashtags: React.FC<Props> = ({ topSoundHashtags }) => {
                       probableNextWeekTrend={probableNextWeekTrend}
                       status={status}
                       views={views}
+                      key={index}
                     />
                   ),
                 )}
