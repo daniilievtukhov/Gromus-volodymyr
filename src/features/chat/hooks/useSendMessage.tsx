@@ -18,6 +18,21 @@ export const useSendMessage = () => {
   const navigate = useNavigate();
   const [prompt, setPrompt] = useState("");
 
+  const defaultButtons = [
+    {
+      label: "Time to post",
+      onClick: () => navigate("/time-to-post"),
+    },
+    {
+      label: "Account analytics",
+      onClick: () => navigate("/my-account-analytics"),
+    },
+    {
+      label: "Hashtags",
+      onClick: () => navigate("/hashtags"),
+    },
+  ];
+
   const { mutate, isPending } = useMutation({
     mutationFn: ({ conversationId, text }: Payload): Promise<ApiLLM.IResponse> => {
       return ApiLLM.post({
@@ -50,14 +65,28 @@ export const useSendMessage = () => {
       Context: any;
     }) => {
       const date = new Date().toISOString();
-      addMessage({
+     
+      const messageData = {
         isCopilot: true,
         data: data.Data,
         dataType: data.DataType,
         message: data.Text,
         date,
-        buttons: data.Actions?.map((el) => ({ label: el.label, link: el.link })) ?? [],
-      });
+      };
+      
+      if (!data.DataType && !data.Data && !data.Actions && !data.Context) {
+        addMessage({
+          ...messageData,
+          buttons: defaultButtons,
+        });
+      } else {
+        const buttons = data.Actions?.map((el) => ({ label: el.label, link: el.link })) ?? [];
+        addMessage({
+          ...messageData,
+          buttons,
+        });
+      }
+
 
       if (data.DataType === "AuthorAnalytic" && data.Data) {
         const authorAnalyticItem = data.Data.find(
@@ -92,6 +121,9 @@ export const useSendMessage = () => {
         });
         navigate("/ai-data");
       }
+      console.log(data);
+
+    
 
       ApiMessage.fromCopilot({
         conversationId: data.ConversationId,
@@ -130,6 +162,7 @@ export const useSendMessage = () => {
         },
       ];
 
+
       if (isAxiosError(error)) {
         if (error.status === 500) {
           addMessage({
@@ -137,20 +170,7 @@ export const useSendMessage = () => {
             isCopilot: true,
             message:
               "Please try another request, as I was unable to process this one. I'm working on your previous request and I will provide you with the answer shortly.",
-            buttons: [
-              {
-                label: "Time to post",
-                onClick: () => navigate("/time-to-post"),
-              },
-              {
-                label: " Account analytics",
-                onClick: () => navigate("/my-account-analytics"),
-              },
-              {
-                label: "Hashtags",
-                onClick: () => navigate("/hashtags"),
-              },
-            ],
+            buttons: defaultButtons
           });
         }
         if (error.status === 401) {
@@ -181,20 +201,7 @@ export const useSendMessage = () => {
           date: new Date().toISOString(),
           isCopilot: true,
           message: "Please try another request, as I was unable to process this one.",
-          buttons: [
-            {
-              label: "Time to post",
-              onClick: () => navigate("/time-to-post"),
-            },
-            {
-              label: " Account analytics",
-              onClick: () => navigate("/my-account-analytics"),
-            },
-            {
-              label: "Hashtags",
-              onClick: () => navigate("/hashtags"),
-            },
-          ],
+          buttons: defaultButtons
         });
 
         return;
