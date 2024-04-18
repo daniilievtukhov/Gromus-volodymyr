@@ -16,23 +16,26 @@ export const TopFiveHashtags: React.FC<Props> = ({ topSoundHashtags }) => {
             <ScrollArea scrollbarSize={8} offsetScrollbars>
               <Flex gap={12} align={"stretch"} py={12}>
                 {topSoundHashtags.map(
-                  ({
-                    dailyGrowth,
-                    hashtag,
-                    link,
-                    posts,
-                    probableNextWeekTrend,
-                    status,
-                    views,
-                  }: {
-                    dailyGrowth: number;
-                    hashtag: string;
-                    link: string;
-                    posts: number;
-                    probableNextWeekTrend: boolean;
-                    status: string;
-                    views: number;
-                  }, index: number) => (
+                  (
+                    {
+                      dailyGrowth,
+                      hashtag,
+                      link,
+                      posts,
+                      probableNextWeekTrend,
+                      status,
+                      views,
+                    }: {
+                      dailyGrowth: number;
+                      hashtag: string;
+                      link: string;
+                      posts: number;
+                      probableNextWeekTrend: boolean;
+                      status: string;
+                      views: number;
+                    },
+                    index: number,
+                  ) => (
                     <HashtagCard
                       dailyGrowth={dailyGrowth}
                       hashtag={hashtag}

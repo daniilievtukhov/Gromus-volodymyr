@@ -14,9 +14,10 @@ type Props = {
   color: string;
   groupName: string;
   hahtags: string[];
+  openModal: any;
 };
 
-export const BalancedGroupCard: React.FC<Props> = ({ color, groupName, hahtags }) => {
+export const BalancedGroupCard: React.FC<Props> = ({ color, groupName, hahtags, openModal }) => {
   const [heartColor, setHeartColor] = useState(false);
   const [copyIcon, setCopyIcon] = useState(false);
 
@@ -47,7 +48,13 @@ export const BalancedGroupCard: React.FC<Props> = ({ color, groupName, hahtags }
             <Flex align="center">
               <Text fz={16} fw={600} c={"#fff"} lh={1.25} truncate="end" style={{ marginLeft: 8 }}>
                 {`Relevant ${groupName} `}
-                <IconInfoCircle stroke={1.5} style={{ verticalAlign: "middle" }} />
+                <IconInfoCircle
+                  stroke={1.5}
+                  style={{ verticalAlign: "middle" }}
+                  onClick={() => {
+                    openModal();
+                  }}
+                />
               </Text>
             </Flex>
             <Flex align="center">

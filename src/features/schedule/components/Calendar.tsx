@@ -4,10 +4,11 @@ import { format, setHours } from "date-fns";
 import { useState } from "react";
 import { Fragment } from "react/jsx-runtime";
 import styled, { css } from "styled-components";
-import { useEffect } from "react";
+
 import { Links } from "../../../core/links";
 import { ApiSchedule } from "../../../requests/schedule";
 import { usePostsStore } from "../../chat/store";
+import { useEffect } from "react";
 
 export const Calendar = () => {
   const store = usePostsStore();
@@ -64,8 +65,13 @@ export const Calendar = () => {
     queryFn: async () => {
       if (!country) return null;
 
-      const res = posts;
-      const stats = res.daysStats;
+      const res = await ApiSchedule.get({
+        country,
+        category: filters?.category,
+        followers: filters?.followers,
+      });
+
+      const stats = res.data.daysStats;
 
       const getStats = (day: number): IScheduleData[] => {
         const array: (ApiSchedule.HoursStat | null)[] = Array(6).fill(null);

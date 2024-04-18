@@ -4,31 +4,31 @@ import { ApiHashtagsAnalytics } from "../../requests/hashtagsAnalytics";
 
 type Props = {
   accountHashtagBalancedGroup: ApiHashtagsAnalytics.IHashtagBalance[];
+  openModal: any;
 };
 
 const balanceGroup = (accountHashtagBalancedGroup: ApiHashtagsAnalytics.IHashtagBalance[]) => {
   let maxLength = 0;
 
   accountHashtagBalancedGroup.forEach((el) => {
-      if (el.hahtags.length > maxLength) {
-          maxLength = el.hahtags.length;
-      }
-  });  
-  
+    if (el.hahtags.length > maxLength) {
+      maxLength = el.hahtags.length;
+    }
+  });
+
   const equalsHashtagsBalancedGroup = accountHashtagBalancedGroup.map((el) => {
     const restEl = maxLength - el.hahtags.length;
 
     return {
       ...el,
-      hahtags: [...el.hahtags, ...Array(restEl).fill(null)]
-    } 
+      hahtags: [...el.hahtags, ...Array(restEl).fill(null)],
+    };
   });
 
   return equalsHashtagsBalancedGroup;
 };
 
-
-export const BalancedGroups: React.FC<Props> = ({ accountHashtagBalancedGroup }) => {
+export const BalancedGroups: React.FC<Props> = ({ accountHashtagBalancedGroup, openModal }) => {
   const equalsHashtagsBalancedGroup = balanceGroup(accountHashtagBalancedGroup);
 
   const colors = [
@@ -61,6 +61,7 @@ export const BalancedGroups: React.FC<Props> = ({ accountHashtagBalancedGroup })
                       groupName={groupName}
                       hahtags={hahtags}
                       key={index}
+                      openModal={openModal}
                     />
                   ),
                 )}
