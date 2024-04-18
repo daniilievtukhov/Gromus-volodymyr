@@ -15,22 +15,22 @@ export const SocialLinks = (props: IProps) => {
     <Flex gap={6}>
       {props.shazam && (
         <Action component="a" href={props.shazam}>
-          <Image src={shazam} />
+          <Image w={19} src={shazam} />
         </Action>
       )}
       {props.tiktok && (
         <Action component="a" href={props.tiktok}>
-          <Image src={tiktok} />
+          <Image w={19} src={tiktok} />
         </Action>
       )}
       {props.spotify && (
         <Action component="a" href={props.spotify}>
-          <Image src={spotify} />
+          <Image w={19} src={spotify} />
         </Action>
       )}
       {props.appleMusic && (
         <Action component="a" href={props.appleMusic}>
-          <Image src={appleMusic} />
+          <Image w={19} src={appleMusic} />
         </Action>
       )}
     </Flex>
