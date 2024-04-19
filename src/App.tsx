@@ -25,6 +25,7 @@ import { PricingPage } from "./pages/pricing/PricingPage";
 import { ApiUserInfo } from "./requests/account/info";
 import { ApiMessage } from "./requests/conversation/message";
 import { mantineTheme } from "./theme/mantine-theme";
+import { BestTimeToPost } from "./pages/BestTimeToPost";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -104,13 +105,17 @@ const router = createBrowserRouter([
       {
         path: "/ai-calendar",
         element: <SchedulePage />,
-      },
+      }
     ],
     errorElement: <ErrorBoundary />,
   },
   {
     path: "/auth",
     element: <AuthPage />,
+  },
+  {
+    path: "/best-time-to-post",
+    element: <BestTimeToPost />
   },
   {
     path: "*",
