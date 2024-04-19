@@ -16,7 +16,7 @@ export const GreetingAside = () => {
           <IconBolt size={60} />
         </Avatar>
         <Space h={15} />
-        <Text>Hi, I’m GI:</Text>
+        <Text c="blue">Hi, I’m GI:</Text>
         <Text>Your Personal AI Assistant</Text>
         <Space h={8} />
         <Badge color="lime.4" autoContrast>

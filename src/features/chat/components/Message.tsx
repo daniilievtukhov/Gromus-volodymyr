@@ -9,6 +9,7 @@ import { FadeBlock } from "../../../components/FadeBlock";
 import { useLayoutStore } from "../../../layoutStore";
 import { IMessage, setPosts } from "../store";
 import axios from "axios";
+import { useGlobalStore } from "../../../globalStore";
 
 const fetchPosts = async (link: string) => {
   return await axios.get(link, {

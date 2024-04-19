@@ -9,7 +9,7 @@ import { ApiMessage } from "../../../requests/conversation/message";
 import { ApiLLM } from "../../../requests/llm";
 import { addMessage, useChatStore } from "../store";
 import { useAIAuthorAnalyticStore } from "../../../pages/accountAnalytics/store/accountAnalytic";
-import { io } from "socket.io-client";
+// import { io } from "socket.io-client";
 
 const userRegion = navigator.language;
 
@@ -20,13 +20,13 @@ export const useSendMessage = () => {
   const navigate = useNavigate();
   const [prompt, setPrompt] = useState("");
 
-  useEffect(() => {
-    const socket = io(ApiLLM.link, {
-      autoConnect: true,
-    });
+  // useEffect(() => {
+  //   const socket = io(ApiLLM.link, {
+  //     autoConnect: true,
+  //   });
 
-    console.log(socket);
-  }, []);
+  //   console.log(socket);
+  // }, []);
 
   const defaultButtons = [
     {
@@ -134,7 +134,6 @@ export const useSendMessage = () => {
         });
         navigate("/ai-data");
       }
-      console.log(data);
 
       ApiMessage.fromCopilot({
         conversationId: data.ConversationId,

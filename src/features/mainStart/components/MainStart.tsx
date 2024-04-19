@@ -1,19 +1,21 @@
 import { Avatar, Stack, Title } from "@mantine/core";
 import { IconSparkles, IconVinyl } from "@tabler/icons-react";
 import styled from "styled-components";
-
+import { Pricing } from "../../../pages/pricing/components/Pricing";
 import { useGlobalStore } from "../../../globalStore";
+
 import { Greeting, useGreetingStore } from "../../greeting";
 
 export const MainStart = () => {
   const { userInfo } = useGlobalStore();
-
+  const store = useGlobalStore();
   const greeted = useGreetingStore((state) => state.greeted);
 
   return (
     <Wrapper $align={greeted ? "center" : "start"}>
       {greeted ? (
         <Block gap={36}>
+          {store.limit === 0 && <Pricing />}
           <Avatar.Group>
             <Avatar radius="xl" size={60} bg="lime.4" color="#000">
               <IconSparkles size={32} />
@@ -22,6 +24,7 @@ export const MainStart = () => {
               <IconVinyl size={32} />
             </Avatar>
           </Avatar.Group>
+
           <StyledTitle textWrap="wrap">
             Hello, {userInfo.firstname || userInfo.userName}!
             <br />

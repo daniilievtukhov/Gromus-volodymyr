@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { ActionIcon, Alert, AppShell, Avatar, Box, Burger, Flex, Tooltip } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { IconBolt } from "@tabler/icons-react";
@@ -12,13 +12,17 @@ import { SideMenu } from "../features/sideMenu";
 import { UserMenu } from "../features/userMenu/UserMenu";
 import { useGlobalStore } from "../globalStore";
 import { useLogout } from "../hooks/useLogout";
-import { setChatOpened, toggleSideMenu, useLayoutStore } from "../layoutStore";
+import { setChatOpened, toggleSideMenu, useLayoutStore, setNavbarOpened } from "../layoutStore";
 
 export const MainPage = () => {
   const { navbarOpened, chatOpened, showAlert } = useLayoutStore();
   const userInfo = useGlobalStore((s) => s.userInfo);
   const logout = useLogout(userInfo.userName);
 
+  useEffect(() => {
+    setChatOpened(true);
+    setNavbarOpened(true);
+  }, []);
   const isMobile = useMediaQuery(`(max-width: 768px)`);
 
   return (

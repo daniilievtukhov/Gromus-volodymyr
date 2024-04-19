@@ -32,3 +32,6 @@ export const toggleSideMenu = () =>
 export const setChatOpened = (v: boolean) => {
   useLayoutStore.setState({ chatOpened: v });
 };
+export const setNavbarOpened = (v: boolean) => {
+  useLayoutStore.setState({ navbarOpened: v });
+};

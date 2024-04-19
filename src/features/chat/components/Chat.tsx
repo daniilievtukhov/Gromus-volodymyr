@@ -31,7 +31,6 @@ export const Chat = memo(() => {
   }, [messages, isPending, isSuccess]);
 
   useEffect(() => {
-    console.log(disableInput.current);
     if (store.limit <= 0) {
       disableInput.current = true;
     }
@@ -64,6 +63,19 @@ export const Chat = memo(() => {
                 <Message
                   message={{
                     message: "Typing...",
+                    isCopilot: true,
+                    date: new Date().toISOString(),
+                  }}
+                />
+              </>
+            )}
+            {store.limit <= 0 && (
+              <>
+                <Divider my={25} />
+                <Message
+                  message={{
+                    message:
+                      "You have run out of requests in your current package, buy a subscription to increase your limits 😔",
                     isCopilot: true,
                     date: new Date().toISOString(),
                   }}

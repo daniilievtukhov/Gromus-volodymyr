@@ -32,7 +32,7 @@ import { useLocation } from "react-router-dom";
 const Content = ({ authorId }: { authorId: number | string }) => {
   const { isError, error, isSuccess } = useAuthorAnalyticsData(authorId);
   const store = useAIAuthorAnalyticStore();
-  const [id, setId] = useState<undefined | string | number>(); 
+  const [id, setId] = useState<undefined | string | number>();
   const { pathname } = useLocation();
 
   useEffect(() => {
@@ -62,9 +62,13 @@ const Content = ({ authorId }: { authorId: number | string }) => {
   return (
     <Stack p={32} pb={102} gap={52} bg="#0D0D0E" mih="100vh">
       <Header authorId={authorId} />
-      {(id === authorId || pathname==="/my-account-analytics") && <Categories authorId={authorId} />}
+      {(id === authorId || pathname === "/my-account-analytics") && (
+        <Categories authorId={authorId} />
+      )}
       <Statistics authorId={authorId} />
-      {(id === authorId || pathname==="/my-account-analytics") && <Competitors authorId={authorId} />}
+      {(id === authorId || pathname === "/my-account-analytics") && (
+        <Competitors authorId={authorId} />
+      )}
       <TopVideos authorId={authorId} />
       <AuthorRisingSounds authorId={authorId} />
       <RecommendationMap authorId={authorId} />
@@ -82,8 +86,17 @@ export const AccountAnalyticsPage = memo(() => {
 
 export const MyAccountAnalyticsPage = memo(() => {
   const authorId = useGlobalStore((s) => s.userInfo.authorId);
+  const [id, setId] = useState<undefined | string | number>();
+  const store = useAIAuthorAnalyticStore();
+  const { pathname } = useLocation();
 
-  if (isNil(authorId)) {
+  useEffect(() => {
+    setId(store.authorId);
+    console.log(id);
+    console.log(authorId);
+  }, [store]);
+
+  if ((isNil(id) || pathname === "/my-account-analytics") && isNil(authorId)) {
     return (
       <Stack align="center" justify="center" style={{ height: "100vh" }}>
         <Text>Please, sign in with TikTok to analyze your account</Text>
@@ -104,7 +117,7 @@ export const MyAccountAnalyticsPage = memo(() => {
     );
   }
 
-  return <Content authorId={authorId} />;
+  return <Content authorId={authorId || ""} />;
 });
 
 const StyledButton = createPolymorphicComponent<"button", ButtonProps>(styled(Button).attrs({
