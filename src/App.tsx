@@ -21,6 +21,7 @@ import { MainPage } from "./pages/MainPage";
 import { SchedulePage } from "./pages/SchedulePage";
 import { PersonalizedHashtagsPage } from "./pages/personalizedHashtags/PersonalizedHashtagsPage";
 import { RisingSoundsPage } from "./pages/sounds/RisingSoundsPage";
+import { PricingPage } from "./pages/pricing/PricingPage";
 import { ApiUserInfo } from "./requests/account/info";
 import { ApiMessage } from "./requests/conversation/message";
 import { mantineTheme } from "./theme/mantine-theme";
@@ -115,6 +116,10 @@ const router = createBrowserRouter([
     path: "*",
     element: <Navigate to="/" replace />,
   },
+  {
+    path: "/pricing",
+    element: <PricingPage />,
+  },
 ]);
 export default function App() {
   return (
@@ -127,3 +132,4 @@ export default function App() {
     </QueryClientProvider>
   );
 }
+

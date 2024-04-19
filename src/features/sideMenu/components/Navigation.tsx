@@ -41,6 +41,7 @@ export const Navigation = () => {
           { label: "Performance", link: "/performance", isComing: true },
           { label: "Collaborations", link: "/collaborations", isComing: true },
           { label: "Reports", link: "/reports", isComing: true },
+          { label: "Pricing", link: "/pricing" },
         ],
       },
       {

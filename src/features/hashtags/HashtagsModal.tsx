@@ -34,7 +34,7 @@ export const HashtagsModal: React.FC<{ onClose: (event: React.MouseEvent) => voi
     <ModalOverlay>
       <ModalContent>
         <IconXWrapper>
-          <IconX onClick={onClose} />
+          <IconX onClick={onClose} style={{ cursor: "pointer" }} />
         </IconXWrapper>
         <Flex justify="space-between" align="center">
           <AccentTitle icon={<Image w={24} src={hashtagSvg} />}>

@@ -1,4 +1,3 @@
-import { IconHash, IconCopy } from "@tabler/icons-react";
 import {
   Badge,
   Box,
@@ -10,11 +9,12 @@ import {
   Paper,
   Image,
   Tooltip,
+  ActionIcon,
 } from "@mantine/core";
 import {
-  IconChartAreaLineFilled,
+  IconHash,
+  IconCopy,
   IconLockFilled,
-  IconHeart,
   IconInfoCircle,
   IconCheckbox,
 } from "@tabler/icons-react";
@@ -105,7 +105,7 @@ export const HashtagCard: React.FC<ApiHashtagsAnalytics.ISoundHashtag> = ({
                   Since last day
                 </Text>
                 <Flex align="center">
-                  <Image src={arrowSvg} />
+                  <Image w={25} src={arrowSvg} />
                   <Text fz={18} fw={700} c={"#00b469"} style={{ marginLeft: "5px" }}>
                     {dailyGrowth}%
                   </Text>
@@ -128,9 +128,10 @@ export const HashtagCard: React.FC<ApiHashtagsAnalytics.ISoundHashtag> = ({
                   <IconInfoCircle style={{ marginLeft: 5, color: "rgba(255, 148, 91, 1)" }} />
                 </Flex>
               </Badge>
-              <a href={link} target="_blank">
+              <Action component="a" href={link}>
                 <Image w={24} src={tiktok} />
-              </a>
+              </Action>
+
               <Flex justify={"space-between"}>
                 {/* <Image w={24} src={fire} /> */}
                 <Tooltip
@@ -178,45 +179,45 @@ export const HashtagCard: React.FC<ApiHashtagsAnalytics.ISoundHashtag> = ({
               Show Category
             </Button>
 
-            {/* <Flex justify="space-between" style={{ position: "relative" }}>
-              <Button
-                fullWidth
-                radius={"xl"}
-                variant="filled"
-                leftSection={<IconChartAreaLineFilled />}
-                color="gray"
-                h={40}
-                style={{ pointerEvents: "none" }}
-              >
-                Show Report
-              </Button>
-
-              <Button
-                radius={"50%"}
-                variant="filled"
-                color="gray"
-                h={40}
-                w={40}
-                style={{
-                  pointerEvents: "none",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginLeft: "10px",
-                }}
-              >
-                <IconHeart />
-              </Button>
-
-              <IconLockFilled
-                style={{
-                  position: "absolute",
-                  top: "50%",
-                  left: "50%",
-                  transform: "translate(-50%, -50%)",
-                  color: "#d1fd08",
-                }}
-              />
+            {/* <Flex justify="space-between" style={{ position: "relative" }}> 
+              <Button 
+                fullWidth 
+                radius={"xl"} 
+                variant="filled" 
+                leftSection={<IconChartAreaLineFilled />} 
+                color="gray" 
+                h={40} 
+                style={{ pointerEvents: "none" }} 
+              > 
+                Show Report 
+              </Button> 
+ 
+              <Button 
+                radius={"50%"} 
+                variant="filled" 
+                color="gray" 
+                h={40} 
+                w={40} 
+                style={{ 
+                  pointerEvents: "none", 
+                  display: "flex", 
+                  alignItems: "center", 
+                  justifyContent: "center", 
+                  marginLeft: "10px", 
+                }} 
+              > 
+                <IconHeart /> 
+              </Button> 
+ 
+              <IconLockFilled 
+                style={{ 
+                  position: "absolute", 
+                  top: "50%", 
+                  left: "50%", 
+                  transform: "translate(-50%, -50%)", 
+                  color: "#d1fd08", 
+                }} 
+              /> 
             </Flex> */}
           </Stack>
         </Wrapper>
@@ -230,4 +231,13 @@ const Wrapper = styled.div`
   background-color: #212122;
   padding: 20px;
   padding-bottom: 10px;
+`;
+const Action: typeof ActionIcon = styled(ActionIcon).attrs({
+  size: 24,
+  variant: "subtle",
+  component: "a",
+  target: "_blank",
+})`
+  border: none;
+  border-radius: 50%;
 `;

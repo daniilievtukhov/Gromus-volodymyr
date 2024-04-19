@@ -1,12 +1,17 @@
 import { Box, BoxProps, Button, Stack, Text } from "@mantine/core";
 import { useLoaderData } from "react-router-dom";
+import { useGlobalStore } from "../../../../src/globalStore";
 import styled from "styled-components";
 
 import { Links } from "../../../core/links";
+import { useEffect, useState } from "react";
 
 export const PremiumBanner = (props: BoxProps) => {
-  const { limit } = useLoaderData() as { limit: number };
-
+  const store = useGlobalStore() as { limit: number };
+  const [limit, setLimit] = useState<number>();
+  useEffect(() => {
+    setLimit(store.limit);
+  }, [store]);
   return (
     <Wrapper {...props}>
       <Stack gap="sm">

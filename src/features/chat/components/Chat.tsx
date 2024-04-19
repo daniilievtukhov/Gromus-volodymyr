@@ -13,7 +13,9 @@ import { Message } from "./Message";
 import { PremiumBanner } from "./PremiumBanner";
 
 export const Chat = memo(() => {
-  const { userInfo } = useGlobalStore();
+  const store = useGlobalStore();
+  const { userInfo } = store;
+  const disableInput = useRef<boolean>(false);
 
   const greeted = useGreetingStore((state) => state.greeted);
   const { messages } = useChatStore();
@@ -28,12 +30,18 @@ export const Chat = memo(() => {
     ref.current?.scrollTo(0, ref.current.scrollHeight);
   }, [messages, isPending, isSuccess]);
 
+  useEffect(() => {
+    console.log(disableInput.current);
+    if (store.limit <= 0) {
+      disableInput.current = true;
+    }
+  }, [store]);
   return (
     <Aside>
       {greeted ? (
         <>
           <Header />
-          {userInfo.inTrial && <PremiumBanner />}
+          {!userInfo.inTrial && <PremiumBanner />}
 
           <AppShell.Section viewportRef={ref} grow component={ScrollArea} py={30} px={16}>
             {isLoading && (
@@ -64,6 +72,7 @@ export const Chat = memo(() => {
             )}
           </AppShell.Section>
           <Input
+            disabled={disableInput.current}
             value={prompt}
             onChange={(e) => setPrompt(e.currentTarget.value)}
             variant="unstyled"

@@ -1,6 +1,7 @@
-import { useMutation } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
-import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGlobalStore } from "../../../globalStore";
 import { useLayoutStore } from "../../../layoutStore";
@@ -8,6 +9,7 @@ import { ApiMessage } from "../../../requests/conversation/message";
 import { ApiLLM } from "../../../requests/llm";
 import { addMessage, useChatStore } from "../store";
 import { useAIAuthorAnalyticStore } from "../../../pages/accountAnalytics/store/accountAnalytic";
+import { io } from "socket.io-client";
 
 const userRegion = navigator.language;
 
@@ -17,6 +19,14 @@ export const useSendMessage = () => {
   const { userInfo } = useGlobalStore();
   const navigate = useNavigate();
   const [prompt, setPrompt] = useState("");
+
+  useEffect(() => {
+    const socket = io(ApiLLM.link, {
+      autoConnect: true,
+    });
+
+    console.log(socket);
+  }, []);
 
   const defaultButtons = [
     {
@@ -35,6 +45,7 @@ export const useSendMessage = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: ({ conversationId, text }: Payload): Promise<ApiLLM.IResponse> => {
+      useGlobalStore.setState((state: { limit: number }) => ({ ...state, limit: state.limit - 1 }));
       return ApiLLM.post({
         user_id: userInfo.id,
         conversation_id: conversationId,
@@ -65,7 +76,7 @@ export const useSendMessage = () => {
       Context: any;
     }) => {
       const date = new Date().toISOString();
-     
+
       const messageData = {
         isCopilot: true,
         data: data.Data,
@@ -73,8 +84,8 @@ export const useSendMessage = () => {
         message: data.Text,
         date,
       };
-      
-      if (!data.DataType && !data.Data && !data.Actions && !data.Context) {
+
+      if (!data.DataType && !data.Data) {
         addMessage({
           ...messageData,
           buttons: defaultButtons,
@@ -87,8 +98,10 @@ export const useSendMessage = () => {
         });
       }
 
-
-      if (data.DataType === "AuthorAnalytic" && data.Data) {
+      if (
+        data.DataType === "AuthorAnalytic" ||
+        (data.DataType === "AuthorAnalyticPersonal" && data.Data)
+      ) {
         const authorAnalyticItem = data.Data.find(
           (item: any) => item.DataType === "AuthorData",
         ).Data;
@@ -100,7 +113,7 @@ export const useSendMessage = () => {
         ).Data;
 
         const authorId = authorAnalyticItem.author.authorId || "";
-        console.log(authorId)
+        console.log(authorId);
 
         useAIAuthorAnalyticStore.setState(() => ({
           chatId: data.ConversationId,
@@ -122,8 +135,6 @@ export const useSendMessage = () => {
         navigate("/ai-data");
       }
       console.log(data);
-
-    
 
       ApiMessage.fromCopilot({
         conversationId: data.ConversationId,
@@ -162,7 +173,6 @@ export const useSendMessage = () => {
         },
       ];
 
-
       if (isAxiosError(error)) {
         if (error.status === 500) {
           addMessage({
@@ -170,7 +180,7 @@ export const useSendMessage = () => {
             isCopilot: true,
             message:
               "Please try another request, as I was unable to process this one. I'm working on your previous request and I will provide you with the answer shortly.",
-            buttons: defaultButtons
+            buttons: defaultButtons,
           });
         }
         if (error.status === 401) {
@@ -201,7 +211,7 @@ export const useSendMessage = () => {
           date: new Date().toISOString(),
           isCopilot: true,
           message: "Please try another request, as I was unable to process this one.",
-          buttons: defaultButtons
+          buttons: defaultButtons,
         });
 
         return;

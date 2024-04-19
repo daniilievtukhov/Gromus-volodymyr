@@ -50,7 +50,7 @@ export const BalancedGroupCard: React.FC<Props> = ({ color, groupName, hahtags, 
                 {`Relevant ${groupName} `}
                 <IconInfoCircle
                   stroke={1.5}
-                  style={{ verticalAlign: "middle" }}
+                  style={{ verticalAlign: "middle", cursor: "pointer" }}
                   onClick={() => {
                     openModal();
                   }}
@@ -98,7 +98,7 @@ export const BalancedGroupCard: React.FC<Props> = ({ color, groupName, hahtags, 
                 }}
                 onClick={handleClickCopy}
               >
-                {!copyIcon ? <IconCopy /> : <IconCheckbox />}
+                {!copyIcon ? <IconCopy style={{ cursor: "pointer" }} /> : <IconCheckbox />}
               </Paper>
             </Flex>
           </Flex>
