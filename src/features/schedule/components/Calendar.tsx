@@ -119,6 +119,7 @@ export const Calendar = () => {
           data={filters?.options}
           searchable
           renderOption={(el) => {
+            console.log(el);
             return (
               <Group>
                 <Image w={24} src={`${Links.proDomain}${filters?.icons?.[el.option.value]}`} />
