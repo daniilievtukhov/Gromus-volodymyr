@@ -4,11 +4,13 @@ import styled from "styled-components";
 
 interface IProps {
   icon?: ReactNode;
+  image?: ReactNode;
 }
 
-const _AccentTitle = ({ icon, children }: PropsWithChildren<IProps>) => (
+const _AccentTitle = ({ image, icon, children }: PropsWithChildren<IProps>) => (
   <Group c="lime.4" gap={10} wrap="nowrap" align="start">
     <span>{icon}</span>
+    <img src={image} />
     <Title order={2} fz="20px" c="white">
       {children}
     </Title>

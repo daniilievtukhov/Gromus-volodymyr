@@ -22,6 +22,7 @@ import { SchedulePage } from "./pages/SchedulePage";
 import { PersonalizedHashtagsPage } from "./pages/personalizedHashtags/PersonalizedHashtagsPage";
 import { RisingSoundsPage } from "./pages/sounds/RisingSoundsPage";
 import { PricingPage } from "./pages/pricing/PricingPage";
+import { LinksHistoryPage } from "./pages/linksHistory/LinksHistoryPage";
 import { ApiUserInfo } from "./requests/account/info";
 import { ApiMessage } from "./requests/conversation/message";
 import { mantineTheme } from "./theme/mantine-theme";
@@ -100,6 +101,10 @@ const router = createBrowserRouter([
       {
         path: "/hashtags",
         element: <PersonalizedHashtagsPage />,
+      },
+      {
+        path: "/links-history",
+        element: <LinksHistoryPage />,
       },
       {
         path: "/ai-calendar",

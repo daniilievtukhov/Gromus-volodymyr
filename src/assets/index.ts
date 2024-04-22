@@ -19,8 +19,9 @@ import ellipseBg from "./images/ellipseBg.png";
 import shazam from "./images/shazam.png";
 import spotify from "./images/spotify.png";
 import tiktok from "./images/tiktok.png";
+import bulleted_list from "./images/bulleted_list.png";
 
 export { LogoGromus, Check, Close, DiscordIcon, InsIcon, SpotifyIcon };
 export { googleSvg, tiktokSvg, instagramSvg, discordSvg, hashtagSvg, arrowSvg };
 export { curvesBg, ellipseBg };
-export { appleMusic, bell, shazam, spotify, tiktok };
+export { appleMusic, bell, shazam, spotify, tiktok, bulleted_list };

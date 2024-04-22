@@ -1,6 +1,5 @@
 import { Center, Stack, Text, Image, Group, Container } from "@mantine/core";
-import { useState } from "react";
-import { isMobile } from "react-device-detect";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 
 import { ellipseBg, discordSvg, instagramSvg } from "../assets";
@@ -16,6 +15,20 @@ import {
 
 export const AuthPage = () => {
   const [state, setState] = useState<IAuthState>("start");
+  const [width, setWidth] = useState<number>(window.innerWidth);
+
+  function handleWindowSizeChange() {
+    setWidth(window.innerWidth);
+  }
+  useEffect(() => {
+    window.addEventListener("resize", handleWindowSizeChange);
+    return () => {
+      window.removeEventListener("resize", handleWindowSizeChange);
+    };
+  }, []);
+
+  const isMobile = width <= 768;
+
   if (isMobile) {
     return (
       <Wrapper>

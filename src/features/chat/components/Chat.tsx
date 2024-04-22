@@ -35,6 +35,7 @@ export const Chat = memo(() => {
       disableInput.current = true;
     }
   }, [store]);
+
   return (
     <Aside>
       {greeted ? (
