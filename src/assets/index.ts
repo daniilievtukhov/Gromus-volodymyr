@@ -4,6 +4,8 @@ import instagramSvg from "./icons/instagram.svg";
 import discordSvg from "./icons/discord.svg";
 import hashtagSvg from "./icons/hashtag.svg";
 import arrowSvg from "./icons/arrow.svg";
+import downloadSvg from "./icons/download.svg";
+import chevronSvg from "./icons/chevron.svg";
 //pricing page
 import LogoGromus from "./icons/Logo.svg";
 import Check from "./icons/check.svg";
@@ -22,6 +24,15 @@ import tiktok from "./images/tiktok.png";
 import bulleted_list from "./images/bulleted_list.png";
 
 export { LogoGromus, Check, Close, DiscordIcon, InsIcon, SpotifyIcon };
-export { googleSvg, tiktokSvg, instagramSvg, discordSvg, hashtagSvg, arrowSvg };
+export {
+  googleSvg,
+  tiktokSvg,
+  instagramSvg,
+  discordSvg,
+  hashtagSvg,
+  arrowSvg,
+  chevronSvg,
+  downloadSvg,
+};
 export { curvesBg, ellipseBg };
 export { appleMusic, bell, shazam, spotify, tiktok, bulleted_list };
