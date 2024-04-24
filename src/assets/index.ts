@@ -9,6 +9,7 @@ import searchSvg from "./icons/search.svg";
 import playSvg from "./icons/play.svg";
 import inspectSvg from "./icons/inspect.svg"
 
+import downloadSvg from "./icons/download.svg";
 //pricing page
 import LogoGromus from "./icons/Logo.svg";
 import Check from "./icons/check.svg";
@@ -30,6 +31,18 @@ import youtubeCircleIcon from "./icons/youtube-circle.svg";
 
 export { youtubeCircleIcon };
 export { LogoGromus, Check, Close, DiscordIcon, InsIcon, SpotifyIcon };
-export { googleSvg, tiktokSvg, instagramSvg, discordSvg, hashtagSvg, arrowSvg, chevronSvg, searchSvg, playSvg, inspectSvg };
+export {
+  googleSvg,
+  tiktokSvg,
+  instagramSvg,
+  discordSvg,
+  hashtagSvg,
+  arrowSvg,
+  chevronSvg,
+  downloadSvg,
+  searchSvg,
+  playSvg,
+  inspectSvg
+};
 export { curvesBg, ellipseBg };
 export { appleMusic, bell, shazam, spotify, tiktok, bulleted_list };
