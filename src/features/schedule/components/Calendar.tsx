@@ -33,7 +33,10 @@ export const Calendar = () => {
   });
 
   useEffect(() => {
+    console.log(store);
     setPosts(store);
+    setCountry(store.country);
+
   }, [store]);
 
   const [country, setCountry] = useState<string | null>(null);
@@ -65,13 +68,20 @@ export const Calendar = () => {
     queryFn: async () => {
       if (!country) return null;
 
-      const res = await ApiSchedule.get({
-        country,
-        category: filters?.category,
-        followers: filters?.followers,
-      });
+      let res;
+      let stats;
+      if(!posts.daysStats.length) {
+        res = await ApiSchedule.get({
+          country,
+          category: filters?.category,
+          followers: filters?.followers,
+        });
 
-      const stats = res.data.daysStats;
+        stats = res.data.daysStats
+      } else {
+        res = posts;
+        stats = res.daysStats;
+      }
 
       const getStats = (day: number): IScheduleData[] => {
         const array: (ApiSchedule.HoursStat | null)[] = Array(6).fill(null);
