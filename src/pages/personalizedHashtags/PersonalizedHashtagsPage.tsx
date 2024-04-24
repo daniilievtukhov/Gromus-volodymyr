@@ -8,6 +8,9 @@ import { useHashtagFilters } from "./hooks/useHashtagFilters";
 import { useHashtagsAnalytics } from "./hooks/useHashtagsAnalytics";
 import { hashtagSvg } from "../../assets";
 import { useState, useEffect } from "react";
+import { useHashtags } from "../../features/hashtags/store/hashtags";
+import { ApiHashtagsAnalytics } from "../../requests/hashtagsAnalytics";
+
 
 export const PersonalizedHashtagsPage = () => {
   const { data: hashtagsFilter, isSuccess: isSuccessHashtagsFilter } = useHashtagFilters();
@@ -15,7 +18,32 @@ export const PersonalizedHashtagsPage = () => {
     Country: hashtagsFilter?.country,
     Category: hashtagsFilter?.category,
   });
+
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [topSoundHashtags, setTopSoundHashtags] = useState<ApiHashtagsAnalytics.ISoundHashtag[]>([]);
+  const [soundHashtagBalancedGroup, setSoundHashtagBalancedGroup] = useState<ApiHashtagsAnalytics.IHashtagBalance[]>([]);
+  const [accountHashtagBalancedGroup, setAccountHashtagBalancedGroup] = useState<ApiHashtagsAnalytics.IHashtagBalance[]>([]);
+
+  const store = useHashtags();
+
+  useEffect(() => {
+    console.log(store);
+
+    if (store.accountHashtagBalancedGroup && store.soundHashtagBalancedGroup && store.topSoundHashtags ) {
+      console.log(store);
+      setTopSoundHashtags(store.topSoundHashtags)
+      setSoundHashtagBalancedGroup(store.soundHashtagBalancedGroup)
+      setAccountHashtagBalancedGroup(store.accountHashtagBalancedGroup)
+    }
+  }, [store])
+
+  useEffect(() => {
+    if(data && !store.accountHashtagBalancedGroup.length && !store.topSoundHashtags.length && !store.soundHashtagBalancedGroup.length ) {
+      setTopSoundHashtags(data.topSoundHashtags)
+      setSoundHashtagBalancedGroup(data.soundHashtagBalancedGroup)
+      setAccountHashtagBalancedGroup(data.accountHashtagBalancedGroup)
+    }
+  }, [data]);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -38,9 +66,10 @@ export const PersonalizedHashtagsPage = () => {
   }, [isModalOpen]);
 
   return (
-    isSuccessHashtagsFilter &&
+    //(store.accountHashtagBalancedGroup.length && store.topSoundHashtags.length && store.soundHashtagBalancedGroup.length) ||
+   (isSuccessHashtagsFilter &&
     isSuccess &&
-    data && (
+    data) && (
       <Stack gap={128} px={40} py={32} mih="100vh" bg="#0D0D0E" justify="space-between">
         {isModalOpen && <HashtagsModal onClose={closeModal} />}
         <Stack gap={12}>
@@ -48,7 +77,7 @@ export const PersonalizedHashtagsPage = () => {
             AI Recommendations <AccentTitle.Color>TOP 5 hashtags</AccentTitle.Color> for your sound{" "}
             <AccentTitle.Color>this week</AccentTitle.Color>
           </AccentTitle>
-          <TopFiveHashtags topSoundHashtags={data.topSoundHashtags} />
+          <TopFiveHashtags topSoundHashtags={topSoundHashtags} />
           <AccentTitle icon={<Image w={24} src={hashtagSvg} />}>
             <AccentTitle.Color>Hashtag</AccentTitle.Color> sets this week{" "}
             <Text size="lg" fw={500} c="white" ff="mono">
@@ -57,7 +86,7 @@ export const PersonalizedHashtagsPage = () => {
             </Text>
           </AccentTitle>
           <BalancedGroups
-            accountHashtagBalancedGroup={data.soundHashtagBalancedGroup}
+            accountHashtagBalancedGroup={soundHashtagBalancedGroup}
             openModal={openModal}
           />
           <AccentTitle icon={<Image w={24} src={hashtagSvg} />}>
@@ -68,7 +97,7 @@ export const PersonalizedHashtagsPage = () => {
           </AccentTitle>
 
           <BalancedGroups
-            accountHashtagBalancedGroup={data.accountHashtagBalancedGroup}
+            accountHashtagBalancedGroup={accountHashtagBalancedGroup}
             openModal={openModal}
           />
         </Stack>
