@@ -1,13 +1,15 @@
 import { Alert, Flex, Group, ScrollArea, Skeleton, Stack, Tabs, Text } from "@mantine/core";
 import { HashtagCard } from "./components/HashtagCard";
 import { ApiHashtagsAnalytics } from "../../requests/hashtagsAnalytics";
-import React from "react";
+import React, { useEffect } from "react";
 
 type Props = {
   topSoundHashtags: ApiHashtagsAnalytics.ISoundHashtag[];
 };
 
 export const TopFiveHashtags: React.FC<Props> = ({ topSoundHashtags }) => {
+
+
   return (
     <>
       <Stack gap={24}>

@@ -1,67 +1,57 @@
-import { Sparkline, Button } from "@mantine/charts";
-import { Flex } from "@mantine/core";
+import { Flex, Text } from "@mantine/core";
 import { useMemo } from "react";
 
-import { Flag } from "../../../components/Flag";
 import { ColumnDef, Table } from "../../../components/Table";
-import { TrendValue } from "../../../components/TrendValue";
-import { PlayMusicButton } from "../../playMusicButton/PlayMusic";
-import { ISoundData } from "../../../features/risingSounds/store";
-import { GrowthCell } from "./GrowthCell";
-import { SoundCell } from "./SoundCell";
-import { SoundType } from "./SoundType";
 
-export const LinksTable = ({ tableData }: { tableData: ISoundData[] }) => {
-  const columns = useMemo<ColumnDef<ISoundData>[]>(
+import SocialMediaLink from "./SocialMediaLink";
+import OpenVideoButton from "./OpenVideo";
+import InspectButton from "./InspectButton";
+
+interface ILinkData {
+  id: number | string,
+  social: {
+    path: string,
+    title: string
+  },
+  date: string,
+  video: string,
+  inspect: string 
+}
+
+export const LinksTable = ({ tableData }: { tableData: ILinkData[] }) => {
+  const columns = useMemo<ColumnDef<ILinkData>[]>(
     () => [
       {
         field: "id",
         title: "#",
-        // render: (data) => <SoundCell data={data} />,
       },
       {
-        field: "playUrl",
+        field: "social",
         title: "Social network & Title",
-        // render: (data) =>
-        //   data.playUrl ? <PlayMusicButton audioLink={data.playUrl} id={data.musicId} /> : "-",
+          render: (data) =>
+                        <SocialMediaLink 
+                          // image={data.social?.image} 
+                          id={data.id} 
+                          title={data.social.title} 
+                          path={data.social.path} 
+                        /> 
+                  
       },
       {
-        field: "musicOriginal",
+        field: "date",
         title: "Date",
-        // render: (data) => <SoundType type={data.musicOriginal ? "original" : "official"} />,
+        render: 
+          (data) => <Text fw={"600"} fz={"md"}> {data.date} </Text>,
       },
       {
-        field: "growth",
+        field: "video",
         title: "Open video",
-        // render: (data) => (
-        //   <Flex>
-        //     <Button>Hi</Button>
-        //   </Flex>
-        // ),
+          render: (data) => <OpenVideoButton path={data.video} />
       },
       {
-        field: "lastWeekViewStats",
+        field: "inspect",
         title: "Inspect",
-        // render: (data) => {
-        //   if (!data.lastWeekViewStats || (data.lastWeekViewStats?.length || 0) < 2) return "-";
-
-        //   return (
-        //     <Sparkline
-        //       w={60}
-        //       h={36}
-        //       p={0}
-        //       data={data.lastWeekViewStats}
-        //       curveType="linear"
-        //       color={
-        //         data.lastWeekViewStats.at(-1)! > data.lastWeekViewStats.at(0)!
-        //           ? "#00E082"
-        //           : "#FF355A"
-        //       }
-        //       fillOpacity={0.6}
-        //       strokeWidth={2}
-        //     />
-        //   );
-        // },
+        render: (data) => <InspectButton path={data.inspect} />
       },
     ],
     [],

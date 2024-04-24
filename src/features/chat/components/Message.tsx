@@ -10,6 +10,8 @@ import { useLayoutStore } from "../../../layoutStore";
 import { IMessage, setPosts } from "../store";
 import axios from "axios";
 import { useGlobalStore } from "../../../globalStore";
+import { useHashtags } from "../../hashtags/store/hashtags";
+import { ApiHashtagsAnalytics } from "../../../requests/hashtagsAnalytics";
 
 const fetchPosts = async (link: string) => {
   return await axios.get(link, {
@@ -25,14 +27,33 @@ const _Message = ({ message }: { message: IMessage }) => {
 
   const handleButtonClick = async (link: string) => {
     const res = await fetchPosts(link);
+    // console.log("Message from handleButtonClick", message)
+    // console.log("Res from handleButtonClick", res)
 
-    setPosts(res.data);
-    navigate("/ai-calendar");
+    if(message.dataType==="HashtagsPersonal") {
+      useHashtags.setState(res.data);
+    }
+
+    if (message.dataType==="TimePost") {
+      // console.log("Hi! from if and res:", res);
+      setPosts(res.data);
+    }
   };
 
   useEffect(() => {
     (async () => {
-      if (message && message.buttons && message.buttons[0] && message.buttons[0].link) {
+      console.log(message)
+      if(message.dataType==="HashtagsPersonal" && message && message.buttons && message.buttons[0] && message.buttons[0].link) {
+        console.log(message.buttons)
+        const res = await fetchPosts(message.buttons[0].link);
+        // console.log("Hashtags!!!")
+        // console.log(res);
+      
+        useHashtags.setState(res.data);
+        navigate("/hashtags");
+      }
+
+      if (message.dataType==="TimePost" && message && message.buttons && message.buttons[0] && message.buttons[0].link) {
         const res = await fetchPosts(message.buttons[0].link);
 
         setPosts(res.data);
@@ -61,7 +82,7 @@ const _Message = ({ message }: { message: IMessage }) => {
           {message.message}
         </StyledText>
 
-        {(message.dataType === "TimePost" || (!message.data && !message.dataType)) &&
+        {(message.dataType === "TimePost" || message.dataType==="HashtagsPersonal" || (!message.data && !message.dataType)) &&
           message.buttons && (
             <>
               <Text c="#D1FD0A" fz={14}>

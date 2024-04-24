@@ -85,6 +85,8 @@ export const useSendMessage = () => {
         date,
       };
 
+      console.log(data);
+
       if (!data.DataType && !data.Data) {
         addMessage({
           ...messageData,
