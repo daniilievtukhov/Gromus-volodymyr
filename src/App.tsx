@@ -23,10 +23,12 @@ import { PersonalizedHashtagsPage } from "./pages/personalizedHashtags/Personali
 import { RisingSoundsPage } from "./pages/sounds/RisingSoundsPage";
 import { PricingPage } from "./pages/pricing/PricingPage";
 import { LinksHistoryPage } from "./pages/linksHistory/LinksHistoryPage";
+import { VoiceHistoryPage } from "./pages/voiceHistory/VoiceHistoryPage";
 import { VideoToScriptPage } from "./pages/linksHistory/components/components/VideoToScriptPage";
 import { ApiUserInfo } from "./requests/account/info";
 import { ApiMessage } from "./requests/conversation/message";
 import { mantineTheme } from "./theme/mantine-theme";
+import { VoiceToScriptPage } from "./pages/voiceHistory/components/components/VoiceToScriptPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -108,8 +110,16 @@ const router = createBrowserRouter([
         element: <LinksHistoryPage />,
       },
       {
+        path: "/voice-history",
+        element: <VoiceHistoryPage />,
+      },
+      {
         path: "/video-to-script",
         element: <VideoToScriptPage />,
+      },
+      {
+        path: "/voice-to-script",
+        element: <VoiceToScriptPage />,
       },
       {
         path: "/ai-calendar",

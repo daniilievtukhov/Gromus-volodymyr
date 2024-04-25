@@ -30,11 +30,11 @@ const _Message = ({ message }: { message: IMessage }) => {
     // console.log("Message from handleButtonClick", message)
     // console.log("Res from handleButtonClick", res)
 
-    if(message.dataType==="HashtagsPersonal" || message.dataType==="HashtagsGeneral") {
+    if (message.dataType === "HashtagsPersonal" || message.dataType === "HashtagsGeneral") {
       useHashtags.setState(res.data);
     }
 
-    if (message.dataType==="TimePost") {
+    if (message.dataType === "TimePost") {
       // console.log("Hi! from if and res:", res);
       setPosts(res.data);
     }
@@ -42,18 +42,30 @@ const _Message = ({ message }: { message: IMessage }) => {
 
   useEffect(() => {
     (async () => {
-      console.log(message)
-      if((message.dataType==="HashtagsPersonal" || message.dataType==="HashtagsGeneral") && message && message.buttons && message.buttons[0] && message.buttons[0].link) {
-        console.log(message.buttons)
+      console.log(message);
+      if (
+        (message.dataType === "HashtagsPersonal" || message.dataType === "HashtagsGeneral") &&
+        message &&
+        message.buttons &&
+        message.buttons[0] &&
+        message.buttons[0].link
+      ) {
+        console.log(message.buttons);
         const res = await fetchPosts(message.buttons[0].link);
         // console.log("Hashtags!!!")
         // console.log(res);
-      
+
         useHashtags.setState(res.data);
         navigate("/hashtags");
       }
 
-      if (message.dataType==="TimePost" && message && message.buttons && message.buttons[0] && message.buttons[0].link) {
+      if (
+        message.dataType === "TimePost" &&
+        message &&
+        message.buttons &&
+        message.buttons[0] &&
+        message.buttons[0].link
+      ) {
         const res = await fetchPosts(message.buttons[0].link);
 
         setPosts(res.data);
@@ -82,7 +94,9 @@ const _Message = ({ message }: { message: IMessage }) => {
           {message.message}
         </StyledText>
 
-        {(message.dataType === "TimePost" || message.dataType==="HashtagsPersonal" || (!message.data && !message.dataType)) &&
+        {(message.dataType === "TimePost" ||
+          message.dataType === "HashtagsPersonal" ||
+          (!message.data && !message.dataType)) &&
           message.buttons && (
             <>
               <Text c="#D1FD0A" fz={14}>

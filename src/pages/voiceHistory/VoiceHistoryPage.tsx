@@ -7,13 +7,15 @@ import { RisingSoundsPagination } from "../../features/risingSounds/RisingSounds
 import { ISoundData } from "../../features/risingSounds/store";
 import { useSoundsData } from "../sounds/hooks/useSoundsData";
 import { bulleted_list } from "../../assets/index";
-import { bulletSvg } from "../../assets/index";
+import { microSvg } from "../../assets/index";
 import { LinksTable } from "./components/LinksTable";
-import { LinkInsertion } from "./components/LinkInsertion";
+
 import { inspect } from "util";
 import path from "path";
+import { VoiceOperations } from "./components/VoiceOperations";
+import { VoiceTable } from "./components/VoiceTable";
 
-export const LinksHistoryPage = () => {
+export const VoiceHistoryPage = () => {
   const {
     query: { data, isSuccess, isLoading },
     page,
@@ -91,10 +93,10 @@ export const LinksHistoryPage = () => {
   return (
     <Stack p={32} gap={32} bg="#0D0D0E" mih="100vh">
       <Stack gap={16}>
-        <AccentTitle image={bulletSvg}>
-          <AccentTitle.Color>History</AccentTitle.Color> of video scripts
+        <AccentTitle image={microSvg}>
+          <AccentTitle.Color>History</AccentTitle.Color> of voice scripts
         </AccentTitle>
-        <LinkInsertion />
+        <VoiceOperations />
         {isLoading && (
           <Stack gap={8}>
             {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
@@ -104,7 +106,7 @@ export const LinksHistoryPage = () => {
         )}
         {isSuccess && (
           <Stack gap={8}>
-            <LinksTable tableData={tableData} />
+            <VoiceTable tableData={tableData} />
             <RisingSoundsPagination page={page} setPage={setPage} total={data.totalRows} />
           </Stack>
         )}

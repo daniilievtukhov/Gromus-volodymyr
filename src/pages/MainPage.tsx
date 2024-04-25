@@ -8,6 +8,7 @@ import styled, { keyframes } from "styled-components";
 import { curvesBg } from "../assets";
 import { Chat } from "../features/chat";
 import { MusicVideosModal } from "../features/musicVideosModal/MusicVideosModal";
+import { PricingModal } from "./pricing/components/PricingModal";
 import { SideMenu } from "../features/sideMenu";
 import { UserMenu } from "../features/userMenu/UserMenu";
 import { useGlobalStore } from "../globalStore";
@@ -18,7 +19,8 @@ export const MainPage = () => {
   const { navbarOpened, chatOpened, showAlert } = useLayoutStore();
   const userInfo = useGlobalStore((s) => s.userInfo);
   const logout = useLogout(userInfo.userName);
-
+  const store = useGlobalStore();
+  const { limit } = store;
   useEffect(() => {
     setChatOpened(true);
     setNavbarOpened(true);
@@ -27,6 +29,7 @@ export const MainPage = () => {
 
   return (
     <>
+      {/* <PricingModal /> */}
       <StyledShell
         withBorder={false}
         navbar={{

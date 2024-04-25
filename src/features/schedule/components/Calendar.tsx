@@ -36,7 +36,6 @@ export const Calendar = () => {
     console.log(store);
     setPosts(store);
     setCountry(store.country);
-
   }, [store]);
 
   const [country, setCountry] = useState<string | null>(null);
@@ -70,14 +69,14 @@ export const Calendar = () => {
 
       let res;
       let stats;
-      if(!posts.daysStats.length) {
+      if (!posts.daysStats.length) {
         res = await ApiSchedule.get({
           country,
           category: filters?.category,
           followers: filters?.followers,
         });
 
-        stats = res.data.daysStats
+        stats = res.data.daysStats;
       } else {
         res = posts;
         stats = res.daysStats;
