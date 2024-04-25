@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, Button, Group } from "@mantine/core";
 import { Pricing } from "./Pricing";
 import styled from "styled-components";
+import { pricingModal } from "../hooks/triggerPricingModalHook";
+
 
 const CustomModal = styled(Modal)`
   .mantine-Modal-header {
@@ -31,13 +33,21 @@ const CustomModal = styled(Modal)`
 `;
 
 export function PricingModal() {
-  const [opened, setOpened] = useState(true);
+  const store = pricingModal()
+
+  const [opened, setOpened] = useState<boolean>(store.modalState);
+
+  useEffect(() => {
+    console.log("Effect!");
+    console.log(opened);
+    setOpened(store.modalState);
+  }, [store])
 
   return (
     <>
       <CustomModal
         opened={opened}
-        onClose={() => setOpened(false)}
+        onClose={() => store.closeModal()}
         size="100%"
         style={{
           backgroundColor: "#0D0D0E",

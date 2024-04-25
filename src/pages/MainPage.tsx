@@ -14,6 +14,7 @@ import { UserMenu } from "../features/userMenu/UserMenu";
 import { useGlobalStore } from "../globalStore";
 import { useLogout } from "../hooks/useLogout";
 import { setChatOpened, toggleSideMenu, useLayoutStore, setNavbarOpened } from "../layoutStore";
+import { pricingModal } from "./pricing/hooks/triggerPricingModalHook";
 
 export const MainPage = () => {
   const { navbarOpened, chatOpened, showAlert } = useLayoutStore();
@@ -21,6 +22,7 @@ export const MainPage = () => {
   const logout = useLogout(userInfo.userName);
   const store = useGlobalStore();
   const [opened, setOpened] = useState<boolean>(false);
+  const pricing = pricingModal();
   const { limit } = store;
   const mockLim = 0;
 
@@ -28,7 +30,7 @@ export const MainPage = () => {
     setChatOpened(true);
     setNavbarOpened(true);
     const interval = setInterval(() => {
-      setOpened((prevOpened) => !prevOpened);
+      pricing.openModal()
     }, 300000);
     return () => clearInterval(interval);
   }, []);
@@ -43,7 +45,7 @@ export const MainPage = () => {
 
   return (
     <>
-      {mockLim <= 0 && opened && <PricingModal />}
+      <PricingModal /> 
 
       <StyledShell
         withBorder={false}

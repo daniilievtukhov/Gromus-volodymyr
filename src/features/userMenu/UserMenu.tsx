@@ -1,10 +1,11 @@
 import { ActionIcon, Avatar, Flex, Stack, Text, Menu } from "@mantine/core";
 import { IconLogout, IconSettingsFilled } from "@tabler/icons-react";
-
+import { pricingModal } from "../../pages/pricing/hooks/triggerPricingModalHook";
 import { useGlobalStore } from "../../globalStore";
 
 export const UserMenu = ({ expanded, onLogout }: { expanded?: boolean; onLogout: () => void }) => {
   const { userInfo } = useGlobalStore();
+  const pricing = pricingModal();
 
   return (
     <Flex gap={10}>
@@ -33,7 +34,7 @@ export const UserMenu = ({ expanded, onLogout }: { expanded?: boolean; onLogout:
               <Menu.Item onClick={onLogout}>Logout</Menu.Item>
               <Menu.Item
                 onClick={() => {
-                  console.log("LOGOUT");
+                  pricing.openModal()
                   // logout.mutate();
                 }}
               >

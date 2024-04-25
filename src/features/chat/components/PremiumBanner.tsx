@@ -6,25 +6,29 @@ import styled from "styled-components";
 
 import { Links } from "../../../core/links";
 import { useEffect, useState } from "react";
+import { pricingModal } from "../../../pages/pricing/hooks/triggerPricingModalHook";
 
 export const PremiumBanner = (props: BoxProps) => {
   const store = useGlobalStore() as { limit: number };
-  const [click, setClick] = useState<boolean>(false);
+  // const [click, setClick] = useState<boolean>(false);
+  const pricing = pricingModal();
 
-  const handleClickPremium = () => {
-    render: <PricingModal />;
-  };
+  // const handleClickPremium = () => {
+  //   render: <PricingModal />;
+  // };
+
   const [limit, setLimit] = useState<number>();
   useEffect(() => {
     setLimit(store.limit);
   }, [store]);
+
   return (
     <Wrapper {...props}>
-      {click && (
+      {/* {click && (
         <>
           <PricingModal />
         </>
-      )}
+      )} */}
 
       <Stack gap="sm">
         <Stack gap={3}>
@@ -40,7 +44,7 @@ export const PremiumBanner = (props: BoxProps) => {
           color="#000"
           size="xs"
           component="a"
-          onClick={handleClickPremium}
+          onClick={() => pricing.openModal()}
           target="_blank"
         >
           Buy Premium
