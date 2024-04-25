@@ -103,7 +103,14 @@ export const SideMenu = () => {
                 </Menu.Target>
 
                 <Menu.Dropdown>
-                  <Menu.Item onClick={() => logout.mutate()}>Logout</Menu.Item>
+                  <Menu.Item
+                    onClick={() => {
+                      console.log("LOGOUT");
+                      logout.mutate();
+                    }}
+                  >
+                    Logout
+                  </Menu.Item>
                 </Menu.Dropdown>
               </Menu>
             </>

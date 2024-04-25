@@ -168,7 +168,7 @@ const MenuItem = ({ data }: { data: MenuItemChild }) => {
             size="compact-sm"
             rightSection={
               <Flex gap={4}>
-                <IconLockFilled size={14} color="#D1FD0A" />
+                <span style={{ color: "#D1FD0A" }}>Soon</span>
               </Flex>
             }
           >

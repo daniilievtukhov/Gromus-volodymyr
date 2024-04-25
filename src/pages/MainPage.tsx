@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ActionIcon, Alert, AppShell, Avatar, Box, Burger, Flex, Tooltip } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { IconBolt } from "@tabler/icons-react";
@@ -20,16 +20,31 @@ export const MainPage = () => {
   const userInfo = useGlobalStore((s) => s.userInfo);
   const logout = useLogout(userInfo.userName);
   const store = useGlobalStore();
+  const [opened, setOpened] = useState<boolean>(false);
   const { limit } = store;
+  const mockLim = 0;
+
   useEffect(() => {
     setChatOpened(true);
     setNavbarOpened(true);
+    const interval = setInterval(() => {
+      setOpened((prevOpened) => !prevOpened);
+    }, 300000);
+    return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (!mockLim && !opened) {
+      setOpened(true);
+    }
+  }, [mockLim, opened]);
+
   const isMobile = useMediaQuery(`(max-width: 768px)`);
 
   return (
     <>
-      {/* <PricingModal /> */}
+      {mockLim <= 0 && opened && <PricingModal />}
+
       <StyledShell
         withBorder={false}
         navbar={{

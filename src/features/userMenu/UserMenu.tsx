@@ -1,5 +1,5 @@
-import { ActionIcon, Avatar, Flex, Stack, Text } from "@mantine/core";
-import { IconLogout } from "@tabler/icons-react";
+import { ActionIcon, Avatar, Flex, Stack, Text, Menu } from "@mantine/core";
+import { IconLogout, IconSettingsFilled } from "@tabler/icons-react";
 
 import { useGlobalStore } from "../../globalStore";
 
@@ -19,9 +19,28 @@ export const UserMenu = ({ expanded, onLogout }: { expanded?: boolean; onLogout:
               {userInfo.userName}
             </Text>
           </Stack>
-          <ActionIcon size="50" radius="xl" color="gray.6" variant="subtle" onClick={onLogout}>
+          {/* <ActionIcon size="50" radius="xl" color="gray.6" variant="subtle" onClick={onLogout}>
             <IconLogout />
-          </ActionIcon>
+          </ActionIcon> */}
+          <Menu position="right-end" shadow="md">
+            <Menu.Target>
+              <ActionIcon size="50" radius="xl" color="gray.6" variant="subtle">
+                <IconSettingsFilled />
+              </ActionIcon>
+            </Menu.Target>
+
+            <Menu.Dropdown>
+              <Menu.Item onClick={onLogout}>Logout</Menu.Item>
+              <Menu.Item
+                onClick={() => {
+                  console.log("LOGOUT");
+                  // logout.mutate();
+                }}
+              >
+                Cancel Subscription
+              </Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
         </>
       )}
     </Flex>
