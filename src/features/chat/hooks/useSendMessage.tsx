@@ -10,23 +10,62 @@ import { ApiLLM } from "../../../requests/llm";
 import { addMessage, useChatStore } from "../store";
 import { useAIAuthorAnalyticStore } from "../../../pages/accountAnalytics/store/accountAnalytic";
 // import { io } from "socket.io-client";
-
+import axios from "axios";
 const userRegion = navigator.language;
+import { useHashtags } from "../../hashtags/store/hashtags";
+import { setPosts } from "../store";
+import { useRisingSoundsStore } from "../../risingSounds/store";
 
 type Payload = Pick<ApiMessage.IGetLastMessagesRequest, "conversationId" | "text" | "date">;
+
+const getUserInfo = async (link: string) => {
+  return await axios.get(link, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("BEARER_TOKEN")}`,
+    },
+  });
+};
 
 export const useSendMessage = () => {
   const { userInfo } = useGlobalStore();
   const navigate = useNavigate();
   const [prompt, setPrompt] = useState("");
+  const risingMusicStore = useRisingSoundsStore();
 
-  // useEffect(() => {
-  //   const socket = io(ApiLLM.link, {
-  //     autoConnect: true,
-  //   });
+  const handleButtonClick = async (link: string, message: {
+    Data: any;
+    DataType: any;
+    Text: any;
+    Actions: any[];
+    ConversationId: any;
+    Context: any;  }) => {
+      const res = await getUserInfo(link);
+      console.log("Message from handleButtonClick", message)
+      // console.log("Res from handleButtonClick", res)
+    
+      switch(message.DataType) {
+        case "HashtagsPersonal":
+        case "HashtagsGeneral":
+          useHashtags.setState(res.data);
+          navigate("/hashtags");
 
-  //   console.log(socket);
-  // }, []);
+        break;
+
+        case "TimePost":
+          // console.log("Hi! from if and res:", res);
+          setPosts(res.data);
+          navigate("/ai-calendar");
+        break;
+
+        case "SoundSearch":
+          console.log(res);
+          risingMusicStore.setTableData(res.data)
+          navigate("/rising-sounds");
+        break;
+
+        default:
+      }
+  };
 
   const defaultButtons = [
     {
@@ -87,13 +126,14 @@ export const useSendMessage = () => {
 
       console.log(data);
 
-      if (!data.DataType && !data.Data) {
+      if (!data.Actions) {
         addMessage({
           ...messageData,
           buttons: defaultButtons,
         });
       } else {
-        const buttons = data.Actions?.map((el) => ({ label: el.label, link: el.link })) ?? [];
+        console.log("Hey! I'm here!")
+        const buttons = data.Actions?.map((el) => ({ label: el.label, onClick:() => {handleButtonClick(el.link, data)} })) ?? [];
         addMessage({
           ...messageData,
           buttons,

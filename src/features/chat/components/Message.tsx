@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import { useState, createContext, useMemo, useEffect } from "react";
 import { Avatar, Button, Flex, Group, Stack, Text } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
@@ -7,59 +6,16 @@ import { formatDistance } from "date-fns";
 import styled from "styled-components";
 import { FadeBlock } from "../../../components/FadeBlock";
 import { useLayoutStore } from "../../../layoutStore";
-import { IMessage, setPosts } from "../store";
-import axios from "axios";
-import { useGlobalStore } from "../../../globalStore";
-import { useHashtags } from "../../hashtags/store/hashtags";
-import { ApiHashtagsAnalytics } from "../../../requests/hashtagsAnalytics";
+import { IMessage } from "../store";
 
-const fetchPosts = async (link: string) => {
-  return await axios.get(link, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("BEARER_TOKEN")}`,
-    },
-  });
-};
 
 const _Message = ({ message }: { message: IMessage }) => {
-  const navigate = useNavigate();
   const isMobile = useMediaQuery(`(max-width: 768px)`);
 
-  const handleButtonClick = async (link: string) => {
-    const res = await fetchPosts(link);
-    // console.log("Message from handleButtonClick", message)
-    // console.log("Res from handleButtonClick", res)
-
-    if(message.dataType==="HashtagsPersonal" || message.dataType==="HashtagsGeneral") {
-      useHashtags.setState(res.data);
-    }
-
-    if (message.dataType==="TimePost") {
-      // console.log("Hi! from if and res:", res);
-      setPosts(res.data);
-    }
-  };
-
   useEffect(() => {
-    (async () => {
-      console.log(message)
-      if((message.dataType==="HashtagsPersonal" || message.dataType==="HashtagsGeneral") && message && message.buttons && message.buttons[0] && message.buttons[0].link) {
-        console.log(message.buttons)
-        const res = await fetchPosts(message.buttons[0].link);
-        // console.log("Hashtags!!!")
-        // console.log(res);
-      
-        useHashtags.setState(res.data);
-        navigate("/hashtags");
-      }
-
-      if (message.dataType==="TimePost" && message && message.buttons && message.buttons[0] && message.buttons[0].link) {
-        const res = await fetchPosts(message.buttons[0].link);
-
-        setPosts(res.data);
-        navigate("/ai-calendar");
-      }
-    })();
+    if(message.buttons && message.buttons[0] && message.buttons[0].onClick) {
+      message.buttons[0].onClick();
+    }
   }, [message]);
 
   return (
@@ -82,8 +38,7 @@ const _Message = ({ message }: { message: IMessage }) => {
           {message.message}
         </StyledText>
 
-        {(message.dataType === "TimePost" || message.dataType==="HashtagsPersonal" || (!message.data && !message.dataType)) &&
-          message.buttons && (
+        {message?.buttons && message.buttons.length && (
             <>
               <Text c="#D1FD0A" fz={14}>
                 Choose an option:
@@ -95,9 +50,7 @@ const _Message = ({ message }: { message: IMessage }) => {
                     radius="xl"
                     color="#D1FD0A"
                     onClick={() => {
-                      !message.data && !message.dataType && btn.onClick
-                        ? btn.onClick()
-                        : handleButtonClick(btn?.link || "");
+                      btn.onClick && btn.onClick()
 
                       if (isMobile) {
                         useLayoutStore.setState({
