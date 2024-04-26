@@ -1,3 +1,4 @@
+
 import React from "react";
 import styled from "styled-components";
 import { Grid, Button } from "@mantine/core";
@@ -167,9 +168,11 @@ const CustomBudget = ({ text }: { text: string }) => {
   );
 };
 
+
 export const Pricing = ({ showFooter = true }) => {
   const basicPackage = [
     { image: Check, signedText: "10 questions", text: "AI Copilot GI", comingSoon: false },
+
     {
       image: Close,
       signedText: "",
@@ -197,6 +200,7 @@ export const Pricing = ({ showFooter = true }) => {
       text: "data access at Pro Platform",
       comingSoon: false,
     },
+
     { image: Close, signedText: "", text: "AI To-Do Artist Plan", comingSoon: true },
     { image: Close, signedText: "", text: "Spotify AI Analytics", comingSoon: true },
     { image: Close, signedText: "", text: "Your Song AI Analytics", comingSoon: true },
@@ -204,6 +208,7 @@ export const Pricing = ({ showFooter = true }) => {
 
   const proPackage = [
     { image: Check, signedText: "300 questions", text: "AI Copilot GI", comingSoon: false },
+
     {
       image: Check,
       signedText: "20 times",
@@ -241,10 +246,12 @@ export const Pricing = ({ showFooter = true }) => {
       text: "data access at Pro Platform",
       comingSoon: false,
     },
+
     { image: Check, signedText: "", text: "AI To-Do Artist Plan", comingSoon: true },
     { image: Check, signedText: "", text: "Spotify AI Analytics", comingSoon: true },
     { image: Check, signedText: "2 times", text: "Your Song AI Analytics", comingSoon: true },
   ];
+
 
   const advancedPackage = [
     { image: Check, signedText: "1000 questions", text: "AI Copilot GI", comingSoon: false },
@@ -279,11 +286,13 @@ export const Pricing = ({ showFooter = true }) => {
       text: "TikTok Viral Sounds for any Territories",
       comingSoon: false,
     },
+
     { image: Check, signedText: "Unlimited", text: "Pro Platform", comingSoon: false },
     { image: Check, signedText: "", text: "AI To-Do Artist Plan", comingSoon: true },
     { image: Check, signedText: "", text: "Spotify AI Analytics", comingSoon: true },
     { image: Check, signedText: "5 times", text: "Your Song AI Analytics", comingSoon: true },
   ];
+
 
   const renderPackageItems = ({
     arr,
@@ -307,17 +316,22 @@ export const Pricing = ({ showFooter = true }) => {
             </li>
           ),
         )}
+
       </ul>
     );
   };
 
   const location = useLocation();
 
+
   const isPricingPage = location.pathname === "/pricing";
+
 
   return (
     <PricingContainer
       style={{
+
+
         marginBottom: "60px",
         alignItems: "center",
         backgroundColor: "#0D0D0E",
@@ -325,9 +339,11 @@ export const Pricing = ({ showFooter = true }) => {
       }}
     >
       <h2>Select your plan to enjoy more from GROMUS AI</h2>
+
       <SignedText className="text-center">
         Unlock AI-Powered Solution! Elevate Your Grow Potential Today.
       </SignedText>
+
       <Grid
         style={{
           padding: "30px",
@@ -344,10 +360,12 @@ export const Pricing = ({ showFooter = true }) => {
                 <FreeLabel>FREE</FreeLabel>
               </PricingHeader>
               <Separator />
+
               <FreePackageBtn>ACTIVATE FOR FREE</FreePackageBtn>
               <CardContainer>
                 {renderPackageItems({ arr: basicPackage })}
                 <br />
+
                 <BtnDescription>Use completely free. Cancel anytime.</BtnDescription>
               </CardContainer>
               <div style={cardBgContainerAfter}></div>
@@ -358,17 +376,21 @@ export const Pricing = ({ showFooter = true }) => {
         <Grid.Col span={{ base: 12, md: 8, lg: 4 }}>
           <PackageCardContainer>
             <PricingHeader>
+
               <BasicLabel>PRO </BasicLabel>
+
               <div>
                 <FreeLabel>$9.99</FreeLabel> <SignedText>/ mo</SignedText>
               </div>
             </PricingHeader>
             <Separator />
+
             <SubscribePackageBtn>SUBSCRIBE NOW</SubscribePackageBtn>
             <CardContainer>
               {renderPackageItems({ arr: proPackage })}
 
               <BtnDescription>$9.99/month. Cancel anytime.</BtnDescription>
+
             </CardContainer>
           </PackageCardContainer>
         </Grid.Col>
@@ -377,17 +399,21 @@ export const Pricing = ({ showFooter = true }) => {
           <PackageCardContainer>
             <div style={cardBgContainerRight}>
               <PricingHeader>
+
                 <BasicLabel>ADVANCED</BasicLabel>
+
                 <div>
                   <FreeLabel>$19.99</FreeLabel> <SignedText>/ mo</SignedText>
                 </div>
               </PricingHeader>
               <Separator />
+
               <SubscribePackageBtn>SUBSCRIBE NOW</SubscribePackageBtn>
               <CardContainer>
                 {renderPackageItems({ arr: advancedPackage })}
 
                 <BtnDescription>$19.99/month. Cancel anytime.</BtnDescription>
+
               </CardContainer>
               <div style={cardBgContainerRightAfter}></div>
             </div>
@@ -397,4 +423,6 @@ export const Pricing = ({ showFooter = true }) => {
       {showFooter && isPricingPage && <Footer />}
     </PricingContainer>
   );
+
 };
+

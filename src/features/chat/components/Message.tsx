@@ -6,14 +6,17 @@ import { formatDistance } from "date-fns";
 import styled from "styled-components";
 import { FadeBlock } from "../../../components/FadeBlock";
 import { useLayoutStore } from "../../../layoutStore";
-import { IMessage } from "../store";
 
+import { IMessage, useChatStore } from "../store";
+import { useRisingSoundsStore } from "../../risingSounds/store";
 
 const _Message = ({ message }: { message: IMessage }) => {
   const isMobile = useMediaQuery(`(max-width: 768px)`);
+  const store = useChatStore();
+  const setTableData = useRisingSoundsStore((state) => state.setTableData);
 
   useEffect(() => {
-    if(message.buttons && message.buttons[0] && message.buttons[0].onClick) {
+    if (message.buttons && message.buttons[0] && message.buttons[0].onClick) {
       message.buttons[0].onClick();
     }
   }, [message]);
@@ -39,32 +42,32 @@ const _Message = ({ message }: { message: IMessage }) => {
         </StyledText>
 
         {message?.buttons && message.buttons.length && (
-            <>
-              <Text c="#D1FD0A" fz={14}>
-                Choose an option:
-              </Text>
-              <Group gap={6}>
-                {message.buttons.map((btn) => (
-                  <StyledButton
-                    variant="outline"
-                    radius="xl"
-                    color="#D1FD0A"
-                    onClick={() => {
-                      btn.onClick && btn.onClick()
+          <>
+            <Text c="#D1FD0A" fz={14}>
+              Choose an option:
+            </Text>
+            <Group gap={6}>
+              {message.buttons.map((btn) => (
+                <StyledButton
+                  variant="outline"
+                  radius="xl"
+                  color="#D1FD0A"
+                  onClick={() => {
+                    btn.onClick && btn.onClick();
 
-                      if (isMobile) {
-                        useLayoutStore.setState({
-                          chatOpened: false,
-                        });
-                      }
-                    }}
-                  >
-                    {btn.label}
-                  </StyledButton>
-                ))}
-              </Group>
-            </>
-          )}
+                    if (isMobile) {
+                      useLayoutStore.setState({
+                        chatOpened: false,
+                      });
+                    }
+                  }}
+                >
+                  {btn.label}
+                </StyledButton>
+              ))}
+            </Group>
+          </>
+        )}
       </Stack>
     </FadeBlock>
   );
