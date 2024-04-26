@@ -15,6 +15,7 @@ import { useThrottledCallback } from "use-debounce";
 import { useLayoutStore } from "../../../layoutStore";
 import { useGreetingStore } from "../store";
 import { Benefit } from "./Benefit";
+import { ModalVideo } from "./ModalVideo";
 
 gsap.registerPlugin(TextPlugin);
 
@@ -52,6 +53,7 @@ export const Greeting = () => {
           <Title size="3rem" className="title" />
         </Stack>
 
+        <ModalVideo />
         <TypographyStylesProvider>
           <Stack gap={25}>
             <Text className="text1" />

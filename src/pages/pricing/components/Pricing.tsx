@@ -43,7 +43,7 @@ const CardContainer = styled.div`
   border-radius: 16px;
 `;
 
-const SignedText = styled.label`
+export const SignedText = styled.label`
   color: #d1fd0a;
 `;
 
@@ -159,6 +159,10 @@ const PackageCardContainer = styled.div`
   z-index: 1;
 `;
 
+const H4Style = styled.h4`
+  font-sixe: 48px;
+`;
+
 const CustomBudget = ({ text }: { text: string }) => {
   return (
     <label style={comingSoonStyle} className="mx-1">
@@ -169,7 +173,8 @@ const CustomBudget = ({ text }: { text: string }) => {
 };
 
 
-export const Pricing = ({ showFooter = true }) => {
+
+export const Pricing = ({ showFooter = true, isModal = true }) => {
   const basicPackage = [
     { image: Check, signedText: "10 questions", text: "AI Copilot GI", comingSoon: false },
 
@@ -322,9 +327,13 @@ export const Pricing = ({ showFooter = true }) => {
   };
 
   const location = useLocation();
-
-
   const isPricingPage = location.pathname === "/pricing";
+
+  const headingStyle = {
+    fontSize: '48px',
+    margin: "auto",
+    ...(isPricingPage && isModal && { paddingTop: "60px" })
+  };
 
 
   return (
@@ -338,7 +347,10 @@ export const Pricing = ({ showFooter = true }) => {
         height: "100vh",
       }}
     >
-      <h2>Select your plan to enjoy more from GROMUS AI</h2>
+
+      <h2 style={headingStyle}>
+        Select your plan to enjoy more from GROMUS AI
+      </h2>
 
       <SignedText className="text-center">
         Unlock AI-Powered Solution! Elevate Your Grow Potential Today.

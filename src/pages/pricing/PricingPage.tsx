@@ -10,7 +10,6 @@ export const PricingPage = () => {
     <Row>
       <NavBarPricing />
       <Pricing />
-
     </Row>
   );
 };

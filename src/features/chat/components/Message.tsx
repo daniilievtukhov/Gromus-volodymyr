@@ -10,10 +10,13 @@ import { useLayoutStore } from "../../../layoutStore";
 import { IMessage, useChatStore } from "../store";
 import { useRisingSoundsStore } from "../../risingSounds/store";
 
+
+
 const _Message = ({ message }: { message: IMessage }) => {
   const isMobile = useMediaQuery(`(max-width: 768px)`);
   const store = useChatStore();
   const setTableData = useRisingSoundsStore((state) => state.setTableData);
+
 
   useEffect(() => {
     if (message.buttons && message.buttons[0] && message.buttons[0].onClick) {
@@ -41,7 +44,9 @@ const _Message = ({ message }: { message: IMessage }) => {
           {message.message}
         </StyledText>
 
+
         {message?.buttons && message.buttons.length && (
+
           <>
             <Text c="#D1FD0A" fz={14}>
               Choose an option:
@@ -53,7 +58,7 @@ const _Message = ({ message }: { message: IMessage }) => {
                   radius="xl"
                   color="#D1FD0A"
                   onClick={() => {
-                    btn.onClick && btn.onClick();
+                    btn.onClick && btn.onClick()
 
                     if (isMobile) {
                       useLayoutStore.setState({
