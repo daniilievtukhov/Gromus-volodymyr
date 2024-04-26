@@ -7,7 +7,7 @@ interface IPricingModal {
 }
 
 export const pricingModal = create<IPricingModal>((set) => ({
-    modalState: true,
+    modalState: false,
     openModal: () => set((state:any) => ({...state,  modalState: true})),
     closeModal: () => set((state:any) => ({...state,  modalState: false}))  
 }));
