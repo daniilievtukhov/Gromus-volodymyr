@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ActionIcon, Alert, AppShell, Avatar, Box, Burger, Flex, Tooltip } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { IconBolt } from "@tabler/icons-react";
@@ -8,25 +8,45 @@ import styled, { keyframes } from "styled-components";
 import { curvesBg } from "../assets";
 import { Chat } from "../features/chat";
 import { MusicVideosModal } from "../features/musicVideosModal/MusicVideosModal";
+import { PricingModal } from "./pricing/components/PricingModal";
 import { SideMenu } from "../features/sideMenu";
 import { UserMenu } from "../features/userMenu/UserMenu";
 import { useGlobalStore } from "../globalStore";
 import { useLogout } from "../hooks/useLogout";
 import { setChatOpened, toggleSideMenu, useLayoutStore, setNavbarOpened } from "../layoutStore";
+import { pricingModal } from "./pricing/hooks/triggerPricingModalHook";
 
 export const MainPage = () => {
   const { navbarOpened, chatOpened, showAlert } = useLayoutStore();
   const userInfo = useGlobalStore((s) => s.userInfo);
   const logout = useLogout(userInfo.userName);
+  const store = useGlobalStore();
+  const [opened, setOpened] = useState<boolean>(false);
+  const pricing = pricingModal();
+  const { limit } = store;
+  const mockLim = 0;
 
   useEffect(() => {
     setChatOpened(true);
     setNavbarOpened(true);
+    const interval = setInterval(() => {
+      pricing.openModal()
+    }, 300000);
+    return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (!mockLim && !opened) {
+      setOpened(true);
+    }
+  }, [mockLim, opened]);
+
   const isMobile = useMediaQuery(`(max-width: 768px)`);
 
   return (
     <>
+      <PricingModal /> 
+
       <StyledShell
         withBorder={false}
         navbar={{

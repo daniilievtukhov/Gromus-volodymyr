@@ -13,7 +13,6 @@ export const DownloadVideo = () => {
       <Button
         color="rgba(58, 58, 58, 1)"
         variant="filled"
-        hoverVariant="filled"
         style={{ width: 100, height: 35, color: "white" }}
       >
         <IconCopy size={18} />
@@ -22,7 +21,6 @@ export const DownloadVideo = () => {
       <Button
         color="rgba(209, 253, 10, 1)"
         variant="filled"
-        hoverVariant="filled"
         style={{ width: 140, height: 35, color: "black" }}
       >
         <Image src={downloadSvg} /> Download

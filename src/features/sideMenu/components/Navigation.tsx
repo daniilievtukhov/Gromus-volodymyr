@@ -41,7 +41,8 @@ export const Navigation = () => {
           { label: "Performance", link: "/performance", isComing: true },
           { label: "Collaborations", link: "/collaborations", isComing: true },
           { label: "Reports", link: "/reports", isComing: true },
-          { label: "Links History", link: "/links-history" },
+          { label: "Links History", link: "/links-history", isComing: true },
+          { label: "Voice History", link: "/voice-history" },
           // { label: "Pricing", link: "/pricing" },
         ],
       },
@@ -167,7 +168,7 @@ const MenuItem = ({ data }: { data: MenuItemChild }) => {
             size="compact-sm"
             rightSection={
               <Flex gap={4}>
-                <IconLockFilled size={14} color="#D1FD0A" />
+                <span style={{ color: "#D1FD0A" }}>Soon</span>
               </Flex>
             }
           >

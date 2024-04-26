@@ -7,9 +7,16 @@ import arrowSvg from "./icons/arrow.svg";
 import chevronSvg from "./icons/chevron.svg";
 import searchSvg from "./icons/search.svg";
 import playSvg from "./icons/play.svg";
-import inspectSvg from "./icons/inspect.svg"
-
+import inspectSvg from "./icons/inspect.svg";
+import bulletSvg from "./icons/bullet.svg";
 import downloadSvg from "./icons/download.svg";
+import microSvg from "./icons/micro.svg";
+import microphoneSvg from "./icons/microphone.svg";
+import uploadSvg from "./icons/upload.svg";
+import blackMicrophoneSvg from "./icons/black_microphone.svg";
+import blackUploadSvg from "./icons/black_upload.svg";
+import whiteMicrophoneSvg from "./icons/white_microphone.svg";
+import whiteUploadSvg from "./icons/white_upload.svg";
 //pricing page
 import LogoGromus from "./icons/Logo.svg";
 import Check from "./icons/check.svg";
@@ -42,7 +49,15 @@ export {
   downloadSvg,
   searchSvg,
   playSvg,
-  inspectSvg
+  inspectSvg,
+  bulletSvg,
+  microSvg,
+  microphoneSvg,
+  uploadSvg,
+  blackMicrophoneSvg,
+  blackUploadSvg,
+  whiteMicrophoneSvg,
+  whiteUploadSvg,
 };
 export { curvesBg, ellipseBg };
 export { appleMusic, bell, shazam, spotify, tiktok, bulleted_list };

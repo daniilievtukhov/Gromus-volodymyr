@@ -1,978 +1,400 @@
 import React from "react";
-// import { Row, Container, Col, Image, Button } from "react-bootstrap";
-import { Check, Close } from "../../../assets/index";
 import styled from "styled-components";
-import {
-  Badge,
-  Box,
-  Button,
-  Divider,
-  Flex,
-  Stack,
-  Text,
-  Paper,
-  Image,
-  Tooltip,
-  ActionIcon,
-} from "@mantine/core";
-// const pricingHeader: React.CSSProperties = {
-//   height: "100px",
-// };
+import { Grid, Button } from "@mantine/core";
+import { Footer } from "./FooterPricing";
 
-// const basicStyle: React.CSSProperties = {
-//   fontWeight: "700",
-//   fontSize: "18px",
-// };
+import Check from "../../../assets/icons/check.svg";
+import Close from "../../../assets/icons/close.svg";
 
-// const freeStyle: React.CSSProperties = {
-//   fontWeight: "500",
-//   fontSize: "40px",
-//   color: "#D1FD0A",
-// };
+import { useLocation } from "react-router-dom";
 
-// export const separator: React.CSSProperties = {
-//   color: "rgba(255, 255, 255, 0.5)",
-//   height: "2px",
-// };
+const PricingContainer = styled.div`
+  color: white;
+  margin: auto;
+  text-align: center;
+`;
 
-// const cardContainer: React.CSSProperties = {
-//   backgroundColor: "rgba(0, 0, 0, 0.35)",
-//   borderRadius: "16px",
-// };
+const PricingHeader = styled.div`
+  height: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 1rem;
+`;
 
-// const signedText: React.CSSProperties = {
-//   color: "#D1FD0A",
-// };
+const BasicLabel = styled.label`
+  font-weight: 700;
+  font-size: 18px;
+`;
 
-// const comingSoonStyle: React.CSSProperties = {
-//   color: "#D1FD0A",
-//   background: "rgba(209, 253, 10, 0.05)",
-//   padding: "8px",
-//   borderRadius: "16px",
-//   fontSize: "13px",
-// };
+const FreeLabel = styled.label`
+  font-weight: 500;
+  font-size: 40px;
+  color: #d1fd0a;
+`;
 
-// const freePackageBtn: React.CSSProperties = {
-//   background: "rgba(255, 255, 255, 0.04)",
-//   padding: "20px, 32px",
-//   borderRadius: "8px",
-//   maxWidth: "450px",
-//   borderColor: "rgba(255, 255, 255, 0.04)",
-//   fontSize: "15px",
-//   fontWeight: "700",
-//   letterSpacing: "12%",
-// };
+const Separator = styled.hr`
+  color: rgba(255, 255, 255, 0.05);
+  height: 2px;
+`;
 
-// export const subscribePackageBtn: React.CSSProperties = {
-//   background: "rgba(209, 253, 10, 1)",
-//   padding: "20px, 32px",
-//   borderRadius: "8px",
-//   maxWidth: "450px",
-//   borderColor: "rgba(209, 253, 10, 1)",
-//   fontSize: "15px",
-//   fontWeight: "700",
-//   letterSpacing: "12%",
-// };
+const CardContainer = styled.div`
+  border-radius: 16px;
+`;
 
-// export const btnDescription: React.CSSProperties = {
-//   color: "#CBCBCB",
-//   fontWeight: "400",
-//   fontSize: "14px",
-// };
+const SignedText = styled.label`
+  color: #d1fd0a;
+`;
 
-// const cardBgContainer: React.CSSProperties = {
-//   position: "relative",
-// };
+const ComingSoon = styled.label`
+  color: #d1fd0a;
+  background: rgba(209, 253, 10, 0.05);
+  padding: 8px;
+  border-radius: 16px;
+  font-size: 13px;
+  text-wrap: nowrap;
+`;
 
-// const cardBgContainerAfter: React.CSSProperties = {
-//   content: "",
-//   position: "absolute",
-//   top: "1%",
-//   left: "100%",
-//   transform: "translate(-50%, -50%)",
-//   width: "100%",
-//   height: "100%",
-//   maxWidth: "450px",
-//   maxHeight: "450px",
-//   background: "radial-gradient(circle at center, rgba(209, 253, 10, 0.05) 15%, transparent 100%)",
-//   borderRadius: "50%",
-//   filter: "blur(5px)",
-//   zIndex: 1,
-// };
+const FreePackageBtn = styled(Button)`
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.04);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 12%;
+    width: 90%;
+    height: 60px;
+    border-radius: 8px;
+    margin-bottom: 10px;
 
-// const cardBgContainerRight: React.CSSProperties = {
-//   position: "relative",
-// };
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.1);
+`;
 
-// const cardBgContainerRightAfter: React.CSSProperties = {
-//   content: "",
-//   position: "absolute",
-//   top: "80%",
-//   left: "20%",
-//   transform: "translate(-50%, -50%)",
-//   width: "100%",
-//   height: "100%",
-//   maxWidth: "550px",
-//   maxHeight: "550px",
-//   background: "radial-gradient(circle at center, rgba(209, 253, 10, 0.05) 25%, transparent 100%)",
-//   borderRadius: "50%",
-//   filter: "blur(5px)",
-//   zIndex: 1,
-// };
+export const SubscribePackageBtn = styled(Button)`
+  background: #d1fd0a;
+  border-color: #d1fd0a;
+  color: black;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 12%;
+  width: 90%;
+  height: 60px;
+  border-radius: 8px;
+  margin-bottom: 10px;
 
-// const CustomBudget = ({ text }: { text: string }) => {
-//   return (
-//     <label style={comingSoonStyle} className="mx-1">
-//       {" "}
-//       {text}{" "}
-//     </label>
-//   );
-// };
+  &:hover {
+    background: #d1fd0b;
+    border-color: #d1fd0a;
+    color: black;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+`;
 
-export const Pricing = () => {
+const BtnDescription = styled.label`
+  color: #cbcbcb;
+  font-weight: 400;
+  font-size: 14px;
+  padding-top: 5px;
+`;
+
+const CustomBudgetColor = styled.span`
+  color: #d1fd0a;
+`;
+
+const comingSoonStyle: React.CSSProperties = {
+  color: "#D1FD0A",
+  background: "rgba(209, 253, 10, 0.05)",
+  padding: "8px",
+  borderRadius: "16px",
+  fontSize: "13px",
+  textWrap: "nowrap",
+};
+
+const cardBgContainer: React.CSSProperties = {
+  position: "relative",
+};
+
+const cardBgContainerAfter: React.CSSProperties = {
+  content: "",
+  position: "absolute",
+  top: "20%",
+  left: "60%",
+  transform: "translate(-50%, -50%)",
+  width: "100%",
+  height: "100%",
+  maxWidth: "400px",
+  maxHeight: "400px",
+  background: "radial-gradient(circle at center, rgba(209, 253, 10, 0.05) 15%, transparent 100%)",
+  borderRadius: "50%",
+  filter: "blur(5px)",
+  zIndex: 1,
+};
+
+const cardBgContainerRight: React.CSSProperties = {
+  position: "relative",
+};
+
+const cardBgContainerRightAfter: React.CSSProperties = {
+  content: "",
+  position: "absolute",
+  top: "80%",
+  left: "20%",
+  transform: "translate(-50%, -50%)",
+  width: "100%",
+  height: "100%",
+  maxWidth: "400px",
+  maxHeight: "400px",
+  background: "radial-gradient(circle at center, rgba(209, 253, 10, 0.05) 25%, transparent 100%)",
+  borderRadius: "50%",
+  filter: "blur(5px)",
+  zIndex: 1,
+};
+
+const PackageCardContainer = styled.div`
+  background-color: rgba(0, 0, 0, 0.35);
+  border-radius: 16px;
+  padding: 20px;
+  z-index: 1;
+`;
+
+const CustomBudget = ({ text }: { text: string }) => {
   return (
-    <>
-      <StyledFlex>
-        <Box style={{ margin: "0 10px" }}>
-          <Paper
-            style={{
-              height: "50px",
-              backgroundColor: "#00000082",
-              borderRadius: 0,
-            }}
-          >
-            <Flex align="center" justify="space-between" style={{ height: "100%", marginLeft: 8 }}>
-              <Flex align="center" style={{ height: "100%" }}>
-                <Text
-                  fz={16}
-                  fw={600}
-                  c={"#fff"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginRight: 8 }}
-                >
-                  BASIC
-                </Text>
-              </Flex>
-              <Flex align="center" style={{ height: "100%" }}>
-                <Text
-                  fz={30}
-                  fw={600}
-                  c={"#D1FD0A"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginLeft: 8 }}
-                >
-                  FREE
-                </Text>
-              </Flex>
-            </Flex>
-          </Paper>
-          <Wrapper>
-            <Stack gap={12}>
-              <Flex align="center" style={{ marginBottom: "1.5em" }}>
-                <Image src={Check} width={14} height={14} style={{ marginRight: 8 }} />
-                <Text fz={14} fw={600} c={"#fff"} lh={1.25} truncate="end">
-                  10 questions for AI Copilot GI
-                </Text>
-              </Flex>
-              <Flex align="center" style={{ marginBottom: "1.5em" }}>
-                <Image src={Close} width={14} height={14} style={{ marginRight: 8 }} />
-                <Text
-                  fz={14}
-                  fw={600}
-                  c={"#fff"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginRight: 8 }}
-                >
-                  AI Personalized Best Time & Day to Post
-                </Text>
-              </Flex>
-              <Flex align="center" style={{ marginBottom: "1.5em" }}>
-                <Image src={Check} width={14} height={14} style={{ marginRight: 8 }} />
-                <Text
-                  fz={14}
-                  fw={600}
-                  c={"#fff"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginRight: 8 }}
-                >
-                  3 times of AI Personalized Account Analytics
-                </Text>
-              </Flex>
-              <Flex align="center" style={{ marginBottom: "1.5em" }}>
-                <Image src={Check} width={14} height={14} style={{ marginRight: 8 }} />
-                <Text
-                  fz={14}
-                  fw={600}
-                  c={"#fff"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginRight: 8 }}
-                >
-                  3 times of TikTok Any Account Insights{" "}
-                </Text>
-              </Flex>
-              <Flex align="center" style={{ marginBottom: "1.5em" }}>
-                <Image src={Close} width={14} height={14} style={{ marginRight: 8 }} />
-                <Text
-                  fz={14}
-                  fw={600}
-                  c={"#fff"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginRight: 8 }}
-                >
-                  AI Personalized Hashtags{" "}
-                </Text>
-              </Flex>
-              <Flex align="center" style={{ marginBottom: "1.5em" }}>
-                <Image src={Close} width={14} height={14} style={{ marginRight: 8 }} />
-                <Text
-                  fz={14}
-                  fw={600}
-                  c={"#fff"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginRight: 8 }}
-                >
-                  Trending Hashtags{" "}
-                </Text>
-              </Flex>
-              <Flex align="center" style={{ marginBottom: "1.5em" }}>
-                <Image src={Check} width={14} height={14} style={{ marginRight: 8 }} />
-                <Text
-                  fz={14}
-                  fw={600}
-                  c={"#fff"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginRight: 8 }}
-                >
-                  3 times of TikTok Viral Sounds for any Territories{" "}
-                </Text>
-              </Flex>
-              <Flex align="center" style={{ marginBottom: "1.5em" }}>
-                <Image src={Check} width={14} height={14} style={{ marginRight: 8 }} />
-                <Text
-                  fz={14}
-                  fw={600}
-                  c={"#fff"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginRight: 8 }}
-                >
-                  3 times of Pro Platform{" "}
-                </Text>
-              </Flex>
-              <Flex align="center" style={{ marginBottom: "1.5em" }}>
-                <Image src={Close} width={14} height={14} style={{ marginRight: 8 }} />
-                <Text
-                  fz={14}
-                  fw={600}
-                  c={"#fff"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginRight: 8 }}
-                >
-                  AI To-Do Artist Plan{" "}
-                </Text>
-              </Flex>
-              <Flex align="center" style={{ marginBottom: "1.5em" }}>
-                <Image src={Close} width={14} height={14} style={{ marginRight: 8 }} />
-                <Text
-                  fz={14}
-                  fw={600}
-                  c={"#fff"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginRight: 8 }}
-                >
-                  Spotify AI Analytics{" "}
-                </Text>
-              </Flex>
-              <Flex align="center" style={{ marginBottom: "1.5em" }}>
-                <Image src={Close} width={14} height={14} style={{ marginRight: 8 }} />
-                <Text
-                  fz={14}
-                  fw={600}
-                  c={"#fff"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginRight: 8 }}
-                >
-                  Your Song AI Analytics{" "}
-                </Text>
-              </Flex>
-
-              <Button color="black">ACTIVATE FOR FREE</Button>
-              <Text
-                fz={14}
-                fw={600}
-                c={"#fff"}
-                lh={1.25}
-                truncate="end"
-                style={{ marginRight: 8, textAlign: "center" }}
-              >
-                Use completely free. Cancel anytime.
-              </Text>
-            </Stack>
-          </Wrapper>
-        </Box>
-
-        <Box style={{ margin: "0 10px" }}>
-          <Paper
-            style={{
-              height: "50px",
-              backgroundColor: "#00000082",
-              borderRadius: 0,
-            }}
-          >
-            <Flex align="center" justify="space-between" style={{ height: "100%", marginLeft: 8 }}>
-              <Flex align="center" style={{ height: "100%" }}>
-                <Text
-                  fz={16}
-                  fw={600}
-                  c={"#fff"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginRight: 8 }}
-                >
-                  Pro- 3 days trial
-                </Text>
-              </Flex>
-              <Flex align="center" style={{ height: "100%" }}>
-                <Text
-                  fz={30}
-                  fw={600}
-                  c={"#D1FD0A"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginLeft: 8 }}
-                >
-                  $9.99 / mo{" "}
-                </Text>
-              </Flex>
-            </Flex>
-          </Paper>
-          <Wrapper>
-            <Stack gap={12}>
-              <Flex align="center" style={{ marginBottom: "1.5em" }}>
-                <Image src={Check} width={14} height={14} style={{ marginRight: 8 }} />
-                <Text fz={14} fw={600} c={"#fff"} lh={1.25} truncate="end">
-                  300 questions for AI Copilot GI
-                </Text>
-              </Flex>
-              <Flex align="center" style={{ marginBottom: "1.5em" }}>
-                <Image src={Check} width={14} height={14} style={{ marginRight: 8 }} />
-                <Text
-                  fz={14}
-                  fw={600}
-                  c={"#fff"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginRight: 8 }}
-                >
-                  20 times of AI Personalized Best Time & Day to Post
-                </Text>
-              </Flex>
-              <Flex align="center" style={{ marginBottom: "1.5em" }}>
-                <Image src={Check} width={14} height={14} style={{ marginRight: 8 }} />
-                <Text
-                  fz={14}
-                  fw={600}
-                  c={"#fff"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginRight: 8 }}
-                >
-                  20 times of AI Personalized Account Analytics
-                </Text>
-              </Flex>
-              <Flex align="center" style={{ marginBottom: "1.5em" }}>
-                <Image src={Check} width={14} height={14} style={{ marginRight: 8 }} />
-                <Text
-                  fz={14}
-                  fw={600}
-                  c={"#fff"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginRight: 8 }}
-                >
-                  20 times of TikTok Any Account Insights{" "}
-                </Text>
-              </Flex>
-              <Flex align="center" style={{ marginBottom: "1.5em" }}>
-                <Image src={Close} width={14} height={14} style={{ marginRight: 8 }} />
-                <Text
-                  fz={14}
-                  fw={600}
-                  c={"#fff"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginRight: 8 }}
-                >
-                  AI Personalized Hashtags{" "}
-                </Text>
-              </Flex>
-              <Flex align="center" style={{ marginBottom: "1.5em" }}>
-                <Image src={Check} width={14} height={14} style={{ marginRight: 8 }} />
-                <Text
-                  fz={14}
-                  fw={600}
-                  c={"#fff"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginRight: 8 }}
-                >
-                  20 times of Trending Hashtags for any Territories
-                </Text>
-              </Flex>
-              <Flex align="center" style={{ marginBottom: "1.5em" }}>
-                <Image src={Check} width={14} height={14} style={{ marginRight: 8 }} />
-                <Text
-                  fz={14}
-                  fw={600}
-                  c={"#fff"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginRight: 8 }}
-                >
-                  20 times of TikTok Viral Sounds for any Territories{" "}
-                </Text>
-              </Flex>
-              <Flex align="center" style={{ marginBottom: "1.5em" }}>
-                <Image src={Check} width={14} height={14} style={{ marginRight: 8 }} />
-                <Text
-                  fz={14}
-                  fw={600}
-                  c={"#fff"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginRight: 8 }}
-                >
-                  20 times of Pro Platform{" "}
-                </Text>
-              </Flex>
-              <Flex align="center" style={{ marginBottom: "1.5em" }}>
-                <Image src={Check} width={14} height={14} style={{ marginRight: 8 }} />
-                <Text
-                  fz={14}
-                  fw={600}
-                  c={"#fff"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginRight: 8 }}
-                >
-                  AI To-Do Artist Plan{" "}
-                </Text>
-              </Flex>
-              <Flex align="center" style={{ marginBottom: "1.5em" }}>
-                <Image src={Check} width={14} height={14} style={{ marginRight: 8 }} />
-                <Text
-                  fz={14}
-                  fw={600}
-                  c={"#fff"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginRight: 8 }}
-                >
-                  Spotify AI Analytics{" "}
-                </Text>
-              </Flex>
-              <Flex align="center" style={{ marginBottom: "1.5em" }}>
-                <Image src={Check} width={14} height={14} style={{ marginRight: 8 }} />
-                <Text
-                  fz={14}
-                  fw={600}
-                  c={"#fff"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginRight: 8 }}
-                >
-                  2 times of Your Song AI Analytics
-                </Text>
-              </Flex>
-              <Button color="#D1FD0A" c={"black"}>
-                SUBSCRIBE NOW
-              </Button>
-              <Text
-                fz={14}
-                fw={600}
-                c={"#fff"}
-                lh={1.25}
-                truncate="end"
-                style={{ marginRight: 8, textAlign: "center" }}
-              >
-                $9.99/month. 3-day free trial. Cancel anytime.
-              </Text>
-            </Stack>
-          </Wrapper>
-        </Box>
-        <Box style={{ margin: "0 10px" }}>
-          <Paper
-            style={{
-              height: "50px",
-              backgroundColor: "#00000082",
-              borderRadius: 0,
-            }}
-          >
-            <Flex align="center" justify="space-between" style={{ height: "100%", marginLeft: 8 }}>
-              <Flex align="center" style={{ height: "100%" }}>
-                <Text
-                  fz={16}
-                  fw={600}
-                  c={"#fff"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginRight: 8 }}
-                >
-                  Advanced- 3 days trial
-                </Text>
-              </Flex>
-              <Flex align="center" style={{ height: "100%" }}>
-                <Text
-                  fz={30}
-                  fw={600}
-                  c={"#D1FD0A"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginLeft: 8 }}
-                >
-                  $19.99 / mo
-                </Text>
-              </Flex>
-            </Flex>
-          </Paper>
-          <Wrapper>
-            <Stack gap={12}>
-              <Flex align="center" style={{ marginBottom: "1.5em" }}>
-                <Image src={Check} width={14} height={14} style={{ marginRight: 8 }} />
-                <Text fz={14} fw={600} c={"#fff"} lh={1.25} truncate="end">
-                  1000 questions for AI Copilot GI
-                </Text>
-              </Flex>
-              <Flex align="center" style={{ marginBottom: "1.5em" }}>
-                <Image src={Check} width={14} height={14} style={{ marginRight: 8 }} />
-                <Text
-                  fz={14}
-                  fw={600}
-                  c={"#fff"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginRight: 8 }}
-                >
-                  Unlimited of AI Personalized Best Time & Day to Post
-                </Text>
-              </Flex>
-              <Flex align="center" style={{ marginBottom: "1.5em" }}>
-                <Image src={Check} width={14} height={14} style={{ marginRight: 8 }} />
-                <Text
-                  fz={14}
-                  fw={600}
-                  c={"#fff"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginRight: 8 }}
-                >
-                  Unlimited of AI Personalized Account Analytics
-                </Text>
-              </Flex>
-              <Flex align="center" style={{ marginBottom: "1.5em" }}>
-                <Image src={Check} width={14} height={14} style={{ marginRight: 8 }} />
-                <Text
-                  fz={14}
-                  fw={600}
-                  c={"#fff"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginRight: 8 }}
-                >
-                  Unlimited of TikTok Any Account Insights{" "}
-                </Text>
-              </Flex>
-              <Flex align="center" style={{ marginBottom: "1.5em" }}>
-                <Image src={Check} width={14} height={14} style={{ marginRight: 8 }} />
-                <Text
-                  fz={14}
-                  fw={600}
-                  c={"#fff"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginRight: 8 }}
-                >
-                  AI Personalized Hashtags{" "}
-                </Text>
-              </Flex>
-              <Flex align="center" style={{ marginBottom: "1.5em" }}>
-                <Image src={Check} width={14} height={14} style={{ marginRight: 8 }} />
-                <Text
-                  fz={14}
-                  fw={600}
-                  c={"#fff"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginRight: 8 }}
-                >
-                  Unlimited of Trending Hashtags for any Territories
-                </Text>
-              </Flex>
-              <Flex align="center" style={{ marginBottom: "1.5em" }}>
-                <Image src={Check} width={14} height={14} style={{ marginRight: 8 }} />
-                <Text
-                  fz={14}
-                  fw={600}
-                  c={"#fff"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginRight: 8 }}
-                >
-                  Unlimitedof TikTok Viral Sounds for any Territories{" "}
-                </Text>
-              </Flex>
-              <Flex align="center" style={{ marginBottom: "1.5em" }}>
-                <Image src={Check} width={14} height={14} style={{ marginRight: 8 }} />
-                <Text
-                  fz={14}
-                  fw={600}
-                  c={"#fff"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginRight: 8 }}
-                >
-                  Unlimited Pro Platform{" "}
-                </Text>
-              </Flex>
-              <Flex align="center" style={{ marginBottom: "1.5em" }}>
-                <Image src={Check} width={14} height={14} style={{ marginRight: 8 }} />
-                <Text
-                  fz={14}
-                  fw={600}
-                  c={"#fff"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginRight: 8 }}
-                >
-                  AI To-Do Artist Plan{" "}
-                </Text>
-              </Flex>
-              <Flex align="center" style={{ marginBottom: "1.5em" }}>
-                <Image src={Check} width={14} height={14} style={{ marginRight: 8 }} />
-                <Text
-                  fz={14}
-                  fw={600}
-                  c={"#fff"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginRight: 8 }}
-                >
-                  Spotify AI Analytics{" "}
-                </Text>
-              </Flex>
-              <Flex align="center" style={{ marginBottom: "1.5em" }}>
-                <Image src={Check} width={14} height={14} style={{ marginRight: 8 }} />
-                <Text
-                  fz={14}
-                  fw={600}
-                  c={"#fff"}
-                  lh={1.25}
-                  truncate="end"
-                  style={{ marginRight: 8 }}
-                >
-                  5 times of Your Song AI Analytics
-                </Text>
-              </Flex>
-              <Button color="#D1FD0A" c={"black"}>
-                SUBSCRIBE NOW
-              </Button>
-              <Text
-                fz={14}
-                fw={600}
-                c={"#fff"}
-                lh={1.25}
-                truncate="end"
-                style={{ marginRight: 8, textAlign: "center" }}
-              >
-                $19.99/month. 3-day free trial. Cancel anytime.
-              </Text>
-            </Stack>
-          </Wrapper>
-        </Box>
-      </StyledFlex>
-    </>
+    <label style={comingSoonStyle} className="mx-1">
+      {" "}
+      {text}{" "}
+    </label>
   );
 };
-const Wrapper = styled.div`
-  min-width: 280px;
-  background-color: #00000082;
-  padding: 20px;
-  padding-bottom: 10px;
-`;
-const Action: typeof ActionIcon = styled(ActionIcon).attrs({
-  size: 24,
-  variant: "subtle",
-  component: "a",
-  target: "_blank",
-})`
-  border: none;
-  border-radius: 50%;
-`;
-const StyledFlex = styled(Flex)`
-  margin-top: 50px;
-  height: 100vh;
-  align-items: center;
-  justify-content: center;
-`;
-// <div>
-//   <Row className="text-white mx-md-5 justify-content-center">
-//     <h2 className="text-center">Select your plan to enjoy more from GROMUS AI</h2>
-//     <p style={signedText} className="text-center">
-//       Unlock AI-Powered Solution! Elevate Your Grow Potential Today.
-//     </p>
 
-//     <Col className="col-xl-4 col-lg-8 col-md-9 col-sm-12 col-xs-12 mb-5 d-flex justify-content-center">
-//       <Container style={cardContainer} className="justify-content-center">
-//         <div style={pricingHeader} className="d-flex justify-content-between align-items-center mx-md-3">
-//           <label style={basicStyle}>BASIC</label>
-//           <label style={freeStyle}>FREE</label>
-//         </div>
-//         <hr style={separator} />
-//         <div className="d-flex align-items-center justify-content-start">
-//           <div style={cardBgContainer} className="card-container">
-//             <ul className="mb-3" style={{ listStyle: "none" }}>
-//               <li className="mb-3">
-//                 <Image height={24} src={Check} /> <label style={signedText}>10 questions</label>{" "}
-//                 for AI Copilot GI
-//               </li>
-//               <li className="mb-3">
-//                 <Image src={Close} /> AI Personalized Best Time & Day to Post
-//               </li>
-//               <li className="mb-3">
-//                 <Image src={Close} /> AI Personalized Best Time & Day to Post
-//               </li>
-//               <li className="mb-3">
-//                 <Image height={24} src={Check} /> <label style={signedText}>3 times</label> of
-//                 AI Personalized Account Analytics
-//               </li>
-//               <li className="mb-3">
-//                 <Image height={24} src={Check} /> <label style={signedText}>3 times</label> of
-//                 TikTok Any Account Insights
-//               </li>
-//               <li className="mb-3">
-//                 <Image src={Close} /> AI Personalized Hashtags
-//               </li>
-//               <li className="mb-3">
-//                 <Image src={Close} /> Trending Hashtags <CustomBudget text={"coming soon"} />
-//               </li>
-//               <li className="mb-3">
-//                 <Image height={24} src={Check} /> <label style={signedText}>3 times</label> of
-//                 TikTok Viral Sounds for any Territories
-//               </li>
-//               <li className="mb-3">
-//                 <Image height={24} src={Check} /> <label style={signedText}>3 times</label> of
-//                 Pro Platform
-//               </li>
-//               <li className="mb-3">
-//                 <Image src={Close} /> AI To-Do Artist Plan <CustomBudget text={"coming soon"} />
-//               </li>
-//               <li className="mb-3">
-//                 <Image src={Close} />
-//                 Spotify AI Analytics <CustomBudget text={"coming soon"} />
-//               </li>
-//               <li className="mb-3">
-//                 <Image src={Close} />
-//                 Your Song AI Analytics <CustomBudget text={"coming soon"} />
-//               </li>
-//               </ul>
-//             <div style={cardBgContainerAfter}></div>
-//           </div>
-//         </div>
-//         <Container className="text-center mt-3">
-//           <Button className="w-100 py-3" style={freePackageBtn}>
-//             ACTIVATE FOR FREE
-//           </Button>
-//           <label className="text-white mt-3" style={btnDescription}>
-//             {" "}
-//             Use completely free. Cancel anytime.{" "}
-//           </label>
-//         </Container>
-//       </Container>
-//     </Col>
+export const Pricing = ({ showFooter = true }) => {
+  const basicPackage = [
+    { image: Check, signedText: "10 questions", text: "AI Copilot GI", comingSoon: false },
+    {
+      image: Close,
+      signedText: "",
+      text: "AI Personalized Best Time & Day to Post",
+      comingSoon: false,
+    },
+    {
+      image: Check,
+      signedText: "3 times",
+      text: "AI Personalized Account Analytics",
+      comingSoon: false,
+    },
+    { image: Check, signedText: "3 times", text: "TikTok Any Account Insights", comingSoon: false },
+    { image: Close, signedText: "", text: "AI Personalized Hashtags", comingSoon: false },
+    { image: Close, signedText: "", text: "Trending Hashtags", comingSoon: true },
+    {
+      image: Check,
+      signedText: "3 times",
+      text: "TikTok Viral Sounds for any Territories",
+      comingSoon: false,
+    },
+    {
+      image: Check,
+      signedText: "3 times/day",
+      text: "data access at Pro Platform",
+      comingSoon: false,
+    },
+    { image: Close, signedText: "", text: "AI To-Do Artist Plan", comingSoon: true },
+    { image: Close, signedText: "", text: "Spotify AI Analytics", comingSoon: true },
+    { image: Close, signedText: "", text: "Your Song AI Analytics", comingSoon: true },
+  ];
 
-//     <Col className="col-xl-4 col-lg-8 col-md-9 col-sm-12 col-xs-12 mb-5 d-flex justify-content-center">
-//       <Container style={cardContainer} className="justify-content-center">
-//         <div
-//           style={pricingHeader}
-//           className="d-flex justify-content-between align-items-center mx-md-3"
-//         >
-//           <label className="text-center" style={basicStyle}>
-//             PRO <CustomBudget text={"3 days trial"} />
-//           </label>
-//           <div>
-//             <label className="text-nowrap" style={freeStyle}>
-//               $9.99
-//             </label>{" "}
-//             <label style={signedText}>/ mo</label>
-//           </div>
-//         </div>
+  const proPackage = [
+    { image: Check, signedText: "300 questions", text: "AI Copilot GI", comingSoon: false },
+    {
+      image: Check,
+      signedText: "20 times",
+      text: "AI Personalized Best Time & Day to Post",
+      comingSoon: false,
+    },
+    {
+      image: Check,
+      signedText: "20 times",
+      text: "AI Personalized Account Analytics",
+      comingSoon: false,
+    },
+    {
+      image: Check,
+      signedText: "20 times",
+      text: "of TikTok Any Account Insights",
+      comingSoon: false,
+    },
+    { image: Close, signedText: "", text: "AI Personalized Hashtags", comingSoon: false },
+    {
+      image: Check,
+      signedText: "20 times",
+      text: "of Trending Hashtags for any Territories",
+      comingSoon: true,
+    },
+    {
+      image: Check,
+      signedText: "20 times",
+      text: "TikTok Viral Sounds for any Territories",
+      comingSoon: false,
+    },
+    {
+      image: Check,
+      signedText: "20 times/day",
+      text: "data access at Pro Platform",
+      comingSoon: false,
+    },
+    { image: Check, signedText: "", text: "AI To-Do Artist Plan", comingSoon: true },
+    { image: Check, signedText: "", text: "Spotify AI Analytics", comingSoon: true },
+    { image: Check, signedText: "2 times", text: "Your Song AI Analytics", comingSoon: true },
+  ];
 
-//         <hr style={separator} />
+  const advancedPackage = [
+    { image: Check, signedText: "1000 questions", text: "AI Copilot GI", comingSoon: false },
+    {
+      image: Check,
+      signedText: "Unlimited",
+      text: "AI Personalized Best Time & Day to Post",
+      comingSoon: false,
+    },
+    {
+      image: Check,
+      signedText: "Unlimited",
+      text: "AI Personalized Account Analytics",
+      comingSoon: false,
+    },
+    {
+      image: Check,
+      signedText: "Unlimited",
+      text: "TikTok Any Account Insights",
+      comingSoon: false,
+    },
+    { image: Check, signedText: "", text: "AI Personalized Hashtags", comingSoon: false },
+    {
+      image: Check,
+      signedText: "Unlimited",
+      text: "Trending Hashtags for any Territories",
+      comingSoon: true,
+    },
+    {
+      image: Check,
+      signedText: "Unlimited",
+      text: "TikTok Viral Sounds for any Territories",
+      comingSoon: false,
+    },
+    { image: Check, signedText: "Unlimited", text: "Pro Platform", comingSoon: false },
+    { image: Check, signedText: "", text: "AI To-Do Artist Plan", comingSoon: true },
+    { image: Check, signedText: "", text: "Spotify AI Analytics", comingSoon: true },
+    { image: Check, signedText: "5 times", text: "Your Song AI Analytics", comingSoon: true },
+  ];
 
-//         <div className="d-flex align-items-center justify-content-start">
-//           <ul style={{ listStyle: "none" }}>
-//             <li className="mb-3">
-//               <Image height={24} src={Check} /> <label style={signedText}>300 questions</label>{" "}
-//               for AI Copilot GI
-//             </li>
-//             <li className="mb-3">
-//               <Image src={Check} />
-//               <label style={signedText}>20 times</label> of AI Personalized Best Time & Day to
-//               Post
-//             </li>
-//             <li className="mb-3">
-//               <Image height={24} src={Check} /> <label style={signedText}>20 times</label> of AI
-//               Personalized Account Analytics
-//             </li>
-//             <li className="mb-3">
-//               <Image height={24} src={Check} /> <label style={signedText}>20 times</label> of
-//               TikTok Any Account Insights
-//             </li>
+  const renderPackageItems = ({
+    arr,
+  }: {
+    arr: { image: string; signedText: string; text: string; comingSoon: boolean }[];
+  }) => {
+    return (
+      <ul style={{ listStyleType: "none", paddingLeft: "0px" }}>
+        {arr.map(
+          (
+            item: { image: string; signedText: string; text: string; comingSoon: boolean },
+            index: number,
+          ) => (
+            <li key={index} style={{ marginBottom: "20px", display: "flex", alignItems: "center" }}>
+              <img height={24} src={item.image} style={{ marginRight: "10px" }} />
+              <div style={{ marginRight: "10px" }}>
+                <label style={{ color: " #D1FD0A", paddingRight: "5px" }}>{item.signedText}</label>
+                {item.text}
+              </div>
+              {item.comingSoon && <CustomBudget text="coming soon" />}
+            </li>
+          ),
+        )}
+      </ul>
+    );
+  };
 
-//             <li className="mb-3">
-//               <Image src={Close} /> AI Personalized Hashtags
-//             </li>
+  const location = useLocation();
 
-//             <li className="mb-3">
-//               <Image src={Check} /> <label style={signedText}>20 times</label> of Trending
-//               Hashtags for any Territories <CustomBudget text={"coming soon"} />
-//             </li>
+  const isPricingPage = location.pathname === "/pricing";
 
-//             <li className="mb-3">
-//               <Image height={24} src={Check} /> <label style={signedText}>20 times</label> of
-//               TikTok Viral Sounds for any Territories
-//             </li>
+  return (
+    <PricingContainer
+      style={{
+        marginBottom: "60px",
+        alignItems: "center",
+        backgroundColor: "#0D0D0E",
+        height: "100vh",
+      }}
+    >
+      <h2>Select your plan to enjoy more from GROMUS AI</h2>
+      <SignedText className="text-center">
+        Unlock AI-Powered Solution! Elevate Your Grow Potential Today.
+      </SignedText>
+      <Grid
+        style={{
+          padding: "30px",
+          paddingBottom: "100px",
+          backgroundColor: "#0D0D0E",
+        }}
+        justify="center"
+      >
+        <Grid.Col span={{ base: 12, md: 8, lg: 4 }}>
+          <PackageCardContainer>
+            <div style={cardBgContainer}>
+              <PricingHeader>
+                <BasicLabel>BASIC</BasicLabel>
+                <FreeLabel>FREE</FreeLabel>
+              </PricingHeader>
+              <Separator />
+              <FreePackageBtn>ACTIVATE FOR FREE</FreePackageBtn>
+              <CardContainer>
+                {renderPackageItems({ arr: basicPackage })}
+                <br />
+                <BtnDescription>Use completely free. Cancel anytime.</BtnDescription>
+              </CardContainer>
+              <div style={cardBgContainerAfter}></div>
+            </div>
+          </PackageCardContainer>
+        </Grid.Col>
 
-//             <li className="mb-3">
-//               <Image height={24} src={Check} /> <label style={signedText}>20 times</label> of
-//               Pro Platform
-//             </li>
+        <Grid.Col span={{ base: 12, md: 8, lg: 4 }}>
+          <PackageCardContainer>
+            <PricingHeader>
+              <BasicLabel>PRO </BasicLabel>
+              <div>
+                <FreeLabel>$9.99</FreeLabel> <SignedText>/ mo</SignedText>
+              </div>
+            </PricingHeader>
+            <Separator />
+            <SubscribePackageBtn>SUBSCRIBE NOW</SubscribePackageBtn>
+            <CardContainer>
+              {renderPackageItems({ arr: proPackage })}
 
-//             <li className="mb-3">
-//               <Image src={Check} /> AI To-Do Artist Plan <CustomBudget text={"coming soon"} />
-//             </li>
-//             <li className="mb-3">
-//               <Image src={Check} />
-//               Spotify AI Analytics <CustomBudget text={"coming soon"} />
-//             </li>
-//             <li className="mb-3">
-//               <Image src={Check} />
-//               <label style={signedText}>2 times</label> of Your Song AI Analytics{" "}
-//               <CustomBudget text={"coming soon"} />
-//             </li>
-//           </ul>
-//         </div>
+              <BtnDescription>$9.99/month. Cancel anytime.</BtnDescription>
+            </CardContainer>
+          </PackageCardContainer>
+        </Grid.Col>
 
-//         <Container className="text-center">
-//           <Button className="w-100 py-3 text-black" style={subscribePackageBtn}>
-//             SUBSCRIBE NOW
-//           </Button>
-//           <label className="text-white w-100 mt-3" style={btnDescription}>
-//             {" "}
-//             $9.99/month. 3-day free trial. Cancel anytime.{" "}
-//           </label>
-//         </Container>
-//      </Container>
-//     </Col>
+        <Grid.Col span={{ base: 12, md: 8, lg: 4 }}>
+          <PackageCardContainer>
+            <div style={cardBgContainerRight}>
+              <PricingHeader>
+                <BasicLabel>ADVANCED</BasicLabel>
+                <div>
+                  <FreeLabel>$19.99</FreeLabel> <SignedText>/ mo</SignedText>
+                </div>
+              </PricingHeader>
+              <Separator />
+              <SubscribePackageBtn>SUBSCRIBE NOW</SubscribePackageBtn>
+              <CardContainer>
+                {renderPackageItems({ arr: advancedPackage })}
 
-//     <Col className="col-xl-4 col-lg-8 col-md-9 col-sm-12 col-xs-12 mb-5 d-flex justify-content-center">
-//       <Container style={cardContainer} className="justify-content-center">
-//         <div
-//           style={pricingHeader}
-//           className="d-flex justify-content-between align-items-center mx-md-3"
-//         >
-//           <label style={basicStyle}>
-//             ADVANCED <CustomBudget text={"3 days trial"} />
-//           </label>
-
-//           <div>
-//             <label className="text-nowrap" style={freeStyle}>
-//               $19.99{" "}
-//             </label>
-//             <label style={signedText}>/ mo</label>
-//           </div>
-//         </div>
-
-//         <hr style={separator} />
-
-//         <div className="d-flex align-items-center justify-content-start">
-//           <div style={cardBgContainerRight}>
-//             <ul style={{ listStyle: "none" }}>
-//               <li className="mb-3">
-//                 <Image height={24} src={Check} />{" "}
-//                 <label style={signedText}>1000 questions</label> for AI Copilot GI
-//               </li>
-//               <li className="mb-3">
-//                 <Image src={Check} />
-//                 <label style={signedText}>Unlimited</label> AI Personalized Best Time & Day to
-//                 Post
-//               </li>
-//               <li className="mb-3">
-//                 <Image height={24} src={Check} /> <label style={signedText}>Unlimited</label> AI
-//                 Personalized Account Analytics
-//               </li>
-//               <li className="mb-3">
-//                 <Image height={24} src={Check} /> <label style={signedText}>Unlimited</label>{" "}
-//                 TikTok Any Account Insights
-//               </li>
-
-//               <li className="mb-3">
-//                 <Image src={Check} /> AI Personalized Hashtags
-//               </li>
-
-//               <li className="mb-3">
-//                 <Image src={Check} /> <label style={signedText}>Unlimited</label> Trending
-//                 Hashtags for any Territories <CustomBudget text={"coming soon"} />
-//               </li>
-
-//               <li className="mb-3">
-//                 <Image height={24} src={Check} /> <label style={signedText}>Unlimited</label>{" "}
-//                 TikTok Viral Sounds for any Territories
-//               </li>
-
-//               <li className="mb-3">
-//                 <Image height={24} src={Check} /> <label style={signedText}>Unlimited</label>{" "}
-//                 Pro Platform
-//               </li>
-
-//               <li className="mb-3">
-//                 <Image src={Check} /> AI To-Do Artist Plan <CustomBudget text={"coming soon"} />
-//               </li>
-//               <li className="mb-3">
-//                 <Image src={Check} />
-//                 Spotify AI Analytics <CustomBudget text={"coming soon"} />
-//               </li>
-//               <li className="mb-3">
-//                 <Image src={Check} />
-//                 <label style={signedText}>5 times</label> of Your Song AI Analytics{" "}
-//                 <CustomBudget text={"coming soon"} />
-//               </li>
-//             </ul>
-//             <div style={cardBgContainerRightAfter}></div>
-//           </div>
-//         </div>
-
-//         <Container className="text-center">
-//           <Button className="w-100 py-3 text-black" style={subscribePackageBtn}>
-//             SUBSCRIBE NOW
-//           </Button>
-//           <label className="text-white w-100 mt-3" style={btnDescription}>
-//             {" "}
-//             $9.99/month. 3-day free trial. Cancel anytime.{" "}
-//           </label>
-//         </Container>
-//       </Container>
-//     </Col>
-//   </Row>
-// </div>
+                <BtnDescription>$19.99/month. Cancel anytime.</BtnDescription>
+              </CardContainer>
+              <div style={cardBgContainerRightAfter}></div>
+            </div>
+          </PackageCardContainer>
+        </Grid.Col>
+      </Grid>
+      {showFooter && isPricingPage && <Footer />}
+    </PricingContainer>
+  );
+};

@@ -1,98 +1,133 @@
-// import React from "react";
-// import { Row, Col, Container, Image, Button } from "react-bootstrap";
-// import { LogoGromus, DiscordIcon, InsIcon, SpotifyIcon } from "../../../assets/index";
 
-// import { btnDescription, subscribePackageBtn, separator } from "../components/Pricing";
+import { Button, Grid } from '@mantine/core';
+import Gromus from '../../../assets/icons/Logo.svg';
+import DiscordIcon from '../../../assets/icons/mingcute_discord-fill.svg';
+import InstIcon from '../../../assets/icons/mingcute_ins-fill.svg';
+import SpotifyIcon from '../../../assets/icons/mingcute_spotify-fill.svg';
 
-// const footerStyle: React.CSSProperties = {
-//   marginTop: "90px",
-// };
+import styled from 'styled-components';
 
-// const footerLink: React.CSSProperties = {
-//   color: "#D1FD0A",
-//   textDecoration: "underline",
-//   cursor: "pointer",
-// };
+const FooterWrapper = styled.footer`
+  background-color: #0D0D0E;
+  padding: 10px 0;
+  text-align: center;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+	overflow-x: hidden;
+`;
 
-// export const Footer = () => {
-//   return (
-//     <Row style={footerStyle} className="d-flex justify-content-center px-5">
-//       <Col className="col-lg-4 col-md-4 col-sm-7 col-xs-10 mb-4">
-//         <Container>
-//           <Image className="" src={LogoGromus} height={30} width={170} />
-//           <label className="text-white py-3 w-100" style={btnDescription}>
-//             Sparks of inspiration are in every note.{" "}
-//           </label>
-//         </Container>
-//       </Col>
+const SignedUnderlineText = styled.label`
+  color: #D1FD0A;
+  text-decoration: underline;
+`;
 
-//       <Col className="col-lg-4 col-md-4 col-sm-7 col-xs-10 mb-4">
-//         <Container>
-//           <Row>
-//             <Col className="flex-column text-white gap-2 col-lg-4 col-md-6 col-sm-10">
-//               <h6>SOLUTIONS</h6>
-//               <ul className="mb-3" style={{ listStyle: "none", padding: "0px" }}>
-//                 <li className="mb-3">Use Cases</li>
-//               </ul>
-//             </Col>
+const StyledFooterButton = styled(Button)`
+    background: #D1FD0A;
+    border-color: #D1FD0A;
+    color: black;
+    font-size: 15px;
+    border-radius: 8px;
+    width: 100px;
+    height: 40px;
+    transition: width 0.3s, height 0.3s;
+    margin: 5px;
 
-//             <Col className="flex-column text-white gap-2 col-lg-4 col-md-6 col-sm-10">
-//               <h6>COMPANY</h6>
-//               <ul className="mb-3" style={{ listStyle: "none", padding: "0px" }}>
-//                 <li className="mb-3">Pricing</li>
-//                 <li className="mb-3">Contact</li>
-//               </ul>
-//             </Col>
+    &:hover {
+        background: #D1FD0B;
+        border-color: #D1FD0A;
+        color: black;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+`;
 
-//             <Col className="text-white gap-2 col-lg-4 col-md-6 col-sm-10">
-//               <h6>RESOURCES</h6>
-//               <ul className="mb-3" style={{ listStyle: "none", padding: "0px" }}>
-//                 <li className="mb-3">Blog</li>
-//                 <li className="mb-3">Privicy Policy</li>
-//                 <li className="mb-3">Cookie Policy</li>
-//               </ul>
-//             </Col>
-//           </Row>
-//         </Container>
-//       </Col>
+export function Footer() {
+	return (
+		<FooterWrapper>
+			<Grid style={{ paddingLeft: "50px", gap: 50 }} justify='center'>
+				<Grid.Col style={{ paddingLeft: "20px", flexDirection: "column", textAlign: "left", alignItems: "flex-start" }} span={{ base: 8, xs: 8, sm: 6, md: 4, lg: 4 }}>
+					<img height={30} width={170} src={Gromus} /> <br />
+					<label>Sparks of inspiration are in every note.</label>
+				</Grid.Col>
 
-//       <Col className="text-center col-lg-4 col-md-4 col-sm-7 col-xs-10 mb-4">
-//         <h5 className="text-white m-3">Are you an artist?</h5>
-//         <a className="m-3" style={footerLink}>
-//           Work with us as an artist
-//         </a>
-//         <Button className="text-black px-5 py-2" style={subscribePackageBtn}>
-//           SUBMIT
-//         </Button>
+				<Grid.Col style={{ padding: "0px", textAlign: "left" }} span={{ base: 12, xs: 8, sm: 6, md: 4, lg: 4 }}>
+					<Grid>
+						<Grid.Col style={{ textAlign: "left" }} span={4}>
+							<ul style={{ listStyle: "none", textAlign: "left", paddingLeft: "0px" }}>
+								<li>
+									<a>SOLUTION</a>
+								</li>
+								<li>
+									<a>Use Cases</a>
+								</li>
+							</ul>
+						</Grid.Col>
+						<Grid.Col style={{ textAlign: "left" }} span={3}>
+							<ul style={{ listStyle: "none", textAlign: "left", paddingLeft: "0px" }}>
+								<li>
+									<a>COMPANY</a>
+								</li>
+								<li>
+									<a>Pricing</a>
+								</li>
+								<li>
+									<a>Contact</a>
+								</li>
+							</ul>
+						</Grid.Col>
+						<Grid.Col style={{ textAlign: "left" }} span={3}>
+							<ul style={{ listStyle: "none", textAlign: "left", paddingLeft: "0px" }}>
+								<li>
+									<a>RESOURCES</a>
+								</li>
+								<li>
+									<a>Blog</a>
+								</li>
+								<li>
+									<a>Privacy Policy</a>
+								</li>
+								<li>
+									<a>Cookie Policy</a>
+								</li>
+							</ul>
+						</Grid.Col>
+					</Grid>
+				</Grid.Col>
 
-//         <Row className="d-flex flex-row align-items-center justify-content-center mt-5">
-//           <Col className="p-0 col-lg-1 col-2">
-//             <Image src={InsIcon} />
-//           </Col>
 
-//           <Col className="p-0  col-lg-1 col-2">
-//             <Image src={SpotifyIcon} />
-//           </Col>
 
-//           <Col className="p-0  col-lg-1 col-2">
-//             <Image src={DiscordIcon} />
-//           </Col>
-//         </Row>
-//       </Col>
-//       <hr style={separator} />
+				<Grid.Col style={{ padding: "0px" }} span={{ base: 8, xs: 8, sm: 6, md: 4, lg: 4 }}>
+					<h4>Are you an artist?</h4>
+					<Grid>
 
-//       <Row className="mb-5 text-white text-center">
-//         <Col className="col-md-3 col-10 mb-3">
-//           <label>Copyright © 2024 Gromus, Inc</label>
-//         </Col>
+						<Grid.Col span={12}>
+							<SignedUnderlineText> Work with us as an artist </SignedUnderlineText>
+							<StyledFooterButton>
+								Submit
+							</StyledFooterButton>
+						</Grid.Col>
+					</Grid>
 
-//         <Col className="col-md-6 col-10">
-//           <label>
-//             Gromus, Inc is not affiliated with or endorsed by TikTok© Inc. or ByteDance© Ltd. <br />
-//             All product and company names are registered trademarks of their original owners
-//           </label>
-//         </Col>
-//       </Row>
-//     </Row>
-//   );
-// };
+					<Grid>
+						<Grid.Col span={12}>
+							<img style={{ padding: "10px" }} src={DiscordIcon} />
+							<img style={{ padding: "10px" }} src={InstIcon} />
+							<img style={{ padding: "10px" }} src={SpotifyIcon} />
+						</Grid.Col>
+					</Grid>
+
+				</Grid.Col>
+
+			</Grid>
+			<Grid style={{ paddingLeft: "30px" }}>
+				<Grid.Col span={{ base: 10, sm: 4 }}>
+					<label>Copyright © 2024 Gromus, Inc</label>
+				</Grid.Col>
+				<Grid.Col span={{ base: 10, sm: 8 }}>
+					<label>Gromus, Inc is not affiliated with or endorsed by TikTok© Inc. or ByteDance© Ltd.</label> <br />
+					<label>  All product and company names are registered trademarks of their original owners</label>
+				</Grid.Col>
+			</Grid>
+		</FooterWrapper>
+	);
+}

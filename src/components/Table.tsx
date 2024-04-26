@@ -10,12 +10,15 @@ export type ColumnDef<T extends Record<"id", string | number | null>> = {
   render?: (data: T) => ReactNode;
 };
 
-interface IProps<T extends Record<"id", string>> {
+interface IProps<T extends Record<"id", string | number | null>> {
   columns: ColumnDef<T>[];
   data: T[];
 }
 
-export const Table = <T extends Record<"id", string>>({ columns, data }: IProps<T>) => {
+export const Table = <T extends Record<"id", string | number | null>>({
+  columns,
+  data,
+}: IProps<T>) => {
   return (
     <ScrollArea scrollbars="x" mx={-32} offsetScrollbars pb={12}>
       <StyledTable>

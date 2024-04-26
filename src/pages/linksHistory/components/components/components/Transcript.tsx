@@ -27,7 +27,6 @@ export const Transcript = () => {
               <Button
                 color="rgba(209, 253, 10, 1)"
                 variant="filled"
-                hoverVariant="filled"
                 style={{ minWidth: 100, height: 30, color: "black", marginLeft: 10 }}
               >
                 Ukrainian
@@ -80,7 +79,6 @@ export const Transcript = () => {
                   size="lg"
                   color="rgba(58, 58, 58, 1)"
                   variant="filled"
-                  hoverVariant="filled"
                   style={{ color: "white" }}
                 >
                   <IconCopy size={18} style={{ marginRight: 4 }} />
@@ -102,6 +100,6 @@ const Wrapper = styled.div`
   min-width: 280px;
   background-color: rgba(19, 19, 20, 1);
   padding: 20px;
-  padding-bottom: 10px;
+  padding-bottom: 30px;
   border-radius: 50;
 `;

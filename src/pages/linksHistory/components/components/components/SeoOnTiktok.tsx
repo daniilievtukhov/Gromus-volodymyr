@@ -6,7 +6,7 @@ import styled from "styled-components";
 export const SeoOnTiktok = () => {
   return (
     <>
-      <Box style={{ margin: 0, position: "relative" }}>
+      <Box style={{ marginTop: 300, position: "relative" }}>
         <Paper
           style={{
             height: "60px",
@@ -37,7 +37,7 @@ export const SeoOnTiktok = () => {
                 marginTop: "20px",
               }}
             >
-              <Group direction="row" align="center">
+              <Group align="center">
                 <Text
                   fz={16}
                   fw={600}
@@ -59,7 +59,7 @@ export const SeoOnTiktok = () => {
                   hashtags
                 </Text>
               </Group>
-              <Group direction="row" align="center" gap={6}>
+              <Group align="center" gap={6}>
                 <Text
                   fz={16}
                   fw={600}
@@ -91,7 +91,6 @@ export const SeoOnTiktok = () => {
                 size="lg"
                 color="rgba(58, 58, 58, 1)"
                 variant="filled"
-                hoverVariant="filled"
                 style={{ color: "white" }}
               >
                 <IconCopy size={18} style={{ marginRight: 4 }} />
