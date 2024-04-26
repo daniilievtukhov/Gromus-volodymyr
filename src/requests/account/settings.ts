@@ -15,4 +15,14 @@ export namespace ApiAccount {
 
     return res.data;
   };
+
+  export const getUserSettings = async () => {
+    const token = getToken();
+
+    const res = await axios.get(`${link}/Settings`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return res.data;
+  }
 }

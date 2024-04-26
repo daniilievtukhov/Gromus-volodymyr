@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Grid, Button } from "@mantine/core";
 
@@ -8,6 +8,9 @@ import { Anchor } from "react-bootstrap";
 import { useState } from "react";
 import { useGlobalStore } from "../../../globalStore";
 import { unsubscribe } from "diagnostics_channel";
+import { ApiAccount } from "../../../requests/account/settings";
+import axios from "axios";
+import { getToken } from "../../../core/helpers/getToken";
 
 const PricingHeader = styled.div`
   height: 100px;
@@ -28,12 +31,13 @@ const FreeLabel = styled.label`
   color: #d1fd0a;
 `;
 
-const FreePackageBtn = () => {
+const FreePackageBtn:React.FC<{children: string, category: string, activeCategory: string }> = ({children, category, activeCategory}) => {
   const [hover, setHover] = useState(false);
-
+  const token = getToken();
   const unsubcribeButtonStyles = {
     background: "rgba(255, 255, 255, 0.04)",
     borderColor: "rgba(255, 255, 255, 0.04)",
+    color: category.toUpperCase() !== "BASIC" && "#d1fd0a",
     fontSize: "15px",
     fontWeight: "700",
     letterSpacing: "12%",
@@ -47,18 +51,26 @@ const FreePackageBtn = () => {
     })
   };
 
+  const onSubmit = async () => {
+    // e.preventDefault();
+    const res = await axios.post("https://react.gromus.ai/api/Subscription/StripeUnsubscribe", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    console.log(res);
+  }
+
   return (
-    <Anchor href={"https://react.gromus.ai/api/Subscription/StripeUnsubscribe"}>
-      <Button
+    <Button
         role="link" 
         style={unsubcribeButtonStyles} 
         onMouseEnter={() => setHover(true)} 
         onMouseLeave={() => setHover(false)}
+        disabled={activeCategory.toUpperCase() === "BASIC"}
+        onClick={onSubmit}
       >
-        {/* UNSUBSCRIBE */}
-        ACTIVATE FOR FREE
-      </Button>
-    </Anchor>
+        {children}
+    </Button>
 
   )  
 }
@@ -236,6 +248,22 @@ const PriceCard: React.FC<{priceCard: IPriceCard}> = ({ priceCard }) => {
   const { categoryLabel, price, options, priceDescription, isMonth, subscribeLink } = priceCard;
   const user = useGlobalStore()
   console.log(user);
+  const stripeSubscription = user.userInfo.stripeSubscription;
+  // console.log(localStorage.getItem("BEARER_TOKEN"))
+
+  const [account, setAccount] = useState("BASIC");
+
+  console.log(account);
+
+  useEffect(() => {
+    (async () => {
+      const res = await ApiAccount.getUserSettings();
+      console.log(res);
+      setAccount(res.subscriptionInfo.userRole.normalizedName);
+    })()
+  }, [])
+
+
   return (
     <Grid.Col span={{ base: 12, md: 8, lg: 4 }}>
       <PackageCardContainer>
@@ -247,9 +275,15 @@ const PriceCard: React.FC<{priceCard: IPriceCard}> = ({ priceCard }) => {
           </div>
         </PricingHeader>
         <Separator />
-        {isMonth 
+        {isMonth && (account !== categoryLabel.toUpperCase() || !stripeSubscription)
           ? <SubscribePackageBtn subscribeLink={subscribeLink} clientId={user.userInfo.id}/> 
-          : <FreePackageBtn />
+          : <FreePackageBtn category={categoryLabel} activeCategory={account}> 
+              {isMonth 
+                ? "CANCEL" 
+                : "ACTIVATE FOR FREE"
+              }
+                                
+          </FreePackageBtn>
         }
 
           <CardContainer>
