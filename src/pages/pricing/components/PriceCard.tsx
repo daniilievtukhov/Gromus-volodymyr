@@ -53,7 +53,7 @@ const FreePackageBtn:React.FC<{children: string, category: string, activeCategor
 
   const onSubmit = async () => {
     // e.preventDefault();
-    const res = await axios.post("https://react.gromus.ai/api/Subscription/StripeUnsubscribe", {
+    const res = await axios.get("https://react.gromus.ai/api/Subscription/StripeUnsubscribe", {
       headers: { Authorization: `Bearer ${token}` },
     });
 
