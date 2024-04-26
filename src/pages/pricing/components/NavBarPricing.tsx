@@ -5,6 +5,8 @@ import { useMediaQuery } from '@mantine/hooks';
 import { useDisclosure } from '@mantine/hooks';
 import { PricingModal } from './PricingModal.tsx';
 
+import { ModalVideo } from "../../../features/greeting/components/ModalVideo.tsx";
+
 import Logo from "../../../assets/icons/Logo.svg";
 
 const links = [

@@ -28,6 +28,7 @@ import { TopVideos } from "./components/TopVideos";
 import { useAuthorAnalyticsData } from "./hooks/useAuthorAnalyticsData";
 import { useAIAuthorAnalyticStore } from "./store/accountAnalytic";
 import { useLocation } from "react-router-dom";
+import { AuthorGraphicStates } from "./components/graphicСhart/AuthorGraphicStates";
 
 const Content = ({ authorId }: { authorId: number | string }) => {
   const { isError, error, isSuccess } = useAuthorAnalyticsData(authorId);
@@ -71,6 +72,7 @@ const Content = ({ authorId }: { authorId: number | string }) => {
       )}
       <TopVideos authorId={authorId} />
       <AuthorRisingSounds authorId={authorId} />
+      <AuthorGraphicStates authorId={authorId} />
       <RecommendationMap authorId={authorId} />
     </Stack>
   );

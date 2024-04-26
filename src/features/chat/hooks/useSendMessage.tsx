@@ -77,6 +77,10 @@ export const useSendMessage = () => {
       onClick: () => navigate("/my-account-analytics"),
     },
     {
+      label: "Rising Sounds",
+      onClick: () => navigate("/rising-sounds"),
+    },
+    {
       label: "Hashtags",
       onClick: () => navigate("/hashtags"),
     },
@@ -215,7 +219,8 @@ export const useSendMessage = () => {
       ];
 
       if (isAxiosError(error)) {
-        if (error.status === 500) {
+        console.log("isAxiosError", error.response?.status);
+        if (error.response?.status === 500 || error.response?.status === 520) {
           addMessage({
             date: new Date().toISOString(),
             isCopilot: true,
@@ -224,7 +229,7 @@ export const useSendMessage = () => {
             buttons: defaultButtons,
           });
         }
-        if (error.status === 401) {
+        if (error.response?.status === 401) {
           addMessage({
             date: new Date().toISOString(),
             isCopilot: true,
@@ -233,7 +238,7 @@ export const useSendMessage = () => {
             buttons: [{ label: "Sign In", onClick: () => navigate("/auth") }],
           });
         }
-        if (error.status === 403) {
+        if (error.response?.status === 403) {
           addMessage({
             date: new Date().toISOString(),
             isCopilot: true,
