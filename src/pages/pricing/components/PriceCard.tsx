@@ -55,7 +55,8 @@ const FreePackageBtn = () => {
         onMouseEnter={() => setHover(true)} 
         onMouseLeave={() => setHover(false)}
       >
-        UNSUBSCRIBE
+        {/* UNSUBSCRIBE */}
+        ACTIVATE FOR FREE
       </Button>
     </Anchor>
 
