@@ -5,11 +5,13 @@ import { ApiSounds } from "../../requests/stats/sounds";
 interface IState {
   tableData: ISoundData[];
   setTableData: (data: ISoundData[]) => void;
+  clearTableData: () => void;
 }
 
 export const useRisingSoundsStore = create<IState>((set) => ({
   tableData: [],
-  setTableData: (tableData) => set({ tableData }),
+  setTableData: (tableData) => set(state => ({ ...state, tableData })),
+  clearTableData: () => set(state => ({ ...state,  tableData: [] })),
 }));
 
 export type ISoundData = {
