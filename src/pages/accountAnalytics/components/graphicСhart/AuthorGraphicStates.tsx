@@ -31,7 +31,6 @@ export const AuthorGraphicStates = memo(({ authorId }: { authorId: number | stri
 
   useEffect(() => {
     if ((fetchData && !Object.entries(store.data).length) || pathname === "/my-account-analytics") {
-      console.log(store);
       setData(fetchData);
       setIsSuccess(fetchIsSuccess);
       setIsError(fetchIsError);
@@ -41,9 +40,7 @@ export const AuthorGraphicStates = memo(({ authorId }: { authorId: number | stri
 
   useEffect(() => {
     if (Object.entries(store.data).length && "authorStatesAnalytic" in store.data) {
-      console.log(store);
       const data = store.data.authorStatesAnalytic;
-      console.log(data);
 
       setData(data);
       setIsSuccess(true);
@@ -85,9 +82,6 @@ export const AuthorGraphicStates = memo(({ authorId }: { authorId: number | stri
       ) ?? []
     );
   }, [data?.states]);
-
-  console.log("data", data);
-  console.log("states", states);
 
   const videoRised = useMemo<IVideoRised[]>(() => {
     return (

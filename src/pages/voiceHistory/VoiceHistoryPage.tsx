@@ -8,7 +8,6 @@ import { ISoundData } from "../../features/risingSounds/store";
 import { useSoundsData } from "../sounds/hooks/useSoundsData";
 import { bulleted_list } from "../../assets/index";
 import { microSvg } from "../../assets/index";
-import { LinksTable } from "./components/LinksTable";
 
 import { inspect } from "util";
 import path from "path";

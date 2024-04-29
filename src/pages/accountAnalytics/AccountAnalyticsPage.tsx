@@ -37,9 +37,7 @@ const Content = ({ authorId }: { authorId: number | string }) => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    setId(store.authorId);
-    console.log(id);
-    console.log(authorId);
+    setId(store.authorId);   
   }, [store]);
 
   if (isError) {

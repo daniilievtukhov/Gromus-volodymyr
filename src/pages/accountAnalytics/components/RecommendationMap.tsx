@@ -9,7 +9,7 @@ import { PercentBar } from "../../../components/PercentBar";
 import { useAuthorAnalyticsData } from "../hooks/useAuthorAnalyticsData";
 import { useState, useEffect } from "react";
 import { useAIAuthorAnalyticStore } from "../store/accountAnalytic";
-import { useLocation } from 'react-router-dom'
+import { useLocation } from "react-router-dom";
 
 interface LocationData {
   locationCode: string;
@@ -41,7 +41,7 @@ export const RecommendationMap = ({ authorId }: { authorId: number | string }) =
   const store = useAIAuthorAnalyticStore();
 
   useEffect(() => {
-    if ((fetchData && !Object.entries(store.data).length) || (pathname === "/my-account-analytics")) {
+    if ((fetchData && !Object.entries(store.data).length) || pathname === "/my-account-analytics") {
       setData(fetchData);
       setIsSuccess(fetchIsSuccess);
       setIsError(fetchIsError);
@@ -50,9 +50,9 @@ export const RecommendationMap = ({ authorId }: { authorId: number | string }) =
   }, [fetchData, pathname]);
 
   useEffect(() => {
-    if (Object.entries(store.data).length && 'authorData' in store.data) {
+    if (Object.entries(store.data).length && "authorData" in store.data) {
       const data = store.data.authorData; //AuthorData;
-      console.log(data);
+      //console.log(data);
 
       setData(data);
       setIsSuccess(true);

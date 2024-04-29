@@ -46,9 +46,7 @@ export function PricingModal() {
 
   const [opened, setOpened] = useState<boolean>(store.modalState);
 
-  useEffect(() => {
-    console.log("Effect!");
-    console.log(opened);
+  useEffect(() => {    
     setOpened(store.modalState);
   }, [store])
 

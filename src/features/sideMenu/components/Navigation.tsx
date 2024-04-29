@@ -30,7 +30,7 @@ export const Navigation = () => {
   const menuItems = useMemo<MenuItem[]>(
     () => [
       {
-        label: "AI Dashboard",
+        label: "AI Persanolized",
         icon: <IconStarsFilled />,
         id: "ai",
         children: [
@@ -42,22 +42,22 @@ export const Navigation = () => {
           { label: "Collaborations", link: "/collaborations", isComing: true },
           { label: "Reports", link: "/reports", isComing: true },
           { label: "Links History", link: "/links-history", isComing: true },
-          { label: "Voice History", link: "/voice-history" },
+          { label: "Voice History", link: "/voice-history", isComing: true },
           // { label: "Pricing", link: "/pricing" },
         ],
       },
       {
-        label: "TikTok Dashboard",
+        label: "TikTok ",
         icon: <IconBrandTiktokFilled />,
         id: "tiktok",
         children: [
           { label: "Rising Sounds", link: "/rising-sounds" },
           { label: "Top Videos", link: "/top-videos", isComing: true },
-          { label: "Creators", link: "/creators", isComing: true },
+          { label: "Top Creators", link: "/creators", isComing: true },
         ],
       },
       {
-        label: "Music Dashboard",
+        label: "Music ",
         icon: <IconLayoutDashboardFilled />,
         id: "music",
         children: [
@@ -128,7 +128,7 @@ export const Navigation = () => {
           color={"#fff"}
           size={"lg"}
         >
-          Pro Statistics
+          Gromus Pro
         </Button>
       </Accordion>
     </AppShell.Section>

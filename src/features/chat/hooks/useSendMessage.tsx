@@ -30,41 +30,44 @@ export const useSendMessage = () => {
   const { userInfo } = useGlobalStore();
   const navigate = useNavigate();
   const [prompt, setPrompt] = useState("");
-  const risingMusicStore = useRisingSoundsStore();
+  const chatStore = useChatStore();
 
-  const handleButtonClick = async (link: string, message: {
-    Data: any;
-    DataType: any;
-    Text: any;
-    Actions: any[];
-    ConversationId: any;
-    Context: any;  }) => {
-      const res = await getUserInfo(link);
-      console.log("Message from handleButtonClick", message)
-      // console.log("Res from handleButtonClick", res)
-    
-      switch(message.DataType) {
-        case "HashtagsPersonal":
-        case "HashtagsGeneral":
-          useHashtags.setState(res.data);
-          navigate("/hashtags");
+  const handleButtonClick = async (
+    link: string,
+    message: {
+      Data: any;
+      DataType: any;
+      Text: any;
+      Actions: any[];
+      ConversationId: any;
+      Context: any;
+    },
+  ) => {
+    const res = await getUserInfo(link);
+    //console.log("Message from handleButtonClick", message);
+
+    switch (message.DataType) {
+      case "HashtagsPersonal":
+      case "HashtagsGeneral":
+        useHashtags.setState(res.data);
+        navigate("/hashtags");
 
         break;
 
-        case "TimePost":
-          // console.log("Hi! from if and res:", res);
-          setPosts(res.data);
-          navigate("/ai-calendar");
+      case "TimePost":
+        setPosts(res.data);
+        navigate("/ai-calendar");
         break;
 
-        case "SoundSearch":
-          console.log(res);
-          risingMusicStore.setTableData(res.data)
-          navigate("/rising-sounds");
+      case "SoundSearch":
+        useChatStore.setState({
+          data: res.data,
+        });
+        navigate("/ai-data");
         break;
 
-        default:
-      }
+      default:
+    }
   };
 
   const defaultButtons = [
@@ -128,16 +131,21 @@ export const useSendMessage = () => {
         date,
       };
 
-      console.log(data);
+      //console.log(data);
 
       if (!data.Actions) {
         addMessage({
           ...messageData,
-          buttons: defaultButtons,
+          //buttons: defaultButtons,
         });
       } else {
-        console.log("Hey! I'm here!")
-        const buttons = data.Actions?.map((el) => ({ label: el.label, onClick:() => {handleButtonClick(el.link, data)} })) ?? [];
+        const buttons =
+          data.Actions?.map((el) => ({
+            label: el.label,
+            onClick: () => {
+              handleButtonClick(el.link, data);
+            },
+          })) ?? [];
         addMessage({
           ...messageData,
           buttons,
@@ -159,7 +167,7 @@ export const useSendMessage = () => {
         ).Data;
 
         const authorId = authorAnalyticItem.author.authorId || "";
-        console.log(authorId);
+        //(authorId);
 
         useAIAuthorAnalyticStore.setState(() => ({
           chatId: data.ConversationId,
@@ -219,7 +227,6 @@ export const useSendMessage = () => {
       ];
 
       if (isAxiosError(error)) {
-        console.log("isAxiosError", error.response?.status);
         if (error.response?.status === 500 || error.response?.status === 520) {
           addMessage({
             date: new Date().toISOString(),
@@ -228,8 +235,7 @@ export const useSendMessage = () => {
               "Please try another request, as I was unable to process this one. I'm working on your previous request and I will provide you with the answer shortly.",
             buttons: defaultButtons,
           });
-        }
-        if (error.response?.status === 401) {
+        } else if (error.response?.statusText === "Unauthorized") {
           addMessage({
             date: new Date().toISOString(),
             isCopilot: true,
@@ -237,8 +243,7 @@ export const useSendMessage = () => {
               "I noticed that you are not logged in or something happened with your authorization. In order to continue our work together , please try to log in one more time.",
             buttons: [{ label: "Sign In", onClick: () => navigate("/auth") }],
           });
-        }
-        if (error.response?.status === 403) {
+        } else if (error.response?.status === 403) {
           addMessage({
             date: new Date().toISOString(),
             isCopilot: true,
@@ -251,14 +256,14 @@ export const useSendMessage = () => {
               },
             ],
           });
+        } else {
+          addMessage({
+            date: new Date().toISOString(),
+            isCopilot: true,
+            message: "Please try another request, as I was unable to process this one.",
+            buttons: defaultButtons,
+          });
         }
-
-        addMessage({
-          date: new Date().toISOString(),
-          isCopilot: true,
-          message: "Please try another request, as I was unable to process this one.",
-          buttons: defaultButtons,
-        });
 
         return;
       }

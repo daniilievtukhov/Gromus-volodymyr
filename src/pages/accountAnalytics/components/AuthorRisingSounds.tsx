@@ -33,7 +33,7 @@ export const AuthorRisingSounds = memo(({ authorId }: { authorId: number | strin
   const store = useAIAuthorAnalyticStore();
 
   useEffect(() => {
-    if ((fetchData && !Object.entries(store.data).length) || (pathname === "/my-account-analytics")) {
+    if ((fetchData && !Object.entries(store.data).length) || pathname === "/my-account-analytics") {
       setData(fetchData);
       setIsSuccess(fetchIsSuccess);
       setIsError(fetchIsError);
@@ -42,10 +42,8 @@ export const AuthorRisingSounds = memo(({ authorId }: { authorId: number | strin
   }, [fetchData, pathname]);
 
   useEffect(() => {
-    if (Object.entries(store.data).length && 'songsUsedByAuthor' in store.data) {
-      console.log(store);
+    if (Object.entries(store.data).length && "songsUsedByAuthor" in store.data) {
       const data = store.data.songsUsedByAuthor;
-      console.log(data);
 
       setData(data);
       setIsSuccess(true);

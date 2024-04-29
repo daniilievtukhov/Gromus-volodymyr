@@ -11,7 +11,6 @@ import { useState, useEffect } from "react";
 import { useHashtags } from "../../features/hashtags/store/hashtags";
 import { ApiHashtagsAnalytics } from "../../requests/hashtagsAnalytics";
 
-
 export const PersonalizedHashtagsPage = () => {
   const { data: hashtagsFilter, isSuccess: isSuccessHashtagsFilter } = useHashtagFilters();
   const { data, isSuccess } = useHashtagsAnalytics({
@@ -20,28 +19,43 @@ export const PersonalizedHashtagsPage = () => {
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [topSoundHashtags, setTopSoundHashtags] = useState<ApiHashtagsAnalytics.ISoundHashtag[]>([]);
-  const [soundHashtagBalancedGroup, setSoundHashtagBalancedGroup] = useState<ApiHashtagsAnalytics.IHashtagBalance[]>([]);
-  const [accountHashtagBalancedGroup, setAccountHashtagBalancedGroup] = useState<ApiHashtagsAnalytics.IHashtagBalance[]>([]);
+  const [topSoundHashtags, setTopSoundHashtags] = useState<ApiHashtagsAnalytics.ISoundHashtag[]>(
+    [],
+  );
+  const [soundHashtagBalancedGroup, setSoundHashtagBalancedGroup] = useState<
+    ApiHashtagsAnalytics.IHashtagBalance[]
+  >([]);
+  const [accountHashtagBalancedGroup, setAccountHashtagBalancedGroup] = useState<
+    ApiHashtagsAnalytics.IHashtagBalance[]
+  >([]);
 
   const store = useHashtags();
 
   useEffect(() => {
-    console.log(store);
+    //console.log(store);
 
-    if (store.accountHashtagBalancedGroup && store.soundHashtagBalancedGroup && store.topSoundHashtags ) {
-      console.log(store);
-      setTopSoundHashtags(store.topSoundHashtags)
-      setSoundHashtagBalancedGroup(store.soundHashtagBalancedGroup)
-      setAccountHashtagBalancedGroup(store.accountHashtagBalancedGroup)
+    if (
+      store.accountHashtagBalancedGroup &&
+      store.soundHashtagBalancedGroup &&
+      store.topSoundHashtags
+    ) {
+      // console.log(store);
+      setTopSoundHashtags(store.topSoundHashtags);
+      setSoundHashtagBalancedGroup(store.soundHashtagBalancedGroup);
+      setAccountHashtagBalancedGroup(store.accountHashtagBalancedGroup);
     }
-  }, [store])
+  }, [store]);
 
   useEffect(() => {
-    if(data && !store.accountHashtagBalancedGroup.length && !store.topSoundHashtags.length && !store.soundHashtagBalancedGroup.length ) {
-      setTopSoundHashtags(data.topSoundHashtags)
-      setSoundHashtagBalancedGroup(data.soundHashtagBalancedGroup)
-      setAccountHashtagBalancedGroup(data.accountHashtagBalancedGroup)
+    if (
+      data &&
+      !store.accountHashtagBalancedGroup.length &&
+      !store.topSoundHashtags.length &&
+      !store.soundHashtagBalancedGroup.length
+    ) {
+      setTopSoundHashtags(data.topSoundHashtags);
+      setSoundHashtagBalancedGroup(data.soundHashtagBalancedGroup);
+      setAccountHashtagBalancedGroup(data.accountHashtagBalancedGroup);
     }
   }, [data]);
 
@@ -67,9 +81,9 @@ export const PersonalizedHashtagsPage = () => {
 
   return (
     //(store.accountHashtagBalancedGroup.length && store.topSoundHashtags.length && store.soundHashtagBalancedGroup.length) ||
-   (isSuccessHashtagsFilter &&
+    isSuccessHashtagsFilter &&
     isSuccess &&
-    data) && (
+    data && (
       <Stack gap={128} px={40} py={32} mih="100vh" bg="#0D0D0E" justify="space-between">
         {isModalOpen && <HashtagsModal onClose={closeModal} />}
         <Stack gap={12}>

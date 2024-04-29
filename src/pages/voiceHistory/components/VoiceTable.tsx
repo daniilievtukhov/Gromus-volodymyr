@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { ColumnDef, Table } from "../../../components/Table";
 
 import RecordLink from "./RecordLink";
-import OpenVideoButton from "./OpenVideo";
+
 import InspectButton from "../../linksHistory/components/InspectButton";
 
 interface ILinkData {

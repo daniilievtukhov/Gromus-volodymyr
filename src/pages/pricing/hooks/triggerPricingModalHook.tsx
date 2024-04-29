@@ -1,13 +1,13 @@
 import create from "zustand";
 
 interface IPricingModal {
-    modalState: boolean,
-    openModal: () => void,
-    closeModal: () => void      
+  modalState: boolean;
+  openModal: () => void;
+  closeModal: () => void;
 }
 
 export const pricingModal = create<IPricingModal>((set) => ({
-    modalState: true,
-    openModal: () => set((state:any) => ({...state,  modalState: true})),
-    closeModal: () => set((state:any) => ({...state,  modalState: false}))  
+  modalState: false,
+  openModal: () => set((state: any) => ({ ...state, modalState: true })),
+  closeModal: () => set((state: any) => ({ ...state, modalState: false })),
 }));

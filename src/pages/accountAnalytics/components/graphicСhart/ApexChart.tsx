@@ -1,26 +1,7 @@
 import Chart from "react-apexcharts";
 import numeral from "numeral";
-
 import styled from "styled-components";
-import { css } from "@emotion/react";
 import { IStatesData, IVideoRised } from "../../store/accountStateAnalytics";
-
-const styles = css`{
-  apexcharts-point-annotations {
-  cursor: pointer;
-  padding: 2rem;
-  border: 2px solid #c2fc46;
-}
-
-apexcharts-legend-series {
-  display: flex !important;
-  align-items: center;
-  padding: 0.5rem 0.8rem;
-  background: #ffffff2b;
-  border-radius: 3em;
-  vertical-align: bottom;
-}
-}`;
 
 export const ApexChart = ({
   states,
@@ -30,7 +11,7 @@ export const ApexChart = ({
   videoRised: IVideoRised[];
 }) => {
   function NumberFormatter(number: number): string {
-    const formattedNumber = numeral(number).format("0a").toUpperCase();
+    const formattedNumber = numeral(number).format("0.00a").toUpperCase();
     return formattedNumber;
   }
   const subscribers = states.map((state) => state.subscribers);
@@ -301,7 +282,7 @@ export const ApexChart = ({
     },
     stroke: {
       width: [3, 3, 3],
-      curve: "smooth" as "smooth",
+      curve: "smooth",
     },
     legend: {
       show: true,
@@ -346,7 +327,6 @@ export const ApexChart = ({
     },
   };
   if (videoRised.length > 0) {
-    console.log(videoRised);
     const { playCount, parseDate: videoDate, coverUrl, likes, subscribers } = videoRised[0];
     options.annotations = {
       xaxis: [
@@ -358,7 +338,7 @@ export const ApexChart = ({
           label: {
             click: function () {
               // Your onClick function here
-              console.log("Clicked");
+              //console.log("Clicked");
             },
             borderColor: "#999",
             position: "center",

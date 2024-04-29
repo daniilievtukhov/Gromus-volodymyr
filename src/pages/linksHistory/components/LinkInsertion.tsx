@@ -105,7 +105,7 @@ const TurboSearchSelect = () => {
         position="bottom-start"
         withArrow
         onOptionSubmit={(val) => {
-          console.log(val);
+          //console.log(val);
           setSelectedItem(val);
           combobox.closeDropdown();
         }}
@@ -165,7 +165,7 @@ const TurboSearchSelect = () => {
               },
             }}
             onChange={(event) => {
-              console.log(event);
+             // console.log(event);
               setSearch(event.currentTarget.value);
             }}
             placeholder="Search..."
