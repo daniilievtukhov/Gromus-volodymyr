@@ -1,17 +1,14 @@
 import { Skeleton, Stack } from "@mantine/core";
-import { useMemo } from "react";
 
 import { AccentTitle } from "../../components/AccentTitle";
-import { RisingDaily, RisingTable } from "../../features/risingSounds/index";
 import { RisingSoundsPagination } from "../../features/risingSounds/RisingSoundsPagination";
-import { ISoundData } from "../../features/risingSounds/store";
 import { useSoundsData } from "../sounds/hooks/useSoundsData";
-import { bulleted_list } from "../../assets/index";
 import { bulletSvg } from "../../assets/index";
 import { LinksTable } from "./components/LinksTable";
 import { LinkInsertion } from "./components/LinkInsertion";
-import { inspect } from "util";
-import path from "path";
+import { useTranscriptionHistory } from "./hooks/useTranscriptionHistory";
+import { useEffect } from "react";
+
 
 export const LinksHistoryPage = () => {
   const {

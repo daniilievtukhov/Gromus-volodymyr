@@ -1,70 +1,50 @@
 import {
   Input,
   Button,
-  Select,
   Flex,
   Text,
-  Stack,
-  Box,
-  Overlay,
   Group,
   Image,
   useCombobox,
   Combobox,
-  TextInput,
 } from "@mantine/core";
 
 import {
-  IconBrandYoutube,
   IconBrandInstagram,
   IconBrandTiktok,
   IconStarFilled,
-  IconStarOff,
 } from "@tabler/icons-react";
 import { chevronSvg, searchSvg } from "../../../assets";
 import { useEffect, useState } from "react";
 import { Links } from "../../../core/links";
+import { useTranscriptionHistory } from "../hooks/useTranscriptionHistory";
+import { mainLanguages } from "../mainLanguages";
 
-const languages = [
-  {
-    group: "",
-    items: [
-      {
-        label: "English",
-        value: "English",
-        countryCode: "EN",
-        flagPath: "/app-assets/fonts/flag-icon-css/flags/4x3/gb.svg",
-      },
-      {
-        label: "Spain",
-        value: "Spain",
-        countryCode: "ES",
-        flagPath: "/app-assets/fonts/flag-icon-css/flags/4x3/es.svg",
-      },
-      {
-        label: "Germany",
-        value: "Germany",
-        countryCode: "DE",
-        flagPath: "/app-assets/fonts/flag-icon-css/flags/4x3/de.svg",
-      },
-      {
-        label: "Ukrainian",
-        value: "Ukrainian",
-        countryCode: "UK",
-        flagPath: "/app-assets/fonts/flag-icon-css/flags/4x3/ua.svg",
-      },
-      {
-        label: "Russian",
-        value: "Russian",
-        countryCode: "RU",
-        flagPath: "/app-assets/fonts/flag-icon-css/flags/4x3/ru.svg",
-      },
-    ],
-  },
-  { group: " ", items: [] },
-];
+
 
 const TurboSearchSelect = () => {
+  const {
+    data: data2,
+    isSuccess: isSuccess2,
+    isLoading: isLoading2
+  } = useTranscriptionHistory();
+
+  useEffect(() => {
+    console.log(data2)
+    if(data2 && data2.data && data2?.data.lang) {
+      console.log(data2?.data);
+      console.log(data2?.data.lang);
+    }
+  }, [data2])
+
+  const languages = [
+    mainLanguages,
+    { group: " ", items: data2 && data2.data && data2.data.lang ? Object.values(data2.data.lang).map((item: string) => {
+      return {value: item, label: item}
+    }) : []},
+    
+  ];
+
   const [search, setSearch] = useState("");
   const [selectedItem, setSelectedItem] = useState<string>("English");
   const combobox = useCombobox({
@@ -83,13 +63,14 @@ const TurboSearchSelect = () => {
 
   const options = languages.map((group) => (
     <Combobox.Group label={group.group}>
-      {group.items
-        .filter((item) => item.label.toLowerCase().includes(search.toLowerCase().trim()))
+      {
+      group.items
+        .filter((item) => item?.label.toLowerCase().includes(search.toLowerCase().trim()))
         .map((el) => (
           <Combobox.Option value={el.value} key={el.value}>
             <Group gap="sm" style={{ "&:hover": { background: "#D1FD0A" } }}>
               <IconStarFilled size={12} />
-              <Image w={15} h={15} src={`${Links.proDomain}${el.flagPath}`} radius="100%" />
+              {el?.flagPath && (<Image w={15} h={15} src={`${Links.proDomain}${el?.flagPath}`} radius="100%" />)}
               {el.label}
             </Group>
           </Combobox.Option>
@@ -171,7 +152,7 @@ const TurboSearchSelect = () => {
             placeholder="Search..."
             leftSection={<Image src={searchSvg} />}
           />
-          <Combobox.Options>
+          <Combobox.Options mah={250} style={{ overflowY: 'auto' }}>
             {options.length > 0 ? options : <Combobox.Empty>Nothing found</Combobox.Empty>}
           </Combobox.Options>
         </Combobox.Dropdown>
@@ -209,7 +190,7 @@ export const LinkInsertion = () => {
         p={"0px"}
         wrapperProps={{ padding: "0px" }}
         placeholder={"Enter the link here..."}
-        leftSectionWidth={110}
+        leftSectionWidth={90}
         leftSection={
           <Group
             gap="5px"

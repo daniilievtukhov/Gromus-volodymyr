@@ -26,6 +26,23 @@ const getUserInfo = async (link: string) => {
   });
 };
 
+function convertToHTMLList(text: string) {
+  const lines = text.split(/\r?\n/); // Split text into lines
+  const listItems = lines.map((line, index) => {
+      if (/^\d+\./.test(line)) { // Check if the line starts with a number followed by a dot
+          const content = line.replace(/^\d+\.\s*(.*)$/, '$1'); // Extract the content after the number and dot
+          return <li key={index}>{content}</li>; // Render the content as a list item
+      } else if (/^\* /.test(line)) { // Check if the line starts with an asterisk
+          const content = line.replace(/^\* (.+)$/, '$1'); // Extract the content after the asterisk
+          return <li key={index}>{content}</li>; // Render the content as a list item
+      } else {
+          return null; // Skip lines that don't match the patterns
+      }
+  });
+
+  return <ul>{listItems}</ul>; // Render the list with the generated list items
+}
+
 export const useSendMessage = () => {
   const { userInfo } = useGlobalStore();
   const navigate = useNavigate();
@@ -127,11 +144,10 @@ export const useSendMessage = () => {
         isCopilot: true,
         data: data.Data,
         dataType: data.DataType,
-        message: data.Text,
+        message: convertToHTMLList(data.Text),
         date,
       };
 
-      //console.log(data);
 
       if (!data.Actions) {
         addMessage({
