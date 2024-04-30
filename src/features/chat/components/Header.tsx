@@ -12,7 +12,7 @@ export const Header = () => {
         <Flex align={"center"} gap={4}>
           <IconBolt color="#000" size={16} />
           <Text fz="xs" lh="xs" fw="600" c="black">
-            AI Assistant
+            AI Assistant Beta
           </Text>
           <Button ml={8} size="compact-xs" variant="outline" color="#000" onClick={clearChat}>
             Clear chat

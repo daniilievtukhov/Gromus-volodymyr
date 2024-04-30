@@ -20,6 +20,7 @@ const PricingHeader = styled.div`
   margin: 0 1rem;
 `;
 
+
 const BasicLabel = styled.label`
   font-weight: 700;
   font-size: 18px;

@@ -47,7 +47,7 @@ export const PremiumBanner = (props: BoxProps) => {
           onClick={() => pricing.openModal()}
           target="_blank"
         >
-          Buy Premium
+          Upgrade Your Plan
         </StyledButton>
       </Stack>
     </Wrapper>

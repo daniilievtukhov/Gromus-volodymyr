@@ -47,7 +47,7 @@ export const useChatStore = create<IState>(() => ({
           <Group gap="xs">
             <Message.Text>Your Personal</Message.Text>
             <Badge color="lime.4" autoContrast>
-              AI Assistant
+              AI Assistant Beta
             </Badge>
             <Message.Text>
               I'm constantly evolving and introducing new features. At the moment, you're welcome to

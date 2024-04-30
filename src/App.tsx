@@ -29,6 +29,8 @@ import { ApiUserInfo } from "./requests/account/info";
 import { ApiMessage } from "./requests/conversation/message";
 import { mantineTheme } from "./theme/mantine-theme";
 import { VoiceToScriptPage } from "./pages/voiceHistory/components/components/VoiceToScriptPage";
+import { HashtagDataPage } from "./pages/HashtagDataPage";
+import { VideoPage } from "../src/pages/videoPage/VideoPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -106,6 +108,10 @@ const router = createBrowserRouter([
         element: <PersonalizedHashtagsPage />,
       },
       {
+        path: "/ai-hashtags",
+        element: <HashtagDataPage />,
+      },
+      {
         path: "/links-history",
         element: <LinksHistoryPage />,
       },
@@ -139,6 +145,10 @@ const router = createBrowserRouter([
   {
     path: "/pricing",
     element: <PricingPage />,
+  },
+  {
+    path: "/video",
+    element: <VideoPage />,
   },
 ]);
 export default function App() {

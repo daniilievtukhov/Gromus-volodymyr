@@ -1,5 +1,6 @@
 import axios from "axios";
 import queryString from "query-string";
+import { ApiHashtagsAnalytics } from "../hashtagsAnalytics";
 
 import { Links } from "../../core/links";
 
@@ -19,6 +20,7 @@ export namespace ApiSounds {
 
   export interface IResponse {
     music: Music[];
+    accountHashtagBalancedGroup?: ApiHashtagsAnalytics.IHashtagBalance[];
     filters: Filters;
     rowsCount: number;
     totalRows: number;
@@ -61,6 +63,8 @@ export namespace ApiSounds {
     dateTo: string;
     favoriteForUser: string;
     order: string;
+    country: string;
+    followers: number;
   }
 
   export interface Music {

@@ -27,7 +27,7 @@ export const Info = ({ title, description, onClose }: IProps) => {
       <Group gap={8}>
         <IconSparkles color="white" />
         <Text fw={600} c="white">
-          Welcome to Copilot: GI
+          Welcome to Copilot: G.
         </Text>
       </Group>
       <Space h={6} />

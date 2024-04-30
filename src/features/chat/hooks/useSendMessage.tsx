@@ -49,8 +49,10 @@ export const useSendMessage = () => {
     switch (message.DataType) {
       case "HashtagsPersonal":
       case "HashtagsGeneral":
-        useHashtags.setState(res.data);
-        navigate("/hashtags");
+        useChatStore.setState({
+          data: res.data,
+        });
+        navigate("/ai-hashtags");
 
         break;
 
@@ -187,6 +189,16 @@ export const useSendMessage = () => {
           data: data.Data,
         });
         navigate("/ai-data");
+      }
+
+      if (
+        data.DataType === "HashtagsPersonal" ||
+        (data.DataType === "HashtagsGeneral" && data.Data)
+      ) {
+        useChatStore.setState({
+          data: data.Data,
+        });
+        navigate("/ai-hashtags");
       }
 
       ApiMessage.fromCopilot({

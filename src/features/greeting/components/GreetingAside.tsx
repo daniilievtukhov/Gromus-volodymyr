@@ -16,8 +16,8 @@ export const GreetingAside = () => {
           <IconBolt size={60} />
         </Avatar>
         <Space h={15} />
-        <Text c="blue">Hi, I’m GI:</Text>
-        <Text>Your Personal AI Assistant</Text>
+        <Text c="blue">Hi, I’m G.:</Text>
+        <Text>Your Personal AI Assistant Beta</Text>
         <Space h={8} />
         <Badge color="lime.4" autoContrast>
           New Beta
@@ -30,7 +30,7 @@ export const GreetingAside = () => {
         onClick={handleHello}
       >
         <Text fw={600} c="black">
-          👋 Hello, GI!
+          👋 Hello, G.!
         </Text>
       </AnimatedButton>
     </Stack>

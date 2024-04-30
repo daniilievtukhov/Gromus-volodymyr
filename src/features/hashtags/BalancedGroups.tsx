@@ -1,5 +1,5 @@
 import { BalancedGroupCard } from "./components/BalancedGroupCard";
-import { Alert, Flex, Group, ScrollArea, Skeleton, Stack, Tabs, Text } from "@mantine/core";
+import { Alert, Flex, Grid, Group, ScrollArea, Skeleton, Stack, Tabs, Text } from "@mantine/core";
 import { ApiHashtagsAnalytics } from "../../requests/hashtagsAnalytics";
 
 type Props = {
@@ -7,7 +7,7 @@ type Props = {
   openModal: any;
 };
 
-const balanceGroup = (accountHashtagBalancedGroup: ApiHashtagsAnalytics.IHashtagBalance[]) => {
+/*const balanceGroup = (accountHashtagBalancedGroup: ApiHashtagsAnalytics.IHashtagBalance[]) => {
   let maxLength = 0;
 
   accountHashtagBalancedGroup.forEach((el) => {
@@ -26,10 +26,10 @@ const balanceGroup = (accountHashtagBalancedGroup: ApiHashtagsAnalytics.IHashtag
   });
 
   return equalsHashtagsBalancedGroup;
-};
+};*/
 
 export const BalancedGroups: React.FC<Props> = ({ accountHashtagBalancedGroup, openModal }) => {
-  const equalsHashtagsBalancedGroup = balanceGroup(accountHashtagBalancedGroup);
+  // const equalsHashtagsBalancedGroup = balanceGroup(accountHashtagBalancedGroup);
 
   const colors = [
     "rgba(0, 190, 110, 1)",
@@ -40,36 +40,30 @@ export const BalancedGroups: React.FC<Props> = ({ accountHashtagBalancedGroup, o
 
   return (
     <>
-      <Stack gap={24}>
-        <Tabs defaultValue="geo">
-          <Tabs.Panel value="geo">
-            <ScrollArea scrollbarSize={8} offsetScrollbars>
-              <Flex gap={12} align={"stretch"} py={12}>
-                {equalsHashtagsBalancedGroup.map(
-                  (
-                    {
-                      groupName,
-                      hahtags,
-                    }: {
-                      groupName: string;
-                      hahtags: string[];
-                    },
-                    index: number,
-                  ) => (
-                    <BalancedGroupCard
-                      color={colors[index % colors.length]}
-                      groupName={groupName}
-                      hahtags={hahtags}
-                      key={index}
-                      openModal={openModal}
-                    />
-                  ),
-                )}
-              </Flex>
-            </ScrollArea>
-          </Tabs.Panel>
-        </Tabs>
-      </Stack>
+      <Grid grow justify="center">
+        {accountHashtagBalancedGroup.map(
+          (
+            {
+              groupName,
+              hahtags,
+            }: {
+              groupName: string;
+              hahtags: string[];
+            },
+            index: number,
+          ) => (
+            <Grid.Col style={{ padding: 0, margin: "0.5rem" }} span={2}>
+              <BalancedGroupCard
+                color={colors[index % colors.length]}
+                groupName={groupName}
+                hahtags={hahtags}
+                key={index}
+                openModal={openModal}
+              />
+            </Grid.Col>
+          ),
+        )}
+      </Grid>
     </>
   );
 };

@@ -86,7 +86,7 @@ export const MainPage = () => {
         </AppShell.Main>
       </StyledShell>
       {!chatOpened && (
-        <Tooltip label={"Open AI Assistant"} position="left">
+        <Tooltip label={"Open AI Assistant Beta"} position="left">
           <StyledBox>
             <Avatar
               radius="xl"

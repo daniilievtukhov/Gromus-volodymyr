@@ -70,6 +70,12 @@ export const SubscribePackageBtn = styled(Button)`
   }
 `;
 
+const packageLinks = {
+  Pro: "https://buy.stripe.com/7sIbME2gdahebQsfZ4",
+  Adv: "https://buy.stripe.com/6oE03W3kh4WUaMoaEJ"
+};
+
+
 const priceCards: IPriceCard[] = [
   {
     categoryLabel: "BASIC",
@@ -117,12 +123,13 @@ const priceCards: IPriceCard[] = [
     ],
   },
 
+
   {
     categoryLabel: "PRO",
     price: "$9.99",
     priceDescription: "$9.99/month.",
     isMonth: true,
-    subscribeLink: "https://buy.stripe.com/7sIbME2gdahebQsfZ4",
+    subscribeLink: packageLinks.Pro,
     options: [
       { isAvalible: true, signedText: "300 questions", text: "AI Copilot GI", comingSoon: false },
       {
@@ -171,7 +178,7 @@ const priceCards: IPriceCard[] = [
     categoryLabel: "ADVANCED",
     price: "$19.99",
     priceDescription: "$19.99/month.",
-    subscribeLink: "https://buy.stripe.com/6oE03W3kh4WUaMoaEJ",
+    subscribeLink: packageLinks.Adv,
     isMonth: true,
     options: [
       { isAvalible: true, signedText: "1000 questions", text: "AI Copilot GI", comingSoon: false },
@@ -214,9 +221,10 @@ const priceCards: IPriceCard[] = [
   },
 ];
 
-export const Pricing = ({ showFooter = true }) => {
+export const Pricing = ({ showFooter = true, showText = true }) => {
   const location = useLocation();
   const isPricingPage = location.pathname === "/pricing";
+
 
   const headingStyle = {
     fontSize: "48px",
@@ -233,7 +241,10 @@ export const Pricing = ({ showFooter = true }) => {
         height: "100vh",
       }}
     >
-      <h2 style={headingStyle}>Select your plan to enjoy more from GROMUS AI</h2>
+      {showText && (
+        <h2 style={headingStyle}>Select your plan to enjoy more from GROMUS AI</h2>
+      )
+      }
 
       <SignedText className="text-center">
         Unlock AI-Powered Solution! Elevate Your Grow Potential Today.

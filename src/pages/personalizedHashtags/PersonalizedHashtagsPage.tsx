@@ -6,10 +6,10 @@ import { BalancedGroups } from "../../features/hashtags/BalancedGroups";
 import { HashtagsModal } from "../../features/hashtags/HashtagsModal";
 import { useHashtagFilters } from "./hooks/useHashtagFilters";
 import { useHashtagsAnalytics } from "./hooks/useHashtagsAnalytics";
-import { hashtagSvg } from "../../assets";
 import { useState, useEffect } from "react";
 import { useHashtags } from "../../features/hashtags/store/hashtags";
 import { ApiHashtagsAnalytics } from "../../requests/hashtagsAnalytics";
+import { HashtagGroupsTitle } from "../../components/HashtagGroupsTitle";
 
 export const PersonalizedHashtagsPage = () => {
   const { data: hashtagsFilter, isSuccess: isSuccessHashtagsFilter } = useHashtagFilters();
@@ -87,28 +87,14 @@ export const PersonalizedHashtagsPage = () => {
       <Stack gap={128} px={40} py={32} mih="100vh" bg="#0D0D0E" justify="space-between">
         {isModalOpen && <HashtagsModal onClose={closeModal} />}
         <Stack gap={12}>
-          <AccentTitle icon={<IconSparkles />}>
-            AI Recommendations <AccentTitle.Color>TOP 5 hashtags</AccentTitle.Color> for your sound{" "}
-            <AccentTitle.Color>this week</AccentTitle.Color>
-          </AccentTitle>
+          <HashtagGroupsTitle title="sounds" country={hashtagsFilter?.country} />
           <TopFiveHashtags topSoundHashtags={topSoundHashtags} />
-          <AccentTitle icon={<Image w={24} src={hashtagSvg} />}>
-            <AccentTitle.Color>Hashtag</AccentTitle.Color> sets this week{" "}
-            <Text size="lg" fw={500} c="white" ff="mono">
-              Use a set of recommended hashtags to cast a wider net across diverse audiences and
-              trends
-            </Text>
-          </AccentTitle>
+          <HashtagGroupsTitle title="music niche" country={hashtagsFilter?.country} />
           <BalancedGroups
             accountHashtagBalancedGroup={soundHashtagBalancedGroup}
             openModal={openModal}
           />
-          <AccentTitle icon={<Image w={24} src={hashtagSvg} />}>
-            <AccentTitle.Color>Hashtags</AccentTitle.Color> for your account this week{" "}
-            <Text size="lg" fw={500} c="white" ff="mono">
-              Use these hashtags picked for your account (based on category, and country)
-            </Text>
-          </AccentTitle>
+          <HashtagGroupsTitle title="your niche" country={hashtagsFilter?.country} />
 
           <BalancedGroups
             accountHashtagBalancedGroup={accountHashtagBalancedGroup}

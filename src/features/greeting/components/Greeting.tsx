@@ -99,6 +99,7 @@ export const Greeting = () => {
   );
 };
 
+
 const Wrapper = styled.div`
   .link-button {
     cursor: pointer;

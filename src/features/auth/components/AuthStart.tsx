@@ -36,7 +36,7 @@ export const AuthStart = ({ onChange }: IProps) => {
     <Stack gap={21} w={550} c="white" ref={ref}>
       <Group gap={8}>
         <IconSparkles />
-        <Text fw={600}>Welcome to Copilot: GI</Text>
+        <Text fw={600}>Welcome to Copilot: G.</Text>
       </Group>
       <Stack gap={45}>
         <Box pos="relative">
@@ -72,8 +72,8 @@ export const AuthStart = ({ onChange }: IProps) => {
   );
 };
 
-const title = "Unleash Your Musical Potential with AI Copilot: GI";
-const text = `Hey there! I'm GI, your co-pilot, an AI Assistant in GROMUS Universe. <br />
+const title = "Unleash Your Musical Potential with AI Copilot: G.";
+const text = `Hey there! I'm G., your co-pilot, an AI Assistant Beta in GROMUS Universe. <br />
   I'm excited to help out musicians like yourself. <br />
   My main mission? To provide you with personalized recommendations, targeted hashtags,
   curated playlists, insightful analytics, and more, all geared towards boosting your

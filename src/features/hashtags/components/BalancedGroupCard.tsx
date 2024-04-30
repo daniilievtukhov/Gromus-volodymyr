@@ -1,4 +1,4 @@
-import { Box, Flex, Text, Paper } from "@mantine/core";
+import { Box, Flex, Text, Paper, Grid, Stack } from "@mantine/core";
 import {
   IconHeart,
   IconHeartFilled,
@@ -36,7 +36,7 @@ export const BalancedGroupCard: React.FC<Props> = ({ color, groupName, hahtags, 
 
   return (
     <>
-      <Box style={{ margin: 0 }}>
+      <Stack gap={0} style={{ margin: 0 }}>
         <Paper
           style={{
             height: "50px",
@@ -104,29 +104,19 @@ export const BalancedGroupCard: React.FC<Props> = ({ color, groupName, hahtags, 
           </Flex>
         </Paper>
         <Wrapper>
-          <Text
-            fz={16}
-            fw={600}
-            c={"#fff"}
-            lh={1.25}
-            truncate="end"
-            style={{ display: "flex", flexDirection: "column" }}
-          >
-            {hahtags.map((hashtag, index) => (
-              <span key={index} style={{ marginBottom: "10px" }}>
+          {hahtags.map((hashtag, index) => (
+            <span key={index} style={{ marginBottom: "10px" }}>
+              <Text fz={16} fw={600} c={"#fff"} lh={1.25} truncate="end">
                 {hashtag}&nbsp;
-              </span>
-            ))}
-          </Text>
+              </Text>
+            </span>
+          ))}
         </Wrapper>
-      </Box>
+      </Stack>
     </>
   );
 };
 
 const Wrapper = styled.div`
-  min-width: 280px;
-  background-color: #212122;
   padding: 20px;
-  padding-bottom: 10px;
 `;

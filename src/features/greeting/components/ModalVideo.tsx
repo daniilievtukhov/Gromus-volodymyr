@@ -1,6 +1,6 @@
 
 import { useDisclosure } from "@mantine/hooks";
-import { Modal, Group, Button, Grid, Paper } from "@mantine/core";
+import { Modal, Group, Button, Grid, Paper, Container } from "@mantine/core";
 import ReactPlayer from "react-player";
 import styled from "styled-components";
 import { useEffect } from "react";
@@ -81,14 +81,14 @@ export const ModalVideo = () => {
               width: "40%",
             }}
           >
-            {/* <SubscribePackageBtn>TRY IT NOW</SubscribePackageBtn> */}
+            <SubscribePackageBtn>TRY IT NOW</SubscribePackageBtn>
           </Paper>
         </Grid>
       </CustomModal>
-      {/* 
-			<Group>
-				<Button onClick={open}>Open centered Modal</Button>
-			</Group> */}
+
+      <Group>
+        <Button onClick={open}>Open centered Modal</Button>
+      </Group>
     </>
   );
 };

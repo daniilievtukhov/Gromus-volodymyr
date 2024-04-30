@@ -1,4 +1,4 @@
-import { Button, createTheme, Flex, Input, TextInput, Tooltip } from "@mantine/core";
+import { Button, createTheme, Flex, Input, TextInput, Tooltip, Grid } from "@mantine/core";
 
 export const mantineTheme = createTheme({
   fontFamily: "Montserrat",
@@ -21,6 +21,16 @@ export const mantineTheme = createTheme({
   },
   components: {
     Flex: Flex.extend({ defaultProps: { align: "center" } }),
+    Grid: Grid.extend({
+      classNames: {
+        col: "grid-own-styles",
+      },
+      styles: {
+        col: {
+          backgroundColor: "#212122",
+        },
+      },
+    }),
     Button: Button.extend({ defaultProps: { radius: 30 } }),
     Input: Input.extend({
       defaultProps: { radius: 0 },
