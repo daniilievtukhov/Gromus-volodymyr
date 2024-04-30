@@ -1,21 +1,50 @@
 import { 
   Group, 
   Image, 
-  Text, 
-  NavLink,
   Anchor,
   CopyButton,
 } from "@mantine/core";
-
+import { tiktokWhite, instagramOutline } from "../../../assets/index";
 
 import { IconCopy, IconCheckbox } from "@tabler/icons-react";
 import React, { useState } from "react";
-import { youtubeCircleIcon } from "../../../assets/index";
 
-const SocialMediaLink:React.FC<{title: string, id: string | number, path: string}> = ({ title, id, path}) => {
+interface ICover {
+  title: string,
+  image: string
+} 
+
+const socialMediaSvg  = (path: string):ICover => {
+  if(path.includes("tiktok")) {
+    return {
+      title: "Tik-tok reels",
+      image: tiktokWhite
+    };
+  }
+
+  if(path.includes("instagram")) {
+    return {
+      title: "Instagram reels",
+      image: instagramOutline
+    };
+  }
+
+  return {
+    title: "Reels",
+    image: tiktokWhite
+  }
+
+}
+
+const SocialMediaLink:React.FC<{id: string | number, path: string}> = ({ id, path }) => {
+
+    const { title, image } = socialMediaSvg(path)
+
     return (
         <Group key={id}>
-            <Image src={youtubeCircleIcon} radius={"100%"} width={36} height={36}/>
+            <div style={{borderRadius: "100%", padding: "15px", background: "#212122", margin: "22px"}}>
+              <Image src={image} width={"20px"} height={"20px"}/>
+            </div>
             <Anchor 
               c={"white"}
               underline="never"

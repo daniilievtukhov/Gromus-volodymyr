@@ -7,7 +7,12 @@ import {
   Image,
   useCombobox,
   Combobox,
+  TextInput,
 } from "@mantine/core";
+
+import { Form, useForm } from "@mantine/form";
+
+import { useMutation } from "@tanstack/react-query";
 
 import {
   IconBrandInstagram,
@@ -19,34 +24,46 @@ import { useEffect, useState } from "react";
 import { Links } from "../../../core/links";
 import { useTranscriptionHistory } from "../hooks/useTranscriptionHistory";
 import { mainLanguages } from "../mainLanguages";
+import { ApiTranscriptionGenerate } from "../../../requests/transcriptionGenerate";
+import { notify } from "../../../features/notification";
 
 
+export const LinkInsertion = () => {
+  const [ selectedItem, setSelectedItem ] = useState<string>("en");
+  const [ label, setSelectedLabel ] = useState<string>("English");
 
-const TurboSearchSelect = () => {
+  const form = useForm<IForm>({
+    initialValues:   {
+      url: "",
+      lang: selectedItem
+    }
+  });
+
   const {
-    data: data2,
-    isSuccess: isSuccess2,
-    isLoading: isLoading2
+    query: {data,
+      isSuccess,
+      isLoading
+    }
   } = useTranscriptionHistory();
 
+
   useEffect(() => {
-    console.log(data2)
-    if(data2 && data2.data && data2?.data.lang) {
-      console.log(data2?.data);
-      console.log(data2?.data.lang);
+    console.log(data)
+    if(data && data.lang) {
+      console.log(data);
+      console.log(data.lang);
     }
-  }, [data2])
+  }, [data])
 
   const languages = [
     mainLanguages,
-    { group: " ", items: data2 && data2.data && data2.data.lang ? Object.values(data2.data.lang).map((item: string) => {
-      return {value: item, label: item}
+    { group: " ", items: data && data.lang ? Object.entries(data.lang).map((item) => {
+      return {value: item[0], label: item[1]}
     }) : []},
     
   ];
 
   const [search, setSearch] = useState("");
-  const [selectedItem, setSelectedItem] = useState<string>("English");
   const combobox = useCombobox({
     onDropdownClose: () => {
       combobox.resetSelectedOption();
@@ -59,8 +76,6 @@ const TurboSearchSelect = () => {
     },
   });
 
-  useEffect(() => {}, [selectedItem]);
-
   const options = languages.map((group) => (
     <Combobox.Group label={group.group}>
       {
@@ -70,7 +85,7 @@ const TurboSearchSelect = () => {
           <Combobox.Option value={el.value} key={el.value}>
             <Group gap="sm" style={{ "&:hover": { background: "#D1FD0A" } }}>
               <IconStarFilled size={12} />
-              {el?.flagPath && (<Image w={15} h={15} src={`${Links.proDomain}${el?.flagPath}`} radius="100%" />)}
+              {el.flagPath && (<Image w={15} h={15} src={`${Links.proDomain}${el?.flagPath}`} radius="100%" />)}
               {el.label}
             </Group>
           </Combobox.Option>
@@ -78,20 +93,36 @@ const TurboSearchSelect = () => {
     </Combobox.Group>
   ));
 
+
   return (
-    <>
+    <form
+      onSubmit={form.onSubmit((values) => {
+        console.log(values);
+        ApiTranscriptionGenerate.post({
+          Language: values.lang,
+          Url: values.url,
+          EventType: "download_generate"
+        })
+      })}
+    >
+      <Flex gap={10}>
+
+
       <Combobox
         store={combobox}
         width={250}
         position="bottom-start"
         withArrow
-        onOptionSubmit={(val) => {
-          //console.log(val);
-          setSelectedItem(val);
+        onOptionSubmit={(_, val) => {
+          console.log(val.children.props.children[2]);
+          form.setFieldValue("lang", val.value);
+          setSelectedItem(val.value);
+          setSelectedLabel(val.children.props.children[2]) // it happend because speed matter...
           combobox.closeDropdown();
         }}
         middlewares={{ flip: true, shift: false }}
         offset={{ mainAxis: 10, crossAxis: 210 }}
+        
       >
         <Combobox.Target withAriaAttributes={false}>
           <Input
@@ -114,7 +145,7 @@ const TurboSearchSelect = () => {
             leftSectionWidth={200}
             leftSection={
               <Text size="sm" style={{ cursor: "pointer" }}>
-                Translate to: <span style={{ color: "white" }}>{selectedItem}</span>
+                Translate to: <span style={{ color: "white" }}>{label}</span>
               </Text>
             }
             rightSection={
@@ -124,6 +155,9 @@ const TurboSearchSelect = () => {
                 style={{ cursor: "pointer" }}
               />
             }
+
+            {...form.getInputProps("lang")}
+
             required
           />
         </Combobox.Target>
@@ -146,7 +180,6 @@ const TurboSearchSelect = () => {
               },
             }}
             onChange={(event) => {
-             // console.log(event);
               setSearch(event.currentTarget.value);
             }}
             placeholder="Search..."
@@ -157,16 +190,10 @@ const TurboSearchSelect = () => {
           </Combobox.Options>
         </Combobox.Dropdown>
       </Combobox>
-    </>
-  );
-};
 
-export const LinkInsertion = () => {
-  return (
-    <Flex gap={10}>
-      <TurboSearchSelect />
 
-      <Input
+
+      <TextInput
         radius="lg"
         component="input"
         styles={{
@@ -198,8 +225,6 @@ export const LinkInsertion = () => {
             m={"0px 10px 0px 0px"}
             style={{ borderRight: "1.5px solid #3C3C3C", position: "absolute", top: 0 }}
           >
-            {/* <IconBrandYoutube color="white" size={14} />
-            / */}
             <IconBrandInstagram color="white" size={14} />
             /
             <IconBrandTiktok color="white" size={14} />
@@ -210,12 +235,23 @@ export const LinkInsertion = () => {
             color="rgba(209, 253, 10, 1)"
             component="button"
             style={{ color: "black", position: "absolute", top: -1, cursor: "pointer" }}
+            type="submit"
           >
             Get Script
           </Button>
         }
         style={{ width: 665, height: 40 }}
+        {...form.getInputProps("url", { type: "input" })}
       />
-    </Flex>
+      </Flex>
+    </form>
   );
 };
+
+
+interface IForm {
+  url: string, 
+  lang: string
+} 
+
+

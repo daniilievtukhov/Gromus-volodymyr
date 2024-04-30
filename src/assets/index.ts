@@ -33,15 +33,18 @@ import shazam from "./images/shazam.png";
 import spotify from "./images/spotify.png";
 import tiktok from "./images/tiktok.png";
 import bulleted_list from "./images/bulleted_list.png";
-
+import tiktokWhite from "./icons/tiktok-white.svg";
 import youtubeCircleIcon from "./icons/youtube-circle.svg";
+import instagramOutline from "./icons/instagram-outline.svg"
 
 export { youtubeCircleIcon };
 export { LogoGromus, Check, Close, DiscordIcon, InsIcon, SpotifyIcon };
 export {
   googleSvg,
   tiktokSvg,
+  tiktokWhite,
   instagramSvg,
+  instagramOutline,
   discordSvg,
   hashtagSvg,
   arrowSvg,

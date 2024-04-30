@@ -7,83 +7,31 @@ import { bulletSvg } from "../../assets/index";
 import { LinksTable } from "./components/LinksTable";
 import { LinkInsertion } from "./components/LinkInsertion";
 import { useTranscriptionHistory } from "./hooks/useTranscriptionHistory";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
+import { format } from "date-fns";
+import { Form } from "@mantine/form";
+
 
 
 export const LinksHistoryPage = () => {
   const {
     query: { data, isSuccess, isLoading },
     page,
+    totalPages,
     setPage,
-  } = useSoundsData();
+  } = useTranscriptionHistory();
 
-  // const tableData = useMemo<ISoundData[]>(() => {
-  //   return (
-  //     data?.music.map((el) => ({
-  //       ...el,
-  //       id: el.musicId,
-  //       author: el.authorNickname || el.authorUniqueId || el.creator || "",
-  //       authorId: el.authorIdLong,
-  //     })) ?? []
-  //   );
-  // }, [data?.music]);
-
-  const tableData = [
-    {
-      id: 1,
-      social: {
-        path: "https://tic-tok.com",
-        title: "Tik-tok reels",
-      },
-      date: "19.04.2024",
-      video: "https://video.com",
-      inspect: "https://video.com",
-    },
-
-    {
-      id: 2,
-      social: {
-        path: "https://tic-tok.com",
-        title: "Tik-tok reels",
-      },
-      date: "20.04.2024",
-      video: "https://video.com",
-      inspect: "https://video.com",
-    },
-
-    {
-      id: 3,
-      social: {
-        path: "https://tic-tok.com",
-        title: "Tik-tok reels",
-      },
-      date: "21.04.2024",
-      video: "https://video.com",
-      inspect: "https://video.com",
-    },
-
-    {
-      id: 4,
-      social: {
-        path: "https://youtube.com",
-        title: "Youtube reels",
-      },
-      date: "22.04.2024",
-      video: "https://video.com",
-      inspect: "https://video.com",
-    },
-
-    {
-      id: 5,
-      social: {
-        path: "https://youtube.com",
-        title: "Youtube tube reels",
-      },
-      date: "23.04.2024",
-      video: "https://video.com",
-      inspect: "https://video.com",
-    },
-  ];
+  const tableData = useMemo(() => {
+    return (
+      data?.history_requests.map((el) => ({
+        ...el,
+        id: el.id,
+        date: format(new Date(el.date), "dd.MM.yyyy"),
+        video: el.url,
+        inspect: "https://video.com"
+      })) ?? []
+    );
+  }, [data?.history_requests]);
 
   return (
     <Stack p={32} gap={32} bg="#0D0D0E" mih="100vh">
@@ -102,7 +50,7 @@ export const LinksHistoryPage = () => {
         {isSuccess && (
           <Stack gap={8}>
             <LinksTable tableData={tableData} />
-            <RisingSoundsPagination page={page} setPage={setPage} total={data.totalRows} />
+            <RisingSoundsPagination page={page} setPage={setPage} total={totalPages} />
           </Stack>
         )}
       </Stack>
