@@ -1,9 +1,17 @@
-import { Box, Flex, Text, Paper, Group, Button, Switch } from "@mantine/core";
+import { Box, Flex, Text, Paper, Group, Button, Switch, Textarea } from "@mantine/core";
 import { IconSparkles } from "@tabler/icons-react";
 import { IconCopy, IconEdit, IconWorld, IconMessageChatbot } from "@tabler/icons-react";
+import { useState } from "react";
 import styled from "styled-components";
 
 export const Transcript = () => {
+  const [edit, setEdit] = useState<boolean>(false);
+  const handleEdit = () => {
+    setEdit(true);
+  };
+  const cancelEdit = () => {
+    setEdit(false);
+  };
   return (
     <>
       <Box style={{ margin: 0, position: "relative" }}>
@@ -58,39 +66,89 @@ export const Transcript = () => {
               </Text>
             </Flex>
           </Flex>
-          <Wrapper>
-            <Text c={"#ffffff"} style={{ marginTop: "10px", marginBottom: "20px" }}>
-              Чи знаєте ви, що TikTok зробив революцію в SEO? Нещодавно TikTok зробив крок, який
-              змінив правила гри: він додав SEO. Тепер, щоб ваш контент був на вершині, потрібно
-              знати кілька хитрощів. Перше - використовуйте лише трендові ключові слова. Знайдіть їх
-              у трендових хештегах, Google Trends, SEMrush та інших сервісах. Друге - майстерність
-              Captions. Ваші субтитри повинні містити трендові слова та ключові фрази, за якими ви
-              хочете, щоб вас знаходили. І третє, але не менш важливе - вміння ховати ключові слова
-              за різними елементами відео. TikTok тепер враховує все! Не забудьте використовувати ці
-              поради, щоб ваш контент підкорив TikTok SEO. Поділіться своїми успіхами в коментарях!
-            </Text>
-            <Flex
-              align="center"
-              justify="space-between"
-              style={{ marginTop: "30px", padding: "0 20px" }}
-            >
-              <Flex align="center" gap={10}>
-                <Button
-                  size="lg"
-                  color="rgba(58, 58, 58, 1)"
-                  variant="filled"
-                  style={{ color: "white" }}
+          {edit ? (
+            <>
+              <Wrapper>
+                <Textarea
+                  c={"#ffffff"}
+                  style={{ marginTop: "10px", marginBottom: "20px" }}
+                  variant="unstyled"
+                  autosize
                 >
-                  <IconCopy size={18} style={{ marginRight: 4 }} />
-                  Copy
-                </Button>
-                <Button size="lg" color="white" fz="md" variant="outline">
-                  <IconEdit style={{ marginRight: 4 }} />
-                  Edit
-                </Button>
-              </Flex>
-            </Flex>
-          </Wrapper>
+                  Чи знаєте ви, що TikTok зробив революцію в SEO? Нещодавно TikTok зробив крок, який
+                  змінив правила гри: він додав SEO. Тепер, щоб ваш контент був на вершині, потрібно
+                  знати кілька хитрощів. Перше - використовуйте лише трендові ключові слова.
+                  Знайдіть їх у трендових хештегах, Google Trends, SEMrush та інших сервісах. Друге
+                  - майстерність Captions. Ваші субтитри повинні містити трендові слова та ключові
+                  фрази, за якими ви хочете, щоб вас знаходили. І третє, але не менш важливе -
+                  вміння ховати ключові слова за різними елементами відео. TikTok тепер враховує
+                  все! Не забудьте використовувати ці поради, щоб ваш контент підкорив TikTok SEO.
+                  Поділіться своїми успіхами в коментарях!
+                </Textarea>
+                <Flex
+                  align="center"
+                  justify="space-between"
+                  style={{ marginTop: "30px", padding: "0 20px" }}
+                >
+                  <Flex align="center" gap={10}>
+                    <Button
+                      size="lg"
+                      color="rgba(58, 58, 58, 1)"
+                      variant="filled"
+                      style={{ color: "white" }}
+                    >
+                      <IconCopy size={18} style={{ marginRight: 4 }} />
+                      Copy
+                    </Button>
+                    <Button size="lg" color="white" fz="md" variant="outline">
+                      <IconEdit style={{ marginRight: 4 }} />
+                      Save changes
+                    </Button>
+                    <Button size="lg" color="white" fz="md" variant="outline" onClick={cancelEdit}>
+                      Cancel
+                    </Button>
+                  </Flex>
+                </Flex>
+              </Wrapper>
+            </>
+          ) : (
+            <>
+              <Wrapper>
+                <Text c={"#ffffff"} style={{ marginTop: "10px", marginBottom: "20px" }}>
+                  Чи знаєте ви, що TikTok зробив революцію в SEO? Нещодавно TikTok зробив крок, який
+                  змінив правила гри: він додав SEO. Тепер, щоб ваш контент був на вершині, потрібно
+                  знати кілька хитрощів. Перше - використовуйте лише трендові ключові слова.
+                  Знайдіть їх у трендових хештегах, Google Trends, SEMrush та інших сервісах. Друге
+                  - майстерність Captions. Ваші субтитри повинні містити трендові слова та ключові
+                  фрази, за якими ви хочете, щоб вас знаходили. І третє, але не менш важливе -
+                  вміння ховати ключові слова за різними елементами відео. TikTok тепер враховує
+                  все! Не забудьте використовувати ці поради, щоб ваш контент підкорив TikTok SEO.
+                  Поділіться своїми успіхами в коментарях!
+                </Text>
+                <Flex
+                  align="center"
+                  justify="space-between"
+                  style={{ marginTop: "30px", padding: "0 20px" }}
+                >
+                  <Flex align="center" gap={10}>
+                    <Button
+                      size="lg"
+                      color="rgba(58, 58, 58, 1)"
+                      variant="filled"
+                      style={{ color: "white" }}
+                    >
+                      <IconCopy size={18} style={{ marginRight: 4 }} />
+                      Copy
+                    </Button>
+                    <Button size="lg" color="white" fz="md" variant="outline" onClick={handleEdit}>
+                      <IconEdit style={{ marginRight: 4 }} />
+                      Edit
+                    </Button>
+                  </Flex>
+                </Flex>
+              </Wrapper>
+            </>
+          )}
         </Paper>
       </Box>
     </>
