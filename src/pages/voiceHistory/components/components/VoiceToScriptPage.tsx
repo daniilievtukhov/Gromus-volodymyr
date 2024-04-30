@@ -2,8 +2,8 @@ import { Flex, Stack, Text } from "@mantine/core";
 import { AccentTitle } from "../../../../components/AccentTitle";
 import { bulleted_list } from "../../../../assets/index";
 import { VoiceOperations } from "../VoiceOperations";
-import { SeoOnTiktok } from "../../../linksHistory/components/components/components/SeoOnTiktok";
-import { Transcript } from "../../../linksHistory/components/components/components/Transcript";
+import { SeoOnTiktok } from "../../../videoToScript/components/SeoOnTiktok";
+import { Transcript } from "../../../videoToScript/components/Transcript";
 import { microSvg } from "../../../../assets/index";
 
 export const VoiceToScriptPage = () => {

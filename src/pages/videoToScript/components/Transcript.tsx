@@ -2,8 +2,15 @@ import { Box, Flex, Text, Paper, Group, Button, Switch } from "@mantine/core";
 import { IconSparkles } from "@tabler/icons-react";
 import { IconCopy, IconEdit, IconWorld, IconMessageChatbot } from "@tabler/icons-react";
 import styled from "styled-components";
+import { useScriptVideoStore } from "../store/videoToScript";
+import { startCase } from "lodash";
 
 export const Transcript = () => {
+  const { language_original, transcription_text } = useScriptVideoStore(state => state);
+
+  console.log(language_original);
+  console.log(transcription_text);
+
   return (
     <>
       <Box style={{ margin: 0, position: "relative" }}>
@@ -29,7 +36,7 @@ export const Transcript = () => {
                 variant="filled"
                 style={{ minWidth: 100, height: 30, color: "black", marginLeft: 10 }}
               >
-                Ukrainian
+                {startCase(language_original)}
               </Button>
             </Flex>
             <Flex align="center" style={{ height: "100%", alignItems: "flex-end" }}>
@@ -54,20 +61,14 @@ export const Transcript = () => {
                 }
               />
               <Text fz={16} fw={600} c={"#ffffff"} lh={1.25} truncate="end">
-                Ukrainian
+                {startCase(language_original)}
               </Text>
             </Flex>
           </Flex>
           <Wrapper>
             <Text c={"#ffffff"} style={{ marginTop: "10px", marginBottom: "20px" }}>
-              Чи знаєте ви, що TikTok зробив революцію в SEO? Нещодавно TikTok зробив крок, який
-              змінив правила гри: він додав SEO. Тепер, щоб ваш контент був на вершині, потрібно
-              знати кілька хитрощів. Перше - використовуйте лише трендові ключові слова. Знайдіть їх
-              у трендових хештегах, Google Trends, SEMrush та інших сервісах. Друге - майстерність
-              Captions. Ваші субтитри повинні містити трендові слова та ключові фрази, за якими ви
-              хочете, щоб вас знаходили. І третє, але не менш важливе - вміння ховати ключові слова
-              за різними елементами відео. TikTok тепер враховує все! Не забудьте використовувати ці
-              поради, щоб ваш контент підкорив TikTok SEO. Поділіться своїми успіхами в коментарях!
+
+             {transcription_text}
             </Text>
             <Flex
               align="center"
@@ -75,7 +76,7 @@ export const Transcript = () => {
               style={{ marginTop: "30px", padding: "0 20px" }}
             >
               <Flex align="center" gap={10}>
-                <Button
+                {/* <Button
                   size="lg"
                   color="rgba(58, 58, 58, 1)"
                   variant="filled"
@@ -87,7 +88,7 @@ export const Transcript = () => {
                 <Button size="lg" color="white" fz="md" variant="outline">
                   <IconEdit style={{ marginRight: 4 }} />
                   Edit
-                </Button>
+                </Button> */}
               </Flex>
             </Flex>
           </Wrapper>

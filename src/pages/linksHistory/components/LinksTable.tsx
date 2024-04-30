@@ -10,8 +10,8 @@ import InspectButton from "./InspectButton";
 interface ILinkData {
   id: number | string,
   date: string,
+  title: string,
   video: string,
-  inspect: string 
 }
 
 export const LinksTable = ({ tableData }: { tableData: ILinkData[] }) => {
@@ -27,6 +27,7 @@ export const LinksTable = ({ tableData }: { tableData: ILinkData[] }) => {
           render: (data) =>
                         <SocialMediaLink 
                           id={data.id} 
+                          title={data.title}
                           path={data.video} 
                         /> 
                   
@@ -45,7 +46,7 @@ export const LinksTable = ({ tableData }: { tableData: ILinkData[] }) => {
       {
         field: "inspect",
         title: "Inspect",
-        render: (data) => <InspectButton path={data.inspect} />
+        render: (data) => <InspectButton id={data.id} />
       },
     ],
     [],

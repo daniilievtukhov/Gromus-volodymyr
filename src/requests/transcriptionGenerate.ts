@@ -12,8 +12,19 @@ export namespace ApiTranscriptionGenerate {
         EventType: string
     }
 
+    export interface IResponse {
+        data_type: string,
+        event_type:"download_generate"
+        url:string,
+        data_music_url: string,
+        transcription_text: string,
+        title: string,
+        language_original: string,
+        new_generate_text: string   
+    }
+    
     export const post = async (params: IRequest) => {
-        return (await axios.post(`${link}?${queryString.stringify(params)}`));
+        return (await axios.post<IResponse>(`${link}?${queryString.stringify(params)}`));
     };
 
 }

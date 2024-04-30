@@ -24,7 +24,7 @@ import { RisingSoundsPage } from "./pages/sounds/RisingSoundsPage";
 import { PricingPage } from "./pages/pricing/PricingPage";
 import { LinksHistoryPage } from "./pages/linksHistory/LinksHistoryPage";
 import { VoiceHistoryPage } from "./pages/voiceHistory/VoiceHistoryPage";
-import { VideoToScriptPage } from "./pages/linksHistory/components/components/VideoToScriptPage";
+import { VideoToScriptPage } from "./pages/videoToScript/VideoToScriptPage";
 import { ApiUserInfo } from "./requests/account/info";
 import { ApiMessage } from "./requests/conversation/message";
 import { mantineTheme } from "./theme/mantine-theme";

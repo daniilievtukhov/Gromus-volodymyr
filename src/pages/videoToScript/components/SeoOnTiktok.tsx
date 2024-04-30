@@ -2,8 +2,12 @@ import { Box, Flex, Text, Paper, Group, Button } from "@mantine/core";
 import { IconSparkles } from "@tabler/icons-react";
 import { IconCopy, IconEdit, IconWorld, IconMessageChatbot } from "@tabler/icons-react";
 import styled from "styled-components";
+import { useScriptVideoStore } from "../store/videoToScript";
 
 export const SeoOnTiktok = () => {
+  const {title, new_generate_text } = useScriptVideoStore(state => state);
+
+
   return (
     <>
       <Box style={{ marginTop: 300, position: "relative" }}>
@@ -23,7 +27,7 @@ export const SeoOnTiktok = () => {
             <Flex align="center" style={{ height: "100%", alignItems: "flex-end" }}>
               <Text fz={16} fw={600} c={"#000000"} lh={1.25} truncate="end">
                 <IconSparkles stroke={1.5} style={{ verticalAlign: "middle", cursor: "pointer" }} />
-                SEO на TikTok: Як підкорити алгоритми
+                {title}
               </Text>
             </Flex>
           </Flex>
@@ -76,18 +80,11 @@ export const SeoOnTiktok = () => {
               </Group>
             </Paper>
             <Text c={"#ffffff"} style={{ marginTop: "30px" }}>
-              Чи знаєте ви, що TikTok зробив революцію в SEO? Нещодавно TikTok зробив крок, який
-              змінив правила гри: він додав SEO. Тепер, щоб ваш контент був на вершині, потрібно
-              знати кілька хитрощів. Перше - використовуйте лише трендові ключові слова. Знайдіть їх
-              у трендових хештегах, Google Trends, SEMrush та інших сервісах. Друге - майстерність
-              Captions. Ваші субтитри повинні містити трендові слова та ключові фрази, за якими ви
-              хочете, щоб вас знаходили. І третє, але не менш важливе - вміння ховати ключові слова
-              за різними елементами відео. TikTok тепер враховує все! Не забудьте використовувати ці
-              поради, щоб ваш контент підкорив TikTok SEO. Поділіться своїми успіхами в коментарях!
+            {new_generate_text}
             </Text>
 
             <Flex align="center" gap={10} style={{ marginTop: "20px", marginBottom: "20px" }}>
-              <Button
+              {/* <Button
                 size="lg"
                 color="rgba(58, 58, 58, 1)"
                 variant="filled"
@@ -111,7 +108,7 @@ export const SeoOnTiktok = () => {
               <Button size="lg" color="white" fz="md" variant="outline">
                 <IconWorld style={{ marginRight: 4 }} />
                 Change Language
-              </Button>
+              </Button> */}
             </Flex>
           </Wrapper>
         </Paper>

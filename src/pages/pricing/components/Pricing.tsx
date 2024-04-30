@@ -14,39 +14,7 @@ const PricingContainer = styled.div`
   text-align: center;
 `;
 
-const PricingHeader = styled.div`
-  height: 100px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 0 1rem;
-`;
-
-const BasicLabel = styled.label`
-  font-weight: 700;
-  font-size: 18px;
-`;
-
-const FreeLabel = styled.label`
-  font-weight: 500;
-  font-size: 40px;
-  color: #d1fd0a;
-`;
-
-const Separator = styled.hr`
-  color: rgba(255, 255, 255, 0.05);
-  height: 2px;
-`;
-
-const CardContainer = styled.div`
-  border-radius: 16px;
-`;
-
 export const SignedText = styled.label`
-  color: #d1fd0a;
-`;
-
-const ComingSoon = styled.label`
   color: #d1fd0a;
 `;
 

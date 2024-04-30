@@ -26,18 +26,21 @@ import { useTranscriptionHistory } from "../hooks/useTranscriptionHistory";
 import { mainLanguages } from "../mainLanguages";
 import { ApiTranscriptionGenerate } from "../../../requests/transcriptionGenerate";
 import { notify } from "../../../features/notification";
-
+import { useScriptVideoStore } from "../../videoToScript/store/videoToScript";
+import { useNavigate } from "react-router-dom";
 
 export const LinkInsertion = () => {
   const [ selectedItem, setSelectedItem ] = useState<string>("en");
   const [ label, setSelectedLabel ] = useState<string>("English");
-
+  const navigate = useNavigate();
   const form = useForm<IForm>({
     initialValues:   {
       url: "",
       lang: selectedItem
     }
   });
+
+  const [btnLoading, setBtnLoading] = useState(false);
 
   const {
     query: {data,
@@ -96,13 +99,20 @@ export const LinkInsertion = () => {
 
   return (
     <form
-      onSubmit={form.onSubmit((values) => {
+      onSubmit={form.onSubmit(async (values) => {
         console.log(values);
-        ApiTranscriptionGenerate.post({
+        setBtnLoading(true);
+        
+        await ApiTranscriptionGenerate.post({
           Language: values.lang,
           Url: values.url,
           EventType: "download_generate"
-        })
+        }).then((res) => {
+            useScriptVideoStore.setState(res.data);
+            console.log(res);
+            navigate("/video-to-script");
+          }
+        )
       })}
     >
       <Flex gap={10}>
@@ -236,6 +246,7 @@ export const LinkInsertion = () => {
             component="button"
             style={{ color: "black", position: "absolute", top: -1, cursor: "pointer" }}
             type="submit"
+            loading={btnLoading}
           >
             Get Script
           </Button>

@@ -10,6 +10,7 @@ import { useTranscriptionHistory } from "./hooks/useTranscriptionHistory";
 import { useEffect, useMemo } from "react";
 import { format } from "date-fns";
 import { Form } from "@mantine/form";
+import { dataTagSymbol } from "@tanstack/react-query";
 
 
 
@@ -17,9 +18,11 @@ export const LinksHistoryPage = () => {
   const {
     query: { data, isSuccess, isLoading },
     page,
-    totalPages,
-    setPage,
+    setPage
   } = useTranscriptionHistory();
+  
+  const totalPages = 1
+  console.log(data);
 
   const tableData = useMemo(() => {
     return (
@@ -28,7 +31,6 @@ export const LinksHistoryPage = () => {
         id: el.id,
         date: format(new Date(el.date), "dd.MM.yyyy"),
         video: el.url,
-        inspect: "https://video.com"
       })) ?? []
     );
   }, [data?.history_requests]);
@@ -50,7 +52,7 @@ export const LinksHistoryPage = () => {
         {isSuccess && (
           <Stack gap={8}>
             <LinksTable tableData={tableData} />
-            <RisingSoundsPagination page={page} setPage={setPage} total={totalPages} />
+            <RisingSoundsPagination page={page} setPage={setPage} total={data.pages} />
           </Stack>
         )}
       </Stack>

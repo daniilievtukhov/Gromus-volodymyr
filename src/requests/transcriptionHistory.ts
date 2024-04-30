@@ -4,10 +4,16 @@ import { Links } from "../core/links";
 import queryString from "query-string";
 export namespace ApiTranscriptionHistory {
     const link = `${Links.api}/Transcription/History`;
+    const linkByDetails = `${Links.api}/Transcription/Details`;
 
-    export interface IRequest {
-        eventType: string
+    export interface IRequestDetails {
+        id: string | number
     }
+
+    export interface IRequestHistory {
+        eventType: string,
+        page: number,
+    }   
 
     export interface IHistoryRequest {
         data_music_id: number
@@ -26,8 +32,12 @@ export namespace ApiTranscriptionHistory {
         lang: any[];
     }
 
-    export const get = async (params: IRequest) => {
+    export const get = async (params: IRequestHistory) => {
         return (await axios.get<IResponse>(`${link}?${queryString.stringify(params)}`)).data;
     };
+
+    export const getById = async (params: IRequestDetails) => {
+        return (await axios.get<IHistoryRequest>(`${linkByDetails}?${queryString.stringify(params)}`))
+    }
 
 }
