@@ -51,7 +51,7 @@ export const VoiceTable = ({ tableData }: { tableData: ILinkData[] }) => {
       {
         field: "inspect",
         title: "Inspect",
-        render: (data) => <InspectButton path={data.inspect} />,
+        render: (data) => <InspectButton id={data.inspect} />,
       },
     ],
     [],

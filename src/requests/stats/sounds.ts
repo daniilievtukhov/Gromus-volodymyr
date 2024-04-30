@@ -23,6 +23,7 @@ export namespace ApiSounds {
     accountHashtagBalancedGroup?: ApiHashtagsAnalytics.IHashtagBalance[];
     filters: Filters;
     rowsCount: number;
+    pages: number;
     totalRows: number;
     daysStats?: {
       dayOfWeek: number;

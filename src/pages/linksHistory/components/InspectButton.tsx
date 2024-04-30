@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { 
     Anchor,
     Button, 
@@ -8,24 +8,42 @@ import {
 } from "@mantine/core";
 
 import { inspectSvg } from "../../../assets";
+import { useScriptVideoStore } from "../../videoToScript/store/videoToScript";
+import { ApiTranscriptionHistory } from "../../../requests/transcriptionHistory";
+import { useNavigate } from "react-router-dom";
 
-const InspectButton:React.FC<{ path: string }> = ({path}) => {
+const InspectButton:React.FC<{ id: string | number }> = ({id}) => {
+    const navigate = useNavigate()
+    const [btnLoading, setBtnLoading ] = useState<boolean>(false)
+
+    const onClick = async () => {
+        setBtnLoading(true);
+
+        await ApiTranscriptionHistory.getById({ id: id })
+        .then(res => {
+            console.log(res);
+            useScriptVideoStore.setState(res.data)
+        });
+        
+        navigate("/video-to-script");
+    }
+
     return (
-        <Anchor href={path}>
-            <Button 
-                role="link"
-                bg="#3A3A3A"
-                style={{border: "1.5px solid #3A3A3A"}}
-            >
-                <Flex gap={"sm"}>
-                    <Text
-                        fw={600}
-                        fz={"md"}
-                    >Inspect</Text>
-                    <Image src={inspectSvg} />
-                </Flex>
-            </Button>
-        </Anchor>
+        <Button 
+            role="link"
+            bg="#3A3A3A"
+            style={{border: "1.5px solid #3A3A3A"}}
+            loading={btnLoading}
+            onClick={onClick}
+        >
+            <Flex gap={"sm"}>
+                <Text
+                    fw={600}
+                    fz={"md"}
+                >Inspect</Text>
+                <Image src={inspectSvg} />
+            </Flex>
+        </Button>
     );
 }
 
