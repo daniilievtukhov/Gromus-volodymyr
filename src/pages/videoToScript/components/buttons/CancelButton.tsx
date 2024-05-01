@@ -1,0 +1,29 @@
+import React from "react"
+import { IconEdit } from "@tabler/icons-react"
+import { Button } from "@mantine/core"
+
+interface Props {
+    setEditable: (editable: boolean) => void,
+    setOnSubmitText: (text: string) => void,
+    setOriginalText: (text: string) => void,
+    originalText: string
+}
+
+export const CancelButton:React.FC<Props> = ({ setEditable, setOnSubmitText, setOriginalText, originalText }) => {
+    return (
+        <Button 
+        size="lg" 
+        color="white" 
+        fz="md" 
+        variant="outline"
+        onClick={() => {
+            setOriginalText(originalText);
+            console.log(originalText)
+            setEditable(false);
+            setOnSubmitText(originalText);
+        }}
+      >
+        Cancel
+      </Button>     
+    )
+}

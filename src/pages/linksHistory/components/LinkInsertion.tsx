@@ -78,7 +78,7 @@ export const LinkInsertion = () => {
   const options = languages.map((group) => (
     <Combobox.Group label={group.group}>
       {group.items
-        .filter((item) => item?.label.toLowerCase().includes(search.toLowerCase().trim()))
+        .filter((item) => item.label.toLowerCase().includes(search.toLowerCase().trim()))
         .map((el) => (
           <Combobox.Option value={el.value} key={el.value}>
             <Group gap="sm" style={{ "&:hover": { background: "#D1FD0A" } }}>
@@ -117,19 +117,11 @@ export const LinkInsertion = () => {
           width={250}
           position="bottom-start"
           withArrow
-          onOptionSubmit={(_, optionProps: ComboboxOptionProps) => {
-            const { value, children } = optionProps;
-
+          onOptionSubmit={(value: string) => {
             form.setFieldValue("lang", value);
             setSelectedItem(value);
-
-            if (
-              children &&
-              children.props &&
-              children.props.children &&
-              children.props.children[2]
-            ) {
-              setSelectedLabel(children.props.children[2]); // Accessing children properties
+            if (data && data.lang && data.lang.hasOwnProperty(value)) {
+              setSelectedLabel(data.lang[value as keyof typeof data.lang]);
             }
             combobox.closeDropdown();
           }}

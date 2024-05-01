@@ -3,6 +3,7 @@ import { create } from "zustand";
 import { ApiTranscriptionGenerate } from "../../../requests/transcriptionGenerate";
 
 const initial: ApiTranscriptionGenerate.IResponse = {
+    id: "",
     data_type: "",
     event_type: "download_generate",
     url:"",
