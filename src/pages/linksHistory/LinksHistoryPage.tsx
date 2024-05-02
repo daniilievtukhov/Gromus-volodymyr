@@ -42,6 +42,7 @@ export const LinksHistoryPage = () => {
             ))}
           </Stack>
         )}
+        
         {isSuccess && (
           <Stack gap={8}>
             <LinksTable tableData={tableData} />

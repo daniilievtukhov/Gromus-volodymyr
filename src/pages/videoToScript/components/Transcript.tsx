@@ -1,15 +1,27 @@
-import { Box, Flex, Text, Paper, Group, Button, Switch } from "@mantine/core";
-import { IconSparkles } from "@tabler/icons-react";
+import { Box, Flex, Text, Paper, Group, Button, Switch, Textarea } from "@mantine/core";
+import { IconCopyCheck, IconSparkles } from "@tabler/icons-react";
 import { IconCopy, IconEdit, IconWorld, IconMessageChatbot } from "@tabler/icons-react";
 import styled from "styled-components";
 import { useScriptVideoStore } from "../store/videoToScript";
 import { startCase } from "lodash";
+import { useRef, useState } from "react";
+import { EditButton } from "./buttons/EditButton";
+import { SaveButton } from "./buttons/SaveButton";
+import { ApiTranscriptionGenerate } from "../../../requests/transcriptionGenerate";
+import { CopyButtonScript } from "./buttons/CopyButton";
+import { ApiTranscriptionEdit } from "../../../requests/transcriptionEdit";
+import { CancelButton } from "./buttons/CancelButton";
+// import { Saving } from "./Saving";
 
 export const Transcript = () => {
-  const { language_original, transcription_text } = useScriptVideoStore(state => state);
+  const { id, lang_generate, language_original, transcription_text } = useScriptVideoStore(
+    (state) => state,
+  );
 
-  console.log(language_original);
-  console.log(transcription_text);
+  const [editable, setEditable] = useState<boolean>(false);
+  const [onSubmitText, setSubmitText] = useState<string>(transcription_text);
+  const [saveButtonLoading, setSaveButtonLoading] = useState<boolean>(false);
+  const [originalText, setOriginalText] = useState<string>(transcription_text);
 
   return (
     <>
@@ -36,7 +48,7 @@ export const Transcript = () => {
                 variant="filled"
                 style={{ minWidth: 100, height: 30, color: "black", marginLeft: 10 }}
               >
-                {startCase(language_original)}
+                {startCase(Object.values(language_original)[0])}
               </Button>
             </Flex>
             <Flex align="center" style={{ height: "100%", alignItems: "flex-end" }}>
@@ -61,34 +73,70 @@ export const Transcript = () => {
                 }
               />
               <Text fz={16} fw={600} c={"#ffffff"} lh={1.25} truncate="end">
-                {startCase(language_original)}
+                {startCase(Object.values(language_original)[0])}
               </Text>
             </Flex>
           </Flex>
           <Wrapper>
-            <Text c={"#ffffff"} style={{ marginTop: "10px", marginBottom: "20px" }}>
-
-             {transcription_text}
+            <Text
+              c={"#ffffff"}
+              bg={editable ? "#242424" : ""}
+              p={10}
+              style={{ marginTop: "10px", marginBottom: "20px", borderRadius: "8px" }}
+              contentEditable={editable}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                }
+              }}
+              onInput={(e) => {
+                const target = e.target as HTMLInputElement;
+                if (target && target.textContent) {
+                  console.log(target.textContent);
+                  setSubmitText(target.textContent);
+                }
+              }}
+            >
+              {originalText}
             </Text>
             <Flex
               align="center"
               justify="space-between"
               style={{ marginTop: "30px", padding: "0 20px" }}
             >
-              <Flex align="center" gap={10}>
-                {/* <Button
-                  size="lg"
-                  color="rgba(58, 58, 58, 1)"
-                  variant="filled"
-                  style={{ color: "white" }}
-                >
-                  <IconCopy size={18} style={{ marginRight: 4 }} />
-                  Copy
-                </Button>
-                <Button size="lg" color="white" fz="md" variant="outline">
-                  <IconEdit style={{ marginRight: 4 }} />
-                  Edit
-                </Button> */}
+              <Flex justify={"space-between"} align="center" gap={10}>
+                <CopyButtonScript copiedItem={onSubmitText} size="lg" />
+
+                {!editable && <EditButton setEditable={setEditable} />}
+                {editable && (
+                  <Group>
+                    <SaveButton
+                      onSubmitText={onSubmitText}
+                      originalText={transcription_text}
+                      onSubmit={async () => {
+                        setSaveButtonLoading(true);
+                        console.log(lang_generate);
+                        const res = await ApiTranscriptionEdit.updateTranscriptionText({
+                          id: id,
+                          lang: lang_generate,
+                          text: onSubmitText,
+                        });
+
+                        console.log(res);
+                        useScriptVideoStore.setState(res.data);
+                        setSaveButtonLoading(false);
+                        setEditable(false);
+                      }}
+                      saveButtonLoading={saveButtonLoading}
+                    />
+                    <CancelButton
+                      setOriginalText={setOriginalText}
+                      setEditable={setEditable}
+                      setOnSubmitText={setSubmitText}
+                      originalText={transcription_text}
+                    />
+                  </Group>
+                )}
               </Flex>
             </Flex>
           </Wrapper>

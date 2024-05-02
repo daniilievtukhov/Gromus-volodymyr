@@ -5,7 +5,7 @@ import { ColumnDef, Table } from "../../../components/Table";
 
 import RecordLink from "./RecordLink";
 
-import InspectButton from "../../linksHistory/components/InspectButton";
+import { InspectButton } from "../../linksHistory/components/InspectButton";
 
 interface ILinkData {
   id: number | string;

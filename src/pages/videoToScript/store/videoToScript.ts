@@ -3,20 +3,22 @@ import { create } from "zustand";
 import { ApiTranscriptionGenerate } from "../../../requests/transcriptionGenerate";
 
 const initial: ApiTranscriptionGenerate.IResponse = {
-    data_type: "",
-    event_type: "download_generate",
-    url:"",
-    data_music_url: "",
-    transcription_text: "",
-    title: "",
-    language_original: "",
-    new_generate_text: "",
-}
+  id: "",
+  data_type: "",
+  event_type: "download_generate",
+  url: "",
+  data_music_url: "",
+  transcription_text: "",
+  title: "",
+  language_original: "",
+  new_generate_text: "",
+  lang_generate: "",
+};
 
 export const useScriptVideoStore = create<ApiTranscriptionGenerate.IResponse>(() => ({
-    ...initial
+  ...initial,
 }));
 
 export const clearScriptVideoStore = useScriptVideoStore.setState((set) => ({
-    ...initial
+  ...initial,
 }));

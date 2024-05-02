@@ -3,9 +3,22 @@ import { IconSparkles } from "@tabler/icons-react";
 import { IconCopy, IconEdit, IconWorld, IconMessageChatbot } from "@tabler/icons-react";
 import styled from "styled-components";
 import { useScriptVideoStore } from "../store/videoToScript";
+import { useState } from "react";
+import { CopyButtonScript } from "./buttons/CopyButton";
+import { EditButton } from "./buttons/EditButton";
+import { SaveButton } from "./buttons/SaveButton";
+import { ApiTranscriptionEdit } from "../../../requests/transcriptionEdit";
+import { CancelButton } from "./buttons/CancelButton";
+import { RethinkButton } from "./buttons/RethinkButton";
 
 export const SeoOnTiktok = () => {
-  const { title, new_generate_text } = useScriptVideoStore((state) => state);
+  const { id, lang_generate, title, new_generate_text, transcription_text } = useScriptVideoStore(
+    (state) => state,
+  );
+  const [editable, setEditable] = useState<boolean>(false);
+  const [onSubmitText, setSubmitText] = useState<string>(new_generate_text);
+  const [saveButtonLoading, setSaveButtonLoading] = useState<boolean>(false);
+  const [originalText, setOriginalText] = useState<string>(new_generate_text);
 
   return (
     <>
@@ -78,36 +91,84 @@ export const SeoOnTiktok = () => {
                 </Text>
               </Group>
             </Paper>
-            <Text c={"#ffffff"} style={{ marginTop: "30px" }}>
+            <Text
+              c={"#ffffff"}
+              bg={editable ? "#242424" : ""}
+              p={10}
+              style={{ marginTop: "10px", marginBottom: "20px", borderRadius: "8px" }}
+              contentEditable={editable}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                }
+              }}
+              onInput={(e) => {
+                const target = e.target as HTMLInputElement;
+                if (target && target.textContent) {
+                  console.log(target.textContent);
+                  setSubmitText(target.textContent);
+                }
+              }}
+              suppressContentEditableWarning={true}
+            >
               {new_generate_text}
             </Text>
 
             <Flex align="center" gap={10} style={{ marginTop: "20px", marginBottom: "20px" }}>
-              {/* <Button
-                size="lg"
-                color="rgba(58, 58, 58, 1)"
-                variant="filled"
-                style={{ color: "white" }}
-              >
-                <IconCopy size={18} style={{ marginRight: 4 }} />
-                Copy
-              </Button>
-              <Button size="lg" color="white" fz="md" variant="outline">
-                <IconEdit style={{ marginRight: 4 }} />
-                Edit
-              </Button>
-              <Button size="lg" color="white" fz="md" variant="outline">
-                <IconSparkles style={{ marginRight: 4 }} />
-                Rethink
-              </Button>
-              <Button size="lg" color="white" fz="md" variant="outline">
-                <IconMessageChatbot style={{ marginRight: 4 }} />
-                Regenerate hashtags
-              </Button>
-              <Button size="lg" color="white" fz="md" variant="outline">
-                <IconWorld style={{ marginRight: 4 }} />
-                Change Language
-              </Button> */}
+              <CopyButtonScript copiedItem={onSubmitText} size="lg" />
+
+              {!editable && <EditButton setEditable={setEditable} />}
+              {editable && (
+                <Group>
+                  <SaveButton
+                    onSubmitText={onSubmitText}
+                    originalText={new_generate_text}
+                    onSubmit={async () => {
+                      setSaveButtonLoading(true);
+                      console.log(lang_generate);
+                      const res = await ApiTranscriptionEdit.updateTranscriptionText({
+                        id: id,
+                        lang: lang_generate,
+                        text: onSubmitText,
+                      });
+
+                      console.log(res);
+                      useScriptVideoStore.setState(res.data);
+                      setSaveButtonLoading(false);
+                      setEditable(false);
+                    }}
+                    saveButtonLoading={saveButtonLoading}
+                  />
+                  <CancelButton
+                    setOriginalText={setOriginalText}
+                    setEditable={setEditable}
+                    setOnSubmitText={setSubmitText}
+                    originalText={originalText}
+                  />
+                </Group>
+              )}
+              {!editable && (
+                <>
+                  <RethinkButton
+                    onSubmit={async () => {
+                      console.log(id, lang_generate, transcription_text);
+                      return await ApiTranscriptionEdit.regenerateAIText({
+                        id: id,
+                        lang: lang_generate,
+                        text: transcription_text,
+                      });
+                    }}
+                  />
+                  {/* <Button size="lg" color="white" fz="md" variant="outline">
+                    <IconMessageChatbot style={{ marginRight: 4 }} />
+                    Regenerate hashtags
+                  </Button>
+                  <Button size="lg" color="white" fz="md" variant="outline">
+                    <IconWorld style={{ marginRight: 4 }} />
+                    Change Language
+                  </Button> */}
+                </>
+              )}
             </Flex>
           </Wrapper>
         </Paper>
