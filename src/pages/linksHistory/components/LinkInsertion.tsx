@@ -27,6 +27,9 @@ import { useNavigate } from "react-router-dom";
 export const LinkInsertion = () => {
   const [selectedItem, setSelectedItem] = useState<string>("en");
   const [label, setSelectedLabel] = useState<string>("English");
+  const [error, setError] = useState<boolean>(false);
+  const [btnLoading, setBtnLoading] = useState(false);
+
   const navigate = useNavigate();
   const form = useForm<IForm>({
     initialValues: {
@@ -35,7 +38,11 @@ export const LinkInsertion = () => {
     },
   });
 
-  const [btnLoading, setBtnLoading] = useState(false);
+  useEffect(() => {
+    const timeout = setTimeout(setError, 3000, false);
+
+    () => clearTimeout(timeout);
+  }, [error])
 
   const {
     query: { data, isSuccess, isLoading },
@@ -93,6 +100,7 @@ export const LinkInsertion = () => {
         ))}
     </Combobox.Group>
   ));
+  
 
   return (
     <form
@@ -101,13 +109,17 @@ export const LinkInsertion = () => {
         setBtnLoading(true);
 
         await ApiTranscriptionGenerate.post({
-          Language: values.lang,
-          Url: values.url,
-          EventType: "download_generate",
+          language: values.lang,
+          url: values.url,
+          eventType: "download_generate",
         }).then((res) => {
           useScriptVideoStore.setState(res.data);
           console.log(res);
           navigate("/video-to-script");
+        }).catch(error => {
+          setError(true)
+        }).finally(() => {
+          setBtnLoading(false)
         });
       })}
     >
@@ -238,7 +250,7 @@ export const LinkInsertion = () => {
               type="submit"
               loading={btnLoading}
             >
-              Get Script
+             {!error ? "Get Script" : "Something went wrong..." }
             </Button>
           }
           style={{ width: 665, height: 40 }}

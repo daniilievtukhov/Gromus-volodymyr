@@ -1,15 +1,16 @@
 import React from "react";
 import { Button } from "@mantine/core";
 import { IconEdit } from "@tabler/icons-react";
+import { useState } from "react";
 
 interface SaveButtonProps {
-    saveButtonLoading: boolean
     onSubmitText: string;
     originalText: string;
     onSubmit: () => void; 
 }
 
-export const SaveButton: React.FC<SaveButtonProps> = ({ saveButtonLoading, onSubmitText, originalText, onSubmit }) => {
+export const SaveButton: React.FC<SaveButtonProps> = ({ onSubmitText, originalText, onSubmit }) => {
+  const [ loading, setLoading] = useState<boolean>(false);
 
     return (
         <Button
@@ -20,13 +21,14 @@ export const SaveButton: React.FC<SaveButtonProps> = ({ saveButtonLoading, onSub
             fz="md" 
             disabled={onSubmitText === originalText}
             type="submit"
-            onClick={(e) => {
-                    e.preventDefault()
-                    onSubmit()
+            onClick={ async (e) => {
+                    setLoading(true)  
+                    await onSubmit()
+                    setLoading(false)  
                 }
             }
 
-            loading={saveButtonLoading}
+            loading={loading}
         >
             <IconEdit style={{ marginRight: 4 }} />
             Save changes

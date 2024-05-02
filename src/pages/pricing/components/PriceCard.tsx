@@ -67,6 +67,7 @@ const FreePackageBtn: React.FC<{ children: string; category: string; activeCateg
 
   return (
     <Button
+      display={category==="BASIC" ? "none" : "block"}
       role="link"
       style={unsubcribeButtonStyles}
       onMouseEnter={() => setHover(true)}

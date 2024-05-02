@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { ColumnDef, Table } from "../../../components/Table";
 import SocialMediaLink from "./SocialMediaLink";
 import OpenVideoButton from "./OpenVideo";
-import InspectButton from "./InspectButton";
+import { InspectButton } from "./InspectButton";
 
 export interface ILinkData {
   id: number | string;
@@ -16,7 +16,7 @@ export const LinksTable = ({ tableData }: { tableData: ILinkData[] }) => {
   const columns = useMemo<ColumnDef<ILinkData>[]>(
     () => [
       {
-        field: "id",
+        field: "table_id",
         title: "#",
       },
       {

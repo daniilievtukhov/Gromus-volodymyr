@@ -7,9 +7,9 @@ export namespace ApiTranscriptionGenerate {
     const link = `${Links.api}/Transcription/Generate`;
     const linkUpdate = `${Links.api}/Transcription/EditAiText`;
     export interface IRequest {
-        Url: string,
-        Language: string,
-        EventType: string
+        url: string,
+        language: string,
+        eventType: string
     }
 
     export interface IRequestUpdate {
@@ -19,16 +19,20 @@ export namespace ApiTranscriptionGenerate {
     }
 
     export interface IResponse {
-        id: string | number,
+        ai_hashtag: string,
+        ai_title: string,
         data_type: string,
-        event_type:"download_generate"
-        url:string,
         data_music_url: string,
+        duration_video: number,
+        event_type:"download_generate"
+        original_hashtags: string,
+        id: string | number,
+        url:string,
         transcription_text: string,
         title: string,
         language_original: string,
         new_generate_text: string,
-        lang_generate: string  
+        lang_generate: string,
     }
     
     export const post = async (params: IRequest) => {

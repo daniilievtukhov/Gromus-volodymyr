@@ -11,15 +11,13 @@ import { ApiTranscriptionGenerate } from "../../../requests/transcriptionGenerat
 import { CopyButtonScript } from "./buttons/CopyButton";
 import { ApiTranscriptionEdit } from "../../../requests/transcriptionEdit";
 import { CancelButton } from "./buttons/CancelButton";
-import { Saving } from "./Saving";
+import { TextareaScript } from "./TextareaScript";
 
 export const Transcript = () => {
   const { id, lang_generate, language_original, transcription_text } = useScriptVideoStore(state => state);
 
   const [editable, setEditable] = useState<boolean>(false);
   const [onSubmitText, setSubmitText] = useState<string>(transcription_text);
-  const [saveButtonLoading, setSaveButtonLoading] = useState<boolean>(false);
-  const [originalText, setOriginalText] = useState<string>(transcription_text);
 
   return (
     <>
@@ -76,37 +74,17 @@ export const Transcript = () => {
             </Flex>
           </Flex>
           <Wrapper>
-            <Text 
-              c={"#ffffff"}
-              bg={editable ? "#242424" : ""}
-              p={10}
-              
-              style={{ marginTop: "10px", marginBottom: "20px", borderRadius: "8px"}}       
-              contentEditable={editable}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                }
-              }}
-              onInput={(e) => {
-                const target = e.target as HTMLInputElement;
-                if (target && target.textContent) {
-                    console.log(target.textContent);
-                    setSubmitText(target.textContent);
-                }
-              }
-            }              
-            >
-
-             {originalText}
-            </Text>
+            <TextareaScript 
+              editable={editable}
+              text={onSubmitText}
+              setSubmitText={setSubmitText}
+            />
             <Flex
               align="center"
-              justify="space-between"
+              justify={editable ? "space-between" : "normal"}
+              gap={10}
               style={{ marginTop: "30px", padding: "0 20px" }}
-            >
-              <Flex justify={"space-between"} align="center" gap={10}>
-                
+            >                
                 <CopyButtonScript copiedItem={onSubmitText} size="lg" />
               
                 { !editable && <EditButton setEditable={setEditable} /> }
@@ -117,31 +95,26 @@ export const Transcript = () => {
                     onSubmitText={onSubmitText} 
                     originalText={transcription_text} 
                     onSubmit={async () => {
-                      setSaveButtonLoading(true)  
-                      console.log(lang_generate);
-                      const res = await ApiTranscriptionEdit.updateTranscriptionText({
+                        console.log(onSubmitText);
+                        const res = await ApiTranscriptionEdit.updateTranscriptionText({
                           id: id,
-                          language: lang_generate,
+                          lang: lang_generate,
                           text: onSubmitText
                         });
 
-                        console.log(res)
+                        // console.log(res)
                         useScriptVideoStore.setState(res.data)
-                        setSaveButtonLoading(false)  
                         setEditable(false)
                       }
                     
                     } 
-                    saveButtonLoading={saveButtonLoading}
                   /> 
                   <CancelButton
-                    setOriginalText={setOriginalText}
                     setEditable={setEditable}
                     setOnSubmitText={setSubmitText}
                     originalText={transcription_text}
                   /> 
                 </Group>}
-              </Flex>
             </Flex>
           </Wrapper>
         </Paper>
@@ -149,6 +122,7 @@ export const Transcript = () => {
     </>
   );
 };
+
 const Wrapper = styled.div`
   min-width: 280px;
   background-color: rgba(19, 19, 20, 1);

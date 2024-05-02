@@ -6,17 +6,19 @@ import { useScriptVideoStore } from "../../videoToScript/store/videoToScript";
 import { ApiTranscriptionHistory } from "../../../requests/transcriptionHistory";
 import { useNavigate } from "react-router-dom";
 
-const InspectButton: React.FC<{ id: string | number }> = ({ id }) => {
+export const InspectButton: React.FC<{ id: string | number }> = ({ id }) => {
   const navigate = useNavigate();
   const [btnLoading, setBtnLoading] = useState<boolean>(false);
 
   const onClick = async () => {
     setBtnLoading(true);
-
+    console.log(id);
     await ApiTranscriptionHistory.getById({ id: id }).then((res) => {
       console.log(res);
       useScriptVideoStore.setState(res.data);
     });
+
+    setBtnLoading(false);
 
     navigate("/video-to-script");
   };
