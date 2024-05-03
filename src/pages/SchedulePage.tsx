@@ -21,9 +21,9 @@ export const SchedulePage = () => {
       <Stack gap={28}>
         <Flex justify="start" gap="md" align="center" wrap="wrap">
           <AccentTitle icon={<IconSparkles />}>
-            AI recommendations on the best time and day to post content on TikTok{" "}
+            AI Recommendations on times and days  for posting sounds in{" "}
             <AccentTitle.Color>this week</AccentTitle.Color> in{" "}
-            <AccentTitle.Color>(in the chosen country)</AccentTitle.Color>
+            <AccentTitle.Color>your country</AccentTitle.Color>
           </AccentTitle>
           <Flex align="center" justify="center">
             <AnimatedButtonDark

@@ -32,7 +32,7 @@ export const Calendar = () => {
     followers: 0,
   });
 
-  useEffect(() => {    
+  useEffect(() => {
     setPosts(store);
     setCountry(store.country);
   }, [store]);

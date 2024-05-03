@@ -30,7 +30,7 @@ export const Navigation = () => {
   const menuItems = useMemo<MenuItem[]>(
     () => [
       {
-        label: "AI Persanolized",
+        label: "AI Personalised",
         icon: <IconStarsFilled />,
         id: "ai",
         children: [
