@@ -71,9 +71,10 @@ export function PricingModal() {
         <Pricing showFooter={false} showText={false} />
       </CustomModal>
 
-      {/* <Group>
+      
+       {/* <Group>
         <Button onClick={() => setOpened(true)}>Open Modal</Button>
       </Group> */}
-    </>
+    </> 
   );
 }

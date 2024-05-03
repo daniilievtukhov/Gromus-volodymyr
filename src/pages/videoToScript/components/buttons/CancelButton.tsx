@@ -5,11 +5,10 @@ import { Button } from "@mantine/core"
 interface Props {
     setEditable: (editable: boolean) => void,
     setOnSubmitText: (text: string) => void,
-    setOriginalText: (text: string) => void,
     originalText: string
 }
 
-export const CancelButton:React.FC<Props> = ({ setEditable, setOnSubmitText, setOriginalText, originalText }) => {
+export const CancelButton:React.FC<Props> = ({ setEditable, setOnSubmitText, originalText }) => {
     return (
         <Button 
         size="lg" 
@@ -17,7 +16,6 @@ export const CancelButton:React.FC<Props> = ({ setEditable, setOnSubmitText, set
         fz="md" 
         variant="outline"
         onClick={() => {
-            setOriginalText(originalText);
             console.log(originalText)
             setEditable(false);
             setOnSubmitText(originalText);

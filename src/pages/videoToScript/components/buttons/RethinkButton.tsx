@@ -4,7 +4,7 @@ import { Button } from "@mantine/core";
 import { useScriptVideoStore } from "../../store/videoToScript";
 
 interface Props {
-  onSubmit: () => void;
+  onSubmit: () => Promise<any>;
 }
 
 export const RethinkButton: React.FC<Props> = ({ onSubmit }) => {
@@ -18,8 +18,10 @@ export const RethinkButton: React.FC<Props> = ({ onSubmit }) => {
       variant="outline"
       onClick={async () => {
         setLoading(true);
-        const res: any = await onSubmit();
-        useScriptVideoStore.setState(res.data);
+        const res = await onSubmit();
+        if (res && res.data) {
+          useScriptVideoStore.setState(res.data);
+        }
         setLoading(false);
       }}
       loading={loading}

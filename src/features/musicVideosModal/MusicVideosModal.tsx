@@ -56,7 +56,7 @@ export const MusicVideosModal = () => {
   );
 };
 
-const Circle = styled.div`
+export const Circle = styled.div`
   display: flex;
   height: 20px;
   width: 20px;
@@ -67,6 +67,6 @@ const Circle = styled.div`
   color: #000;
 `;
 
-const White = styled.span`
+export const White = styled.span`
   color: white;
 `;

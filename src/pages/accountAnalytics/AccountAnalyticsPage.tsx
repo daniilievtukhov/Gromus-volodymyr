@@ -49,7 +49,15 @@ const Content = ({ authorId }: { authorId: number | string }) => {
           </Alert>
         </Stack>
       );
-    } else {
+    }
+    else {
+      if(isAxiosError(error) && error.response?.status === 403){
+        return (
+<Stack align="center" justify="center" style={{ height: "100vh"}}>
+You're over your limit 
+  </Stack>
+        );
+      }
       return (
         <Alert variant="light" color="orange" icon={<IconInfoCircle />}>
           Something went wrong. We are working on getting this fixed as soon as we can.
@@ -92,14 +100,14 @@ export const MyAccountAnalyticsPage = memo(() => {
 
   useEffect(() => {
     setId(store.authorId);
-    console.log(id);
-    console.log(authorId);
   }, [store]);
 
   if ((isNil(id) || pathname === "/my-account-analytics") && isNil(authorId)) {
     return (
-      <Stack align="center" justify="center" style={{ height: "100vh" }}>
-        <Text>Please, sign in with TikTok to analyze your account</Text>
+      <Stack align="center" justify="center" style={{ height: "100vh"}}>
+        <Text>To receive personalized analytics of your account, please authorize with your TikTok account😌</Text>
+        <Text>We use official authorization method and do not store or have access to your personal information and</Text>
+        <Text>passwords</Text>
         <StyledButton
           component="a"
           href={`//pro.gromus.ai/api/accountapi/gromusbridge${qs.stringify(
@@ -113,10 +121,10 @@ export const MyAccountAnalyticsPage = memo(() => {
         >
           Sign-in with TikTok
         </StyledButton>
+        <Text>Find out analytics on any creator by entering their username</Text>
       </Stack>
     );
   }
-
   return <Content authorId={authorId || ""} />;
 });
 
@@ -128,3 +136,4 @@ const StyledButton = createPolymorphicComponent<"button", ButtonProps>(styled(Bu
   font-weight: 700;
   color: black;
 `);
+

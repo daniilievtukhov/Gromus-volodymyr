@@ -8,7 +8,7 @@ interface IProps {
 }
 
 const _AccentTitle = ({ image, icon, children }: PropsWithChildren<IProps>) => (
-  <Group c="lime.4" gap={10} wrap="nowrap" align="start">
+  <Group c="lime.4" gap={10} wrap="nowrap" align="start" mt={10} mb={10}>
     <span>{icon}</span>
     {image && <img src={image} />}
     <Title order={2} fz="20px" c="white">

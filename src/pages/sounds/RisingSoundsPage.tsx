@@ -1,6 +1,5 @@
-import { Skeleton, Stack } from "@mantine/core";
+import { Flex, Skeleton, Stack } from "@mantine/core";
 import { useMemo } from "react";
-
 import { RisingSoundsTitle } from "../../components/RisingSoundsTitle";
 import { RisingDaily, RisingTable } from "../../features/risingSounds";
 import { RisingSoundsPagination } from "../../features/risingSounds/RisingSoundsPagination";
@@ -25,6 +24,7 @@ export const RisingSoundsPage = () => {
     );
   }, [data?.music]);
 
+  if(tableData.length > 0){
   return (
     <Stack p={32} gap={32} bg="#0D0D0E" mih="100vh">
       <RisingDaily />
@@ -46,4 +46,11 @@ export const RisingSoundsPage = () => {
       </Stack>
     </Stack>
   );
+}else{
+  return (
+    <Stack align="center" justify="center" style={{ height: "100vh"}}>
+You're over your limit 
+</Stack>
+  );
+}
 };

@@ -17,6 +17,7 @@ import {
   IconHeart,
   IconLink,
   IconLockFilled,
+  IconPlayerPlay,
   IconShare,
 } from "@tabler/icons-react";
 import styled from "styled-components";
@@ -30,6 +31,9 @@ import { VerifiedLabel } from "./VerifiedLabel";
 import { useEffect, useState } from "react";
 import { useAIAuthorAnalyticStore } from "../store/accountAnalytic";
 import { useLocation } from "react-router-dom";
+import { AnimatedButtonDark } from "../../../components/AnimatedButton";
+import { useHowItWorkStore } from "../../../features/greeting/store";
+import { openVideoModalTutorial } from "../../../globalStore";
 
 export const Header = ({ authorId }: { authorId: number | string }) => {
   const [data, setData] = useState<ApiAuthorAnalytics.IResponse | undefined>(undefined);
@@ -44,13 +48,13 @@ export const Header = ({ authorId }: { authorId: number | string }) => {
   };
 
   useEffect(() => {
-    if ((fetchData && !Object.entries(store.data).length) || (pathname === "/my-account-analytics")) {
+    if ((fetchData && !Object.entries(store.data).length) || pathname === "/my-account-analytics") {
       updateData(fetchIsSuccess, fetchData);
     }
   }, [fetchData, pathname]);
 
   useEffect(() => {
-    if (Object.entries(store.data).length && 'authorData' in store.data) {
+    if (Object.entries(store.data).length && "authorData" in store.data) {
       const data = store.data.authorData;
 
       if (data) {
@@ -58,46 +62,64 @@ export const Header = ({ authorId }: { authorId: number | string }) => {
       }
     }
   }, [store]);
-
+  const clicked = useHowItWorkStore((state) => state.clicked);
+  const handleHowItWorks = () => {
+    useHowItWorkStore.setState({ clicked: true });
+    openVideoModalTutorial(
+      "https://www.loom.com/share/ad65f4670ea34d3da57004aa53bd1958?sid=413ace28-637d-4c5e-ae9f-42863893278e",
+      "Personalized Account Analytics",
+    );
+  };
   return (
     <div>
       {isSuccess && data && data.author && (
         <>
           <Stack gap={18} mb={18}>
-            <Group justify={"flex-end"}>
-              <Button
-                variant="subtle"
-                size={"xs"}
-                color={"#94969C"}
-                leftSection={<IconLink size={20} />}
-              >
-                TikTok
-              </Button>
-              <Button
-                variant="subtle"
-                size={"xs"}
-                color={"#94969C"}
-                leftSection={<IconShare size={20} />}
-              >
-                Share
-              </Button>
-              <Button
-                variant="subtle"
-                size={"xs"}
-                color={"#94969C"}
-                leftSection={<IconHeart size={20} />}
-              >
-                Add to Favorites
-              </Button>
-              <Button
-                variant="subtle"
-                size={"xs"}
-                color={"#3C6DFF"}
-                leftSection={<IconDownload size={20} />}
-              >
-                Download Report
-              </Button>
+            <Group justify="space-between">
+              <Flex align="center" justify="start">
+                <AnimatedButtonDark
+                  clicked={clicked}
+                  onClick={handleHowItWorks}
+                  title="How it works"
+                  icon={<IconPlayerPlay size={10} />}
+                />
+              </Flex>
+              <Group justify={"flex-end"}>
+                <Button
+                  variant="subtle"
+                  size={"xs"}
+                  color={"#94969C"}
+                  leftSection={<IconLink size={20} />}
+                >
+                  TikTok
+                </Button>
+                <Button
+                  variant="subtle"
+                  size={"xs"}
+                  color={"#94969C"}
+                  leftSection={<IconShare size={20} />}
+                >
+                  Share
+                </Button>
+                <Button
+                  variant="subtle"
+                  size={"xs"}
+                  color={"#94969C"}
+                  leftSection={<IconHeart size={20} />}
+                >
+                  Add to Favorites
+                </Button>
+                <Button
+                  variant="subtle"
+                  size={"xs"}
+                  color={"#3C6DFF"}
+                  leftSection={<IconDownload size={20} />}
+                >
+                  Download Report
+                </Button>
+              </Group>
             </Group>
+
             <Divider color="#19191A" />
           </Stack>
 

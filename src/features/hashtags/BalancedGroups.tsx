@@ -40,30 +40,37 @@ export const BalancedGroups: React.FC<Props> = ({ accountHashtagBalancedGroup, o
 
   return (
     <>
-      <Grid grow justify="center">
-        {accountHashtagBalancedGroup.map(
-          (
-            {
-              groupName,
-              hahtags,
-            }: {
-              groupName: string;
-              hahtags: string[];
-            },
-            index: number,
-          ) => (
-            <Grid.Col style={{ padding: 0, margin: "0.5rem" }} span={2}>
-              <BalancedGroupCard
-                color={colors[index % colors.length]}
-                groupName={groupName}
-                hahtags={hahtags}
-                key={index}
-                openModal={openModal}
-              />
-            </Grid.Col>
-          ),
-        )}
-      </Grid>
+
+      <Stack gap={24}>
+        <Tabs defaultValue="geo">
+          <Tabs.Panel value="geo">
+            <ScrollArea scrollbarSize={8} offsetScrollbars>
+              <Flex gap={12} align={"stretch"} py={12}>
+                {accountHashtagBalancedGroup.map(
+                  (
+                    {
+                      groupName,
+                      hahtags,
+                    }: {
+                      groupName: string;
+                      hahtags: string[];
+                    },
+                    index: number,
+                  ) => (
+                    <BalancedGroupCard
+                      color={colors[index % colors.length]}
+                      groupName={groupName}
+                      hahtags={hahtags}
+                      key={index}
+                      openModal={openModal}
+                    />
+                  ),
+                )}
+              </Flex>
+            </ScrollArea>
+          </Tabs.Panel>
+        </Tabs>
+      </Stack>
     </>
   );
 };

@@ -16,7 +16,7 @@ export const LinksTable = ({ tableData }: { tableData: ILinkData[] }) => {
   const columns = useMemo<ColumnDef<ILinkData>[]>(
     () => [
       {
-        field: "id",
+        field: "table_id",
         title: "#",
       },
       {

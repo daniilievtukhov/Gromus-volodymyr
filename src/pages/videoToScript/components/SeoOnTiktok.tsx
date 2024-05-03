@@ -1,4 +1,4 @@
-import { Box, Flex, Text, Paper, Group, Button } from "@mantine/core";
+import { Box, Flex, Text, Paper, Group, Button, Textarea } from "@mantine/core";
 import { IconSparkles } from "@tabler/icons-react";
 import { IconCopy, IconEdit, IconWorld, IconMessageChatbot } from "@tabler/icons-react";
 import styled from "styled-components";
@@ -10,15 +10,36 @@ import { SaveButton } from "./buttons/SaveButton";
 import { ApiTranscriptionEdit } from "../../../requests/transcriptionEdit";
 import { CancelButton } from "./buttons/CancelButton";
 import { RethinkButton } from "./buttons/RethinkButton";
+import { TextareaScript } from "./TextareaScript";
+import { isNil } from "lodash";
+
+const sliceStr = (str: string, length = 50) => {
+  return str && str.length > length ? str.slice(0, length) + "..." : str;
+};
 
 export const SeoOnTiktok = () => {
-  const { id, lang_generate, title, new_generate_text, transcription_text } = useScriptVideoStore(
-    (state) => state,
-  );
+  const {
+    id,
+    lang_generate,
+    title,
+    new_generate_text,
+    transcription_text,
+    ai_hashtag,
+    original_hashtags,
+    ai_title,
+    url,
+  } = useScriptVideoStore((state) => state);
+  console.log("store", useScriptVideoStore());
   const [editable, setEditable] = useState<boolean>(false);
   const [onSubmitText, setSubmitText] = useState<string>(new_generate_text);
-  const [saveButtonLoading, setSaveButtonLoading] = useState<boolean>(false);
-  const [originalText, setOriginalText] = useState<string>(new_generate_text);
+  console.log(ai_title);
+  const title_seo = ai_title
+    ? sliceStr(ai_title)
+    : url.includes("tiktok")
+      ? "Tik-tok Reels"
+      : "Instagram Reels";
+
+  console.log(new_generate_text);
 
   return (
     <>
@@ -39,7 +60,7 @@ export const SeoOnTiktok = () => {
             <Flex align="center" style={{ height: "100%", alignItems: "flex-end" }}>
               <Text fz={16} fw={600} c={"#000000"} lh={1.25} truncate="end">
                 <IconSparkles stroke={1.5} style={{ verticalAlign: "middle", cursor: "pointer" }} />
-                {title.length > 50 ? title.slice(0, 50) + "..." : title}
+                {title_seo}
               </Text>
             </Flex>
           </Flex>
@@ -72,7 +93,7 @@ export const SeoOnTiktok = () => {
                   truncate="end"
                   style={{ marginTop: "5px" }}
                 >
-                  hashtags
+                  {original_hashtags || "#Hashtags"}
                 </Text>
               </Group>
               <Group align="center" gap={6}>
@@ -87,34 +108,18 @@ export const SeoOnTiktok = () => {
                   AI-Based:
                 </Text>
                 <Text fz={16} fw={400} c={"#ffffff"} lh={1.25} truncate="end">
-                  hashtags for ai-based
+                  {sliceStr(ai_hashtag) || "#AIHashtags"}
                 </Text>
               </Group>
             </Paper>
-            <Text
-              c={"#ffffff"}
-              bg={editable ? "#242424" : ""}
-              p={10}
-              style={{ marginTop: "10px", marginBottom: "20px", borderRadius: "8px" }}
-              contentEditable={editable}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                }
-              }}
-              onInput={(e) => {
-                const target = e.target as HTMLInputElement;
-                if (target && target.textContent) {
-                  console.log(target.textContent);
-                  setSubmitText(target.textContent);
-                }
-              }}
-              suppressContentEditableWarning={true}
-            >
-              {new_generate_text}
-            </Text>
+            <TextareaScript editable={editable} text={onSubmitText} setSubmitText={setSubmitText} />
 
-            <Flex align="center" gap={10} style={{ marginTop: "20px", marginBottom: "20px" }}>
+            <Flex
+              justify={editable ? "space-between" : "normal"}
+              align="center"
+              gap={10}
+              style={{ marginTop: "20px", marginBottom: "20px" }}
+            >
               <CopyButtonScript copiedItem={onSubmitText} size="lg" />
 
               {!editable && <EditButton setEditable={setEditable} />}
@@ -124,9 +129,8 @@ export const SeoOnTiktok = () => {
                     onSubmitText={onSubmitText}
                     originalText={new_generate_text}
                     onSubmit={async () => {
-                      setSaveButtonLoading(true);
                       console.log(lang_generate);
-                      const res = await ApiTranscriptionEdit.updateTranscriptionText({
+                      const res = await ApiTranscriptionEdit.updateAIText({
                         id: id,
                         lang: lang_generate,
                         text: onSubmitText,
@@ -134,16 +138,13 @@ export const SeoOnTiktok = () => {
 
                       console.log(res);
                       useScriptVideoStore.setState(res.data);
-                      setSaveButtonLoading(false);
                       setEditable(false);
                     }}
-                    saveButtonLoading={saveButtonLoading}
                   />
                   <CancelButton
-                    setOriginalText={setOriginalText}
                     setEditable={setEditable}
                     setOnSubmitText={setSubmitText}
-                    originalText={originalText}
+                    originalText={new_generate_text}
                   />
                 </Group>
               )}

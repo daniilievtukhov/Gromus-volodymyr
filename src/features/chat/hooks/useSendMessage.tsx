@@ -14,7 +14,6 @@ import axios from "axios";
 const userRegion = navigator.language;
 import { useHashtags } from "../../hashtags/store/hashtags";
 import { setPosts } from "../store";
-import { useRisingSoundsStore } from "../../risingSounds/store";
 
 type Payload = Pick<ApiMessage.IGetLastMessagesRequest, "conversationId" | "text" | "date">;
 
@@ -27,20 +26,28 @@ const getUserInfo = async (link: string) => {
 };
 
 function convertToHTMLList(text: string) {
+  const freeText: string[] = [];
   const lines = text.split(/\r?\n/); // Split text into lines
   const listItems = lines.map((line, index) => {
-      if (/^\d+\./.test(line)) { // Check if the line starts with a number followed by a dot
-          const content = line.replace(/^\d+\.\s*(.*)$/, '$1'); // Extract the content after the number and dot
-          return <li key={index}>{content}</li>; // Render the content as a list item
-      } else if (/^\* /.test(line)) { // Check if the line starts with an asterisk
-          const content = line.replace(/^\* (.+)$/, '$1'); // Extract the content after the asterisk
-          return <li key={index}>{content}</li>; // Render the content as a list item
-      } else {
-          return null; // Skip lines that don't match the patterns
-      }
+    if (/^\d+\./.test(line)) {
+      // Check if the line starts with a number followed by a dot
+      const content = line.replace(/^\d+\.\s*(.*)$/, "$1"); // Extract the content after the number and dot
+      return <li key={index}>{content}</li>; // Render the content as a list item
+    } else if (/^\* /.test(line)) {
+      // Check if the line starts with an asterisk
+      const content = line.replace(/^\* (.+)$/, "$1"); // Extract the content after the asterisk
+      return <li key={index}>{content}</li>; // Render the content as a list item
+    } else {
+      freeText.push(line);
+      return null; // Skip lines that don't match the patterns
+    }
   });
-
-  return <ul>{listItems}</ul>; // Render the list with the generated list items
+  return (
+    <>
+      <ul>{listItems}</ul>
+      <p>{freeText}</p>
+    </>
+  ); // Render the list with the generated list items
 }
 
 export const useSendMessage = () => {
@@ -61,7 +68,6 @@ export const useSendMessage = () => {
     },
   ) => {
     const res = await getUserInfo(link);
-    //console.log("Message from handleButtonClick", message);
 
     switch (message.DataType) {
       case "HashtagsPersonal":
@@ -142,6 +148,7 @@ export const useSendMessage = () => {
     }) => {
       const date = new Date().toISOString();
 
+      console.log(data.Text);
       const messageData = {
         isCopilot: true,
         data: data.Data,
@@ -149,7 +156,6 @@ export const useSendMessage = () => {
         message: convertToHTMLList(data.Text),
         date,
       };
-
 
       if (!data.Actions) {
         addMessage({

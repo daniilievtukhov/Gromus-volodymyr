@@ -19,7 +19,7 @@ import {
   IconCheckbox,
 } from "@tabler/icons-react";
 import { arrowSvg } from "../../../assets";
-import tiktok from "../../../assets/images/tiktok.png";
+import tiktok from "../../../assets/images/tiktok.svg";
 import fire from "../../../assets/images/fire.png";
 import statystic from "../../../assets/images/statystic.png";
 import styled from "styled-components";
@@ -122,15 +122,16 @@ export const HashtagCard: React.FC<ApiHashtagsAnalytics.ISoundHashtag> = ({
               </Box>
             </Flex>
             <Flex justify="space-between">
+              <Action component="a" href={link}>
+                <Image w={24} src={tiktok} />
+              </Action>
+
               <Badge color="rgba(239, 104, 32, 0.15)" size="lg">
                 <Flex style={{ alignItems: "center" }}>
                   <span style={{ color: "rgba(255, 148, 91, 1)" }}>{status}</span>
                   <IconInfoCircle style={{ marginLeft: 5, color: "rgba(255, 148, 91, 1)" }} />
                 </Flex>
               </Badge>
-              <Action component="a" href={link}>
-                <Image w={24} src={tiktok} />
-              </Action>
 
               <Flex justify={"space-between"}>
                 {/* <Image w={24} src={fire} /> */}

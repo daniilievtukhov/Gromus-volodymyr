@@ -67,6 +67,7 @@ const FreePackageBtn: React.FC<{ children: string; category: string; activeCateg
 
   return (
     <Button
+      display={category==="BASIC" ? "none" : "block"}
       role="link"
       style={unsubcribeButtonStyles}
       onMouseEnter={() => setHover(true)}
@@ -196,13 +197,13 @@ const PriceCardOptions: React.FC<{
   return (
     <ul style={{ listStyleType: "none", paddingLeft: "0px" }}>
       {options.map(({ isAvalible, signedText, text, comingSoon }, index: number) => (
-        <li key={index} style={{ marginBottom: "20px", display: "flex", alignItems: "center" }}>
+        <li key={index} style={{ marginBottom: "20px", display: "flex", alignItems: "center", fontSize: "13px" }}>
           {isAvalible ? (
             <img height={24} src={Check} style={{ marginRight: "10px" }} />
           ) : (
             <img height={24} src={Close} style={{ marginRight: "10px" }} />
           )}
-          <div style={{ marginRight: "10px" }}>
+          <div style={{ marginRight: "10px", textAlign: "left" }}>
             <label style={{ color: " #D1FD0A", paddingRight: "5px" }}>{signedText}</label>
             {text}
           </div>
@@ -256,7 +257,7 @@ const PriceCard: React.FC<{ priceCard: IPriceCard }> = ({ priceCard }) => {
   }, []);
 
   return (
-    <Grid.Col span={{ base: 12, md: 8, lg: 4 }}>
+    <Grid.Col style={{ backgroundColor: "#0d0d0e" }} span={{ base: 12, md: 8, lg: 4 }}>
       <PackageCardContainer>
         <PricingHeader>
           <BasicLabel>{categoryLabel}</BasicLabel>

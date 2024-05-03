@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Anchor, Button, Flex, Text, Image } from "@mantine/core";
-
+import { IconCircleArrowRightFilled } from "@tabler/icons-react";
 import { inspectSvg } from "../../../assets";
 import { useScriptVideoStore } from "../../videoToScript/store/videoToScript";
 import { ApiTranscriptionHistory } from "../../../requests/transcriptionHistory";
@@ -12,11 +12,13 @@ export const InspectButton: React.FC<{ id: string | number }> = ({ id }) => {
 
   const onClick = async () => {
     setBtnLoading(true);
-
+    console.log(id);
     await ApiTranscriptionHistory.getById({ id: id }).then((res) => {
       console.log(res);
       useScriptVideoStore.setState(res.data);
     });
+
+    setBtnLoading(false);
 
     navigate("/video-to-script");
   };
@@ -33,7 +35,7 @@ export const InspectButton: React.FC<{ id: string | number }> = ({ id }) => {
         <Text fw={600} fz={"md"}>
           See details
         </Text>
-        <Image src={inspectSvg} />
+        <IconCircleArrowRightFilled />
       </Flex>
     </Button>
   );

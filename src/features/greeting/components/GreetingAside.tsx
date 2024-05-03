@@ -3,6 +3,7 @@ import { IconBolt } from "@tabler/icons-react";
 import styled, { keyframes } from "styled-components";
 
 import { useGreetingStore } from "../store";
+import { AnimatedButtonWh } from "../../../components/AnimatedButton";
 
 export const GreetingAside = () => {
   const handleHello = () => {
@@ -16,39 +17,17 @@ export const GreetingAside = () => {
           <IconBolt size={60} />
         </Avatar>
         <Space h={15} />
-        <Text c="blue">Hi, I’m G.:</Text>
+        <Text c="blue">Hi, I’m G:</Text>
         <Text>Your Personal AI Assistant Beta</Text>
         <Space h={8} />
         <Badge color="lime.4" autoContrast>
           New Beta
         </Badge>
       </Block>
-      <AnimatedButton
-        variant="white"
-        size="lg"
-        style={{ alignSelf: "center" }}
-        onClick={handleHello}
-      >
-        <Text fw={600} c="black">
-          👋 Hello, G.!
-        </Text>
-      </AnimatedButton>
+      <AnimatedButtonWh title="Hello, G!" icon="👋" onClick={handleHello} />
     </Stack>
   );
 };
-
-const inoutAnim = keyframes`
-  0% {
-    box-shadow: 0 0 0 0px rgba(255,255,255,0.4);
-  }
-  100% {
-    box-shadow: 0 0 0 40px rgba(255,255,255,0);
-  }
-`;
-
-const AnimatedButton: typeof Button = styled(Button)`
-  animation: ${inoutAnim} 1.5s ease infinite;
-`;
 
 const Block: typeof Box = styled.div`
   background-color: #30313380;

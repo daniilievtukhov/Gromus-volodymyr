@@ -1,35 +1,31 @@
-
-import { useDisclosure } from "@mantine/hooks";
-import { Modal, Group, Button, Grid, Paper, Container } from "@mantine/core";
-import ReactPlayer from "react-player";
+import { Modal, Group, Grid, Paper, Container, Text } from "@mantine/core";
 import styled from "styled-components";
-import { useEffect } from "react";
-
 import { SignedText, SubscribePackageBtn } from "../../../pages/pricing/components/Pricing";
+import { closeVideoModalTutorial, useGlobalStore } from "../../../globalStore";
+import { Circle, White } from "../../musicVideosModal/MusicVideosModal";
+import { IconPlayerPlay } from "@tabler/icons-react";
+import { Button } from "react-bootstrap";
 
 const CustomModal = styled(Modal)`
   .mantine-Modal-header {
-
     background: #0d0d0e;
   }
   .mantine-Modal-content {
     background: #0d0d0e;
   }
 
-
   .mantine-Paper-root {
     background: #0d0d0e;
   }
-
 `;
 
-const VideoContainer = styled.div`
+const ResponsiveIframeContainer = styled.div`
   position: relative;
   padding-bottom: 56.25%;
-  height: 0;
+  overflow: hidden;
 `;
 
-const StyledIFrame = styled.iframe`
+const ResponsiveIframe = styled.iframe`
   position: absolute;
   top: 0;
   left: 0;
@@ -38,10 +34,9 @@ const StyledIFrame = styled.iframe`
 `;
 
 export const ModalVideo = () => {
+  const { opened, link, text, title } = useGlobalStore((s) => s.videosModalTutorial);
 
-  const [opened, { open, close }] = useDisclosure(false);
-
-  useEffect(() => {
+  /*useEffect(() => {
     const interval = setTimeout(() => {
       if (!opened) {
         open();
@@ -49,27 +44,45 @@ export const ModalVideo = () => {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, []);*/
 
   return (
     <>
-      <CustomModal size="75%" opened={opened} onClose={close} centered>
+      <CustomModal
+        size="75%"
+        opened={opened}
+        onClose={closeVideoModalTutorial}
+        centered
+        keepMounted={false}
+        title={
+          <Group c="lime.4" gap={10}>
+            <Circle>
+              <IconPlayerPlay size={14} strokeWidth={3} />
+            </Circle>
+            <Text fz={20} fw={"bold"} c={"#D1FD0A"}>
+              How it <White>works</White>
+            </Text>
+          </Group>
+        }
+      >
         <Paper style={{ textAlign: "center", marginBottom: "10px" }}>
-          <h2 style={{ fontSize: "48px" }}>Personalized Best Time & Day to Post</h2>
-          <SignedText>Unlock AI-Powered Solution! Elevate Your Grow Potential Today.</SignedText>
+          <h2 style={{ fontSize: "48px" }}>{title} </h2>
+          <SignedText>{text}</SignedText>
         </Paper>
 
         <Grid justify="center" align="center" style={{ margin: "30px" }}>
           <Group style={{ justifyContent: "center" }}>
-            <VideoContainer>
-              <iframe
-                src="https://www.loom.com/embed/1cf8b73bc30a413db3877cd3f27a0826?sid=db711b31-66a8-4b28-a64f-aee3ba57e5d3"
-                frameBorder="0"
-                allowFullScreen
-                width="1000px"
-                height="500px"
-              />
-            </VideoContainer>
+            <ResponsiveIframeContainer>
+              <ResponsiveIframe>
+                <iframe
+                  src={link}
+                  allowFullScreen
+                  width="100%"
+                  height="100%"
+                  nonce="WnLIXDiCD/QzeT1d0C58v4Gfas9PbFzAoQiT1D3h7xxHlU1g"
+                />
+              </ResponsiveIframe>
+            </ResponsiveIframeContainer>
           </Group>
         </Grid>
         <Grid justify="center" style={{ margin: "50px" }}>
@@ -81,15 +94,10 @@ export const ModalVideo = () => {
               width: "40%",
             }}
           >
-            <SubscribePackageBtn>TRY IT NOW</SubscribePackageBtn>
+            {/*<SubscribePackageBtn>TRY IT NOW</SubscribePackageBtn>*/}
           </Paper>
         </Grid>
       </CustomModal>
-
-      <Group>
-        <Button onClick={open}>Open centered Modal</Button>
-      </Group>
     </>
   );
 };
-

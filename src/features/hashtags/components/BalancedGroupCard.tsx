@@ -36,7 +36,9 @@ export const BalancedGroupCard: React.FC<Props> = ({ color, groupName, hahtags, 
 
   return (
     <>
-      <Stack gap={0} style={{ margin: 0 }}>
+
+      <Stack gap={0} style={{ margin: 0 }} bg="#212122">
+
         <Paper
           style={{
             height: "50px",

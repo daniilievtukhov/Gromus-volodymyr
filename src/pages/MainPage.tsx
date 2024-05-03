@@ -15,6 +15,7 @@ import { useGlobalStore } from "../globalStore";
 import { useLogout } from "../hooks/useLogout";
 import { setChatOpened, toggleSideMenu, useLayoutStore, setNavbarOpened } from "../layoutStore";
 import { pricingModal } from "./pricing/hooks/triggerPricingModalHook";
+import { ModalVideo } from "../features/greeting/components/ModalVideo";
 
 export const MainPage = () => {
   const { navbarOpened, chatOpened, showAlert } = useLayoutStore();
@@ -30,7 +31,7 @@ export const MainPage = () => {
     setChatOpened(true);
     setNavbarOpened(true);
     const interval = setInterval(() => {
-      pricing.openModal()
+      pricing.openModal();
     }, 300000);
     return () => clearInterval(interval);
   }, []);
@@ -45,7 +46,7 @@ export const MainPage = () => {
 
   return (
     <>
-      <PricingModal /> 
+      <PricingModal />
 
       <StyledShell
         withBorder={false}
@@ -101,6 +102,7 @@ export const MainPage = () => {
         </Tooltip>
       )}
       <MusicVideosModal />
+      <ModalVideo />
       {showAlert && (
         <StyledAlert
           variant="filled"

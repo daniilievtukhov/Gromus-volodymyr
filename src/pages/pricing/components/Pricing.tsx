@@ -9,12 +9,45 @@ import PriceCard from "./PriceCard";
 import { IPriceCard } from "./PriceCard";
 
 const PricingContainer = styled.div`
+  align-items: center;
   color: white;
   margin: auto;
   text-align: center;
 `;
 
+const PricingHeader = styled.div`
+  height: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 1rem;
+`;
+
+const BasicLabel = styled.label`
+  font-weight: 700;
+  font-size: 18px;
+`;
+
+const FreeLabel = styled.label`
+  font-weight: 500;
+  font-size: 40px;
+  color: #d1fd0a;
+`;
+
+const Separator = styled.hr`
+  color: rgba(255, 255, 255, 0.05);
+  height: 2px;
+`;
+
+const CardContainer = styled.div`
+  border-radius: 16px;
+`;
+
 export const SignedText = styled.label`
+  color: #d1fd0a;
+`;
+
+const ComingSoon = styled.label`
   color: #d1fd0a;
 `;
 
@@ -40,7 +73,7 @@ export const SubscribePackageBtn = styled(Button)`
 
 const packageLinks = {
   Pro: "https://buy.stripe.com/7sIbME2gdahebQsfZ4",
-  Adv: "https://buy.stripe.com/6oE03W3kh4WUaMoaEJ"
+  Adv: "https://buy.stripe.com/6oE03W3kh4WUaMoaEJ",
 };
 
 
@@ -52,45 +85,44 @@ const priceCards: IPriceCard[] = [
     subscribeLink: "",
     isMonth: false,
     options: [
-      { isAvalible: true, signedText: "10 questions", text: "AI Copilot GI", comingSoon: false },
+      { isAvalible: true,
+        signedText: "10 requests", 
+        text: "to your personal AI Assistant",
+        comingSoon: false },
+      {
+        isAvalible: true,
+        signedText: "3 times",
+        text: "of viral TikTok sounds",
+        comingSoon: false,
+      },
+      {
+        isAvalible: true,
+        signedText: "3 min",
+        text: "video to text AI scripts (TikTok / Instagram)",
+        comingSoon: false,
+      },
       {
         isAvalible: false,
         signedText: "",
-        text: "AI Personalized Best Time & Day to Post",
+        text: "AI personalized best time & day to post",
+        comingSoon: false,
+      },
+      { isAvalible: false, signedText: "", text: "Trending Hashtags", comingSoon: false },
+      {
+        isAvalible: true,
+        signedText: "3 times",
+        text: "of Your account analytics",
         comingSoon: false,
       },
       {
         isAvalible: true,
         signedText: "3 times",
-        text: "AI Personalized Account Analytics",
+        text: "of any platform TikTok account analytics",
         comingSoon: false,
       },
-      {
-        isAvalible: true,
-        signedText: "3 times",
-        text: "TikTok Any Account Insights",
-        comingSoon: false,
-      },
-      { isAvalible: false, signedText: "", text: "AI Personalized Hashtags", comingSoon: false },
-      { isAvalible: false, signedText: "", text: "Trending Hashtags", comingSoon: true },
-      {
-        isAvalible: true,
-        signedText: "3 times",
-        text: "TikTok Viral Sounds for any Territories",
-        comingSoon: false,
-      },
-      {
-        isAvalible: true,
-        signedText: "3 times/day",
-        text: "data access at Pro Platform",
-        comingSoon: false,
-      },
-      { isAvalible: false, signedText: "", text: "AI To-Do Artist Plan", comingSoon: true },
-      { isAvalible: false, signedText: "", text: "Spotify AI Analytics", comingSoon: true },
-      { isAvalible: false, signedText: "", text: "Your Song AI Analytics", comingSoon: true },
+      { isAvalible: true, signedText: "3 times", text: "of Gromus Pro using", comingSoon: false },
     ],
   },
-
 
   {
     categoryLabel: "PRO",
@@ -99,47 +131,44 @@ const priceCards: IPriceCard[] = [
     isMonth: true,
     subscribeLink: packageLinks.Pro,
     options: [
-      { isAvalible: true, signedText: "300 questions", text: "AI Copilot GI", comingSoon: false },
+      { isAvalible: true, signedText: "300 questions", text: "to your personal AI Assistant", comingSoon: false },
       {
         isAvalible: true,
         signedText: "20 times",
-        text: "AI Personalized Best Time & Day to Post",
+        text: "of viral TikTok sounds",
+        comingSoon: false,
+      },
+      {
+        isAvalible: true,
+        signedText: "100 min",
+        text: "video to text AI scripts (TikTok / Instagram)",
         comingSoon: false,
       },
       {
         isAvalible: true,
         signedText: "20 times",
-        text: "AI Personalized Account Analytics",
+        text: "of AI personalized best time & day to post",
+        comingSoon: false,
+      },
+      { isAvalible: true, signedText: "20 times", text: "of Trending Hashtags", comingSoon: false },
+      {
+        isAvalible: true,
+        signedText: "20 times",
+        text: "of Your account analytics",
         comingSoon: false,
       },
       {
         isAvalible: true,
         signedText: "20 times",
-        text: "of TikTok Any Account Insights",
+        text: "of any TikTok account analytics",
         comingSoon: false,
-      },
-      { isAvalible: false, signedText: "", text: "AI Personalized Hashtags", comingSoon: false },
-      {
-        isAvalible: true,
-        signedText: "20 times",
-        text: "of Trending Hashtags for any Territories",
-        comingSoon: true,
       },
       {
         isAvalible: true,
         signedText: "20 times",
-        text: "TikTok Viral Sounds for any Territories",
+        text: "of Gromus Pro using",
         comingSoon: false,
       },
-      {
-        isAvalible: true,
-        signedText: "20 times/day",
-        text: "data access at Pro Platform",
-        comingSoon: false,
-      },
-      { isAvalible: true, signedText: "", text: "AI To-Do Artist Plan", comingSoon: true },
-      { isAvalible: true, signedText: "", text: "Spotify AI Analytics", comingSoon: true },
-      { isAvalible: true, signedText: "2 times", text: "Your Song AI Analytics", comingSoon: true },
     ],
   },
   {
@@ -149,42 +178,44 @@ const priceCards: IPriceCard[] = [
     subscribeLink: packageLinks.Adv,
     isMonth: true,
     options: [
-      { isAvalible: true, signedText: "1000 questions", text: "AI Copilot GI", comingSoon: false },
+      { isAvalible: true, signedText: "1000 questions", text: "to your personal AI Assistant", comingSoon: false },
       {
         isAvalible: true,
         signedText: "Unlimited",
-        text: "AI Personalized Best Time & Day to Post",
+        text: "of viral TikTok sounds",
+        comingSoon: false,
+      },
+      {
+        isAvalible: true,
+        signedText: "300 min",
+        text: "video to text AI scripts (TikTok / Instagram)",
         comingSoon: false,
       },
       {
         isAvalible: true,
         signedText: "Unlimited",
-        text: "AI Personalized Account Analytics",
+        text: "AI personalized best time & day to post",
+        comingSoon: false,
+      },
+      { isAvalible: true, signedText: "Unlimited", text: "Trending Hashtags", comingSoon: false },
+      {
+        isAvalible: true,
+        signedText: "Unlimited",
+        text: "Your account analytics",
         comingSoon: false,
       },
       {
         isAvalible: true,
         signedText: "Unlimited",
-        text: "TikTok Any Account Insights",
+        text: "any TikTok account analytics",
         comingSoon: false,
-      },
-      { isAvalible: true, signedText: "", text: "AI Personalized Hashtags", comingSoon: false },
-      {
-        isAvalible: true,
-        signedText: "Unlimited",
-        text: "Trending Hashtags for any Territories",
-        comingSoon: true,
       },
       {
         isAvalible: true,
         signedText: "Unlimited",
-        text: "TikTok Viral Sounds for any Territories",
+        text: "of Gromus Pro using",
         comingSoon: false,
       },
-      { isAvalible: true, signedText: "Unlimited", text: "Pro Platform", comingSoon: false },
-      { isAvalible: true, signedText: "", text: "AI To-Do Artist Plan", comingSoon: true },
-      { isAvalible: true, signedText: "", text: "Spotify AI Analytics", comingSoon: true },
-      { isAvalible: true, signedText: "5 times", text: "Your Song AI Analytics", comingSoon: true },
     ],
   },
 ];
@@ -192,6 +223,7 @@ const priceCards: IPriceCard[] = [
 export const Pricing = ({ showFooter = true, showText = true }) => {
   const location = useLocation();
   const isPricingPage = location.pathname === "/pricing";
+
 
 
   const headingStyle = {
@@ -203,16 +235,12 @@ export const Pricing = ({ showFooter = true, showText = true }) => {
   return (
     <PricingContainer
       style={{
-        marginBottom: "60px",
         alignItems: "center",
         backgroundColor: "#0D0D0E",
-        height: "100vh",
       }}
     >
-      {showText && (
-        <h2 style={headingStyle}>Select your plan to enjoy more from GROMUS AI</h2>
-      )
-      }
+
+      {showText && <h2 style={headingStyle}>Select your plan to enjoy more from GROMUS AI</h2>}
 
       <SignedText className="text-center">
         Unlock AI-Powered Solution! Elevate Your Grow Potential Today.

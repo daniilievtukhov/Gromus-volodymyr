@@ -43,7 +43,7 @@ export const useChatStore = create<IState>(() => ({
       date: new Date().toISOString(),
       message: (
         <>
-          <Message.Text>Hi, I’m GI:</Message.Text>
+          <Message.Text>Hi, I’m G:</Message.Text>
           <Group gap="xs">
             <Message.Text>Your Personal</Message.Text>
             <Badge color="lime.4" autoContrast>

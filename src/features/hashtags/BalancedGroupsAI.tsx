@@ -29,7 +29,7 @@ export const BalancedGroupsAI: React.FC<Props> = ({ accountHashtagBalancedGroup,
             },
             index: number,
           ) => (
-            <Grid.Col style={{ padding: 0, margin: "0.5rem" }} span={2}>
+            <Grid.Col style={{ padding: 0, margin: "0.5rem" }} span={2} bg="#212122">
               <BalancedGroupCard
                 color={colors[index % colors.length]}
                 groupName={groupName}

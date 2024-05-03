@@ -2,7 +2,6 @@ import { Skeleton, Stack } from "@mantine/core";
 
 import { AccentTitle } from "../../components/AccentTitle";
 import { RisingSoundsPagination } from "../../features/risingSounds/RisingSoundsPagination";
-import { useSoundsData } from "../sounds/hooks/useSoundsData";
 import { bulletSvg } from "../../assets/index";
 import { LinksTable } from "./components/LinksTable";
 import { LinkInsertion } from "./components/LinkInsertion";
@@ -15,13 +14,13 @@ export const LinksHistoryPage = () => {
   const {
     query: { data, isSuccess, isLoading },
     page,
-
     setPage,
   } = useTranscriptionHistory();
 
   const tableData = useMemo(() => {
-    return data?.history_requests.map((el) => ({
+    return data?.history_requests.map((el, index) => ({
       id: el.id,
+      table_id: index + 1 + ((page - 1) * data.page_size),
       date: format(new Date(el.date), "dd.MM.yyyy"),
       title: el.title,
       video: el.url,

@@ -32,6 +32,7 @@ export namespace ApiTranscriptionHistory {
     history_requests: IHistoryRequest[];
     lang: any[];
     pages: number;
+    page_size: number;
   }
 
   export const get = async (params: IRequestHistory) => {

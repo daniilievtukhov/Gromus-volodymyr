@@ -20,7 +20,7 @@ const _Message = ({ message }: { message: IMessage }) => {
   const ButtonPresets = () => {
     return (
       <>
-        {message?.buttons && message.buttons.length && (
+        {message?.buttons && message.buttons.length > 1 && (
           <>
             <Text c="#D1FD0A" fz={14}>
               Choose an option:
@@ -61,7 +61,7 @@ const _Message = ({ message }: { message: IMessage }) => {
               {message.isCopilot ? <img src={AiLogo} width={50} height={50} /> : null}
             </Avatar>
             <Text fz="sm" fw="700">
-              {message.isCopilot ? "G." : "You"}
+              {message.isCopilot ? " " : "You"}
             </Text>
           </Flex>
           <Text fz={12} c="#56595C">
