@@ -7,12 +7,12 @@ export const mainLanguages = {
         flagPath: "/app-assets/fonts/flag-icon-css/flags/4x3/gb.svg",
       },
       {
-        label: "Spain",
+        label: "Spainish",
         value: "es",
         flagPath: "/app-assets/fonts/flag-icon-css/flags/4x3/es.svg",
       },
       {
-        label: "Germany",
+        label: "German",
         value: "de",
         flagPath: "/app-assets/fonts/flag-icon-css/flags/4x3/de.svg",
       },
@@ -26,5 +26,5 @@ export const mainLanguages = {
         value: "ru",
         flagPath: "/app-assets/fonts/flag-icon-css/flags/4x3/ru.svg",
       },
-    ],
+    ].sort((a, b) => a.label.localeCompare(b.label)),
 }

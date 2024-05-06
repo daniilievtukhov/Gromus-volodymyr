@@ -1,14 +1,13 @@
-import { Alert, Flex, Group, ScrollArea, Skeleton, Stack, Tabs, Text } from "@mantine/core";
-import { HashtagCard } from "./components/HashtagCard";
+import { Flex, ScrollArea, Skeleton, Stack, Tabs } from "@mantine/core";
 import { ApiHashtagsAnalytics } from "../../requests/hashtagsAnalytics";
-import React, { useEffect } from "react";
+import { HashtagCard } from "./components/HashtagCard";
 
 type Props = {
   topSoundHashtags: ApiHashtagsAnalytics.ISoundHashtag[];
 };
 
 export const TopFiveHashtags: React.FC<Props> = ({ topSoundHashtags }) => {
-
+  if (topSoundHashtags.length === 0) return null;
 
   return (
     <>

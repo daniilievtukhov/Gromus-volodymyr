@@ -1,8 +1,8 @@
 import { Input, Button, Select, Flex, Text, Image, Group } from "@mantine/core";
-import { downloadSvg } from "../../../assets/index";
+import { downloadSvg } from "../../../../assets/index";
 import { IconCopy, IconCheckbox, IconCircleArrowLeftFilled } from "@tabler/icons-react";
-import { CopyButtonScript } from "./buttons/CopyButton";
-import { useScriptVideoStore } from "../store/videoToScript";
+import { CopyButtonScript } from "./CopyButton";
+import { useScriptVideoStore } from "../../store/videoToScript";
 import { useNavigate } from "react-router-dom";
 
 export const DownloadVideo = () => {

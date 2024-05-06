@@ -11,6 +11,7 @@ import { unsubscribe } from "diagnostics_channel";
 import { ApiAccount } from "../../../requests/account/settings";
 import axios from "axios";
 import { getToken } from "../../../core/helpers/getToken";
+import { useUserSettingsStore } from "../../../features/userSettings/store/user";
 
 const PricingHeader = styled.div`
   height: 100px;
@@ -19,7 +20,6 @@ const PricingHeader = styled.div`
   align-items: center;
   margin: 0 1rem;
 `;
-
 
 const BasicLabel = styled.label`
   font-weight: 700;
@@ -67,7 +67,7 @@ const FreePackageBtn: React.FC<{ children: string; category: string; activeCateg
 
   return (
     <Button
-      display={category==="BASIC" ? "none" : "block"}
+      display={category === "BASIC" ? "none" : "block"}
       role="link"
       style={unsubcribeButtonStyles}
       onMouseEnter={() => setHover(true)}
@@ -197,7 +197,10 @@ const PriceCardOptions: React.FC<{
   return (
     <ul style={{ listStyleType: "none", paddingLeft: "0px" }}>
       {options.map(({ isAvalible, signedText, text, comingSoon }, index: number) => (
-        <li key={index} style={{ marginBottom: "20px", display: "flex", alignItems: "center", fontSize: "13px" }}>
+        <li
+          key={index}
+          style={{ marginBottom: "20px", display: "flex", alignItems: "center", fontSize: "13px" }}
+        >
           {isAvalible ? (
             <img height={24} src={Check} style={{ marginRight: "10px" }} />
           ) : (
@@ -246,15 +249,7 @@ const PriceCard: React.FC<{ priceCard: IPriceCard }> = ({ priceCard }) => {
   const stripeSubscription = user.userInfo?.stripeSubscription;
   // console.log(localStorage.getItem("BEARER_TOKEN"))
 
-  const [account, setAccount] = useState("BASIC");
-
-  useEffect(() => {
-    (async () => {
-      const res = await ApiAccount.getUserSettings();
-
-      setAccount(res.subscriptionInfo.userRole.normalizedName);
-    })();
-  }, []);
+  const account = useUserSettingsStore((s) => s.userRole);
 
   return (
     <Grid.Col style={{ backgroundColor: "#0d0d0e" }} span={{ base: 12, md: 8, lg: 4 }}>

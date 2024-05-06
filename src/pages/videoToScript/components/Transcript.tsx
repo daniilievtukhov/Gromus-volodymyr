@@ -14,14 +14,18 @@ import { CancelButton } from "./buttons/CancelButton";
 import { TextareaScript } from "./TextareaScript";
 
 export const Transcript = () => {
-  const { id, lang_generate, language_original, transcription_text } = useScriptVideoStore(state => state);
+  const { id, lang_generate, language_original, transcription_text } = useScriptVideoStore();
 
   const [editable, setEditable] = useState<boolean>(false);
   const [onSubmitText, setSubmitText] = useState<string>(transcription_text);
 
   return (
-    <>
-      <Box style={{ margin: 0, position: "relative" }}>
+      <Box 
+        pb={"lg"}
+        w="100%"
+        style={{ minHeight: '400px'}}
+        component="div"
+      >
         <Paper
           style={{
             height: "60px",
@@ -73,12 +77,13 @@ export const Transcript = () => {
               </Text>
             </Flex>
           </Flex>
-          <Wrapper>
+          <Box>
             <TextareaScript 
               editable={editable}
               text={onSubmitText}
               setSubmitText={setSubmitText}
             />
+            
             <Flex
               align="center"
               justify={editable ? "space-between" : "normal"}
@@ -95,7 +100,6 @@ export const Transcript = () => {
                     onSubmitText={onSubmitText} 
                     originalText={transcription_text} 
                     onSubmit={async () => {
-                        console.log(onSubmitText);
                         const res = await ApiTranscriptionEdit.updateTranscriptionText({
                           id: id,
                           lang: lang_generate,
@@ -116,10 +120,9 @@ export const Transcript = () => {
                   /> 
                 </Group>}
             </Flex>
-          </Wrapper>
+          </Box>
         </Paper>
       </Box>
-    </>
   );
 };
 

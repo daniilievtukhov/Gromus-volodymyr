@@ -120,7 +120,7 @@ const router = createBrowserRouter([
         element: <VoiceHistoryPage />,
       },
       {
-        path: "/video-to-script",
+        path: "/video-to-script/:id",
         element: <VideoToScriptPage />,
       },
       {

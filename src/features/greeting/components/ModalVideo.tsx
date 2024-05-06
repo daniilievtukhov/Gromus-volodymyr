@@ -1,10 +1,10 @@
 import { Modal, Group, Grid, Paper, Container, Text } from "@mantine/core";
+import ReactPlayer from "react-player/lazy";
 import styled from "styled-components";
 import { SignedText, SubscribePackageBtn } from "../../../pages/pricing/components/Pricing";
 import { closeVideoModalTutorial, useGlobalStore } from "../../../globalStore";
 import { Circle, White } from "../../musicVideosModal/MusicVideosModal";
 import { IconPlayerPlay } from "@tabler/icons-react";
-import { Button } from "react-bootstrap";
 
 const CustomModal = styled(Modal)`
   .mantine-Modal-header {
@@ -21,11 +21,9 @@ const CustomModal = styled(Modal)`
 
 const ResponsiveIframeContainer = styled.div`
   position: relative;
-  padding-bottom: 56.25%;
   overflow: hidden;
 `;
-
-const ResponsiveIframe = styled.iframe`
+const StyledIframe = styled.iframe`
   position: absolute;
   top: 0;
   left: 0;
@@ -35,16 +33,6 @@ const ResponsiveIframe = styled.iframe`
 
 export const ModalVideo = () => {
   const { opened, link, text, title } = useGlobalStore((s) => s.videosModalTutorial);
-
-  /*useEffect(() => {
-    const interval = setTimeout(() => {
-      if (!opened) {
-        open();
-      }
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, []);*/
 
   return (
     <>
@@ -73,15 +61,7 @@ export const ModalVideo = () => {
         <Grid justify="center" align="center" style={{ margin: "30px" }}>
           <Group style={{ justifyContent: "center" }}>
             <ResponsiveIframeContainer>
-              <ResponsiveIframe>
-                <iframe
-                  src={link}
-                  allowFullScreen
-                  width="100%"
-                  height="100%"
-                  nonce="WnLIXDiCD/QzeT1d0C58v4Gfas9PbFzAoQiT1D3h7xxHlU1g"
-                />
-              </ResponsiveIframe>
+              <StyledIframe></StyledIframe>
             </ResponsiveIframeContainer>
           </Group>
         </Grid>

@@ -1,20 +1,21 @@
 import {
   Stack,
-  Image,
-  Text,
   Alert,
   createPolymorphicComponent,
   ButtonProps,
   Button,
-  Badge,
   Flex,
+  Skeleton,
+  ScrollArea,
+  Tabs,
+  Space,
 } from "@mantine/core";
 import { IconInfoCircle, IconMoodSad, IconPlayerPlay, IconSparkles } from "@tabler/icons-react";
 import { TopFiveHashtags } from "../../features/hashtags/TopFiveHashtags";
 import { BalancedGroups } from "../../features/hashtags/BalancedGroups";
 import { HashtagsModal } from "../../features/hashtags/HashtagsModal";
 import { useHashtagFilters } from "./hooks/useHashtagFilters";
-import { useHashtagsAnalytics } from "./hooks/useHashtagsAnalytics";
+import { useHashtagsAnalyticsData } from "./hooks/useHashtagsAnalyticsData";
 import { useState, useEffect } from "react";
 import { useHashtags } from "../../features/hashtags/store/hashtags";
 import { ApiHashtagsAnalytics } from "../../requests/hashtagsAnalytics";
@@ -27,19 +28,22 @@ import { log } from "console";
 import classes from "./HashtagsPage.module.css";
 import { useNavigate } from "react-router-dom";
 import { AnimatedButtonDark } from "../../components/AnimatedButton";
-import { ModalVideo } from "../../features/greeting/components/ModalVideo";
 import { useHowItWorkStore } from "../../features/greeting/store";
 import { openVideoModalTutorial, useGlobalStore } from "../../globalStore";
 
 export const PersonalizedHashtagsPage = () => {
-  const { data: hashtagsFilter, isSuccess: isSuccessHashtagsFilter } = useHashtagFilters();
-  const { data, isSuccess, isError, error } = useHashtagsAnalytics({
-    Country: hashtagsFilter?.country,
-    Category: hashtagsFilter?.category,
+  const {
+    data: hashtagsFilter,
+    isSuccess: isSuccessHashtagsFilter,
+    isFetching: isFetchingFilters,
+  } = useHashtagFilters();
+  const { data, isSuccess, isError, error, isFetching } = useHashtagsAnalyticsData({
+    country: hashtagsFilter?.country,
+    category: hashtagsFilter?.category,
   });
+
   const clicked = useHowItWorkStore((state) => state.clicked);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [isOtherCategory, setIsOtherCategory] = useState(false);
 
   const [topSoundHashtags, setTopSoundHashtags] = useState<ApiHashtagsAnalytics.ISoundHashtag[]>(
@@ -55,8 +59,6 @@ export const PersonalizedHashtagsPage = () => {
   const store = useHashtags();
   const navigate = useNavigate();
   useEffect(() => {
-    //console.log(store);
-
     if (
       store.accountHashtagBalancedGroup &&
       store.soundHashtagBalancedGroup &&
@@ -103,9 +105,7 @@ export const PersonalizedHashtagsPage = () => {
   }, [isModalOpen]);
 
   useEffect(() => {
-    console.log("isOtherCategory", isOtherCategory);
     if (hashtagsFilter?.category === 106) {
-      console.log("isOtherCategory in true", isOtherCategory);
       setIsOtherCategory(true);
     } else setIsOtherCategory(false);
   }, [hashtagsFilter?.category]);
@@ -113,24 +113,26 @@ export const PersonalizedHashtagsPage = () => {
   if (isError) {
     if (isAxiosError(error) && error.response?.status === 400) {
       return (
-        <Stack p={32} pb={102} gap={52} bg="#0D0D0E" mih="100vh">
+        <Stack align="center" justify="center" p={32} pb={102} gap={52} bg="#0D0D0E" mih="100vh">
           <Alert variant="light" color="orange" title="Hashtags not found" icon={<IconMoodSad />}>
             We currently do not have data for your hashtag parameters. They will appear soon.
           </Alert>
         </Stack>
       );
     } else {
-      if(isAxiosError(error) && error.response?.status === 403){
+      if (isAxiosError(error) && error.response?.status === 403) {
         return (
-          <Stack align="center" justify="center" style={{ height: "100vh"}}>
-You're over your limit 
-  </Stack>
+          <Stack align="center" justify="center" style={{ height: "100vh" }}>
+            You're over your limit
+          </Stack>
         );
       }
       return (
-        <Alert variant="light" color="orange" icon={<IconInfoCircle />}>
-          Something went wrong. We are working on getting this fixed as soon as we can.
-        </Alert>
+        <Flex align="center" justify="center" h="100vh">
+          <Alert variant="light" color="orange" icon={<IconInfoCircle />}>
+            Something went wrong. We are working on getting this fixed as soon as we can.
+          </Alert>
+        </Flex>
       );
     }
   }
@@ -143,7 +145,7 @@ You're over your limit
     useHowItWorkStore.setState({ clicked: true });
     openVideoModalTutorial(
       "https://www.loom.com/embed/1cf8b73bc30a413db3877cd3f27a0826?sid=db711b31-66a8-4b28-a64f-aee3ba57e5d3",
-      "Personalized Best Time & Day to Post",
+      "Personalized Hashtags",
     );
   };
   if (isSuccessHashtagsFilter && isSuccess && data && isOtherCategory) {
@@ -187,11 +189,61 @@ You're over your limit
   } else {
     return (
       //(store.accountHashtagBalancedGroup.length && store.topSoundHashtags.length && store.soundHashtagBalancedGroup.length) ||
-      isSuccessHashtagsFilter &&
-      isSuccess &&
-      data && (
-        <Stack gap={128} px={40} py={32} mih="100vh" bg="#0D0D0E" justify="space-between">
-          {isModalOpen && <HashtagsModal onClose={closeModal} />}
+
+      <Stack gap={128} px={40} py={32} mih="100vh" bg="#0D0D0E" justify="space-between">
+        {isFetching && (
+          <Stack>
+            <Stack gap={24}>
+              <Tabs defaultValue="geo">
+                <Tabs.Panel value="geo">
+                  <ScrollArea scrollbarSize={8} offsetScrollbars>
+                    <Flex gap={12} align={"stretch"} py={12}>
+                      {[1, 2, 3, 4, 5, 6].map((el) => (
+                        <Flex gap={4} key={el}>
+                          <Skeleton h={200} w={280} />
+                        </Flex>
+                      ))}
+                    </Flex>
+                  </ScrollArea>
+                </Tabs.Panel>
+              </Tabs>
+            </Stack>
+            <Space></Space>
+            <Stack gap={24}>
+              <Tabs defaultValue="geo">
+                <Tabs.Panel value="geo">
+                  <ScrollArea scrollbarSize={8} offsetScrollbars>
+                    <Flex gap={12} align={"stretch"} py={12}>
+                      {[1, 2, 3, 4, 5, 6].map((el) => (
+                        <Flex gap={4} key={el}>
+                          <Skeleton h={200} w={280} />
+                        </Flex>
+                      ))}
+                    </Flex>
+                  </ScrollArea>
+                </Tabs.Panel>
+              </Tabs>
+            </Stack>
+            <Space></Space>
+            <Stack gap={24}>
+              <Tabs defaultValue="geo">
+                <Tabs.Panel value="geo">
+                  <ScrollArea scrollbarSize={8} offsetScrollbars>
+                    <Flex gap={12} align={"stretch"} py={12}>
+                      {[1, 2, 3, 4, 5, 6].map((el) => (
+                        <Flex gap={4} key={el}>
+                          <Skeleton h={200} w={280} />
+                        </Flex>
+                      ))}
+                    </Flex>
+                  </ScrollArea>
+                </Tabs.Panel>
+              </Tabs>
+            </Stack>
+          </Stack>
+        )}
+        {isModalOpen && <HashtagsModal onClose={closeModal} />}
+        {!isFetching && isSuccess && data && (
           <Stack gap={12}>
             <Flex justify="start" gap="md" align="center" wrap="wrap">
               <HashtagGroupsTitle title="sounds" country={hashtagsFilter?.country} />
@@ -211,14 +263,13 @@ You're over your limit
               openModal={openModal}
             />
             <HashtagGroupsTitle title="your niche" country={hashtagsFilter?.country} />
-
             <BalancedGroups
               accountHashtagBalancedGroup={accountHashtagBalancedGroup}
               openModal={openModal}
             />
           </Stack>
-        </Stack>
-      )
+        )}
+      </Stack>
     );
   }
 };

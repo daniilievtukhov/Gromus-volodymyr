@@ -1,14 +1,15 @@
 import React from "react";
-import { Row } from "react-bootstrap";
+
 import { Video } from "./components/Video";
 import { Footer } from "../pricing/components/FooterPricing";
+import { Flex, Stack } from "@mantine/core";
+import {} from "react-bootstrap";
 
 export const VideoPage = () => {
-
   return (
-    <Row>
+    <Stack>
       <Video />
       <Footer />
-    </Row>
+    </Stack>
   );
 };

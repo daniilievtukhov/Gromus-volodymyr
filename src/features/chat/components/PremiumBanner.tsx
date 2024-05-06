@@ -1,10 +1,6 @@
 import { Box, BoxProps, Button, Stack, Text } from "@mantine/core";
-import { useLoaderData } from "react-router-dom";
 import { useGlobalStore } from "../../../../src/globalStore";
-import { PricingModal } from "../../../pages/pricing/components/PricingModal";
 import styled from "styled-components";
-
-import { Links } from "../../../core/links";
 import { useEffect, useState } from "react";
 import { pricingModal } from "../../../pages/pricing/hooks/triggerPricingModalHook";
 

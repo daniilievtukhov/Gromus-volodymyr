@@ -148,7 +148,6 @@ export const useSendMessage = () => {
     }) => {
       const date = new Date().toISOString();
 
-      console.log(data.Text);
       const messageData = {
         isCopilot: true,
         data: data.Data,

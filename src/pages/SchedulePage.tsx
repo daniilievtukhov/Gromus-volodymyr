@@ -21,7 +21,7 @@ export const SchedulePage = () => {
       <Stack gap={28}>
         <Flex justify="start" gap="md" align="center" wrap="wrap">
           <AccentTitle icon={<IconSparkles />}>
-            AI Recommendations on times and days  for posting sounds in{" "}
+            AI Recommendations on times and days for posting sounds in{" "}
             <AccentTitle.Color>this week</AccentTitle.Color> in{" "}
             <AccentTitle.Color>your country</AccentTitle.Color>
           </AccentTitle>

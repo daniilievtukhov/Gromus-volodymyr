@@ -3,6 +3,7 @@ import {
   Button,
   ButtonProps,
   createPolymorphicComponent,
+  Flex,
   Image,
   Stack,
   Text,
@@ -37,31 +38,32 @@ const Content = ({ authorId }: { authorId: number | string }) => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    setId(store.authorId);   
+    setId(store.authorId);
   }, [store]);
 
   if (isError) {
     if (isAxiosError(error) && error.response?.status === 400) {
       return (
-        <Stack p={32} pb={102} gap={52} bg="#0D0D0E" mih="100vh">
+        <Stack align="center" justify="center" p={32} pb={102} gap={52} bg="#0D0D0E" mih="100vh">
           <Alert variant="light" color="orange" title="Account not found" icon={<IconMoodSad />}>
             We currently do not have data for this account. They will appear soon.
           </Alert>
         </Stack>
       );
-    }
-    else {
-      if(isAxiosError(error) && error.response?.status === 403){
+    } else {
+      if (isAxiosError(error) && error.response?.status === 403) {
         return (
-<Stack align="center" justify="center" style={{ height: "100vh"}}>
-You're over your limit 
-  </Stack>
+          <Stack align="center" justify="center" style={{ height: "100vh" }}>
+            You're over your limit
+          </Stack>
         );
       }
       return (
-        <Alert variant="light" color="orange" icon={<IconInfoCircle />}>
-          Something went wrong. We are working on getting this fixed as soon as we can.
-        </Alert>
+        <Flex align="center" justify="center">
+          <Alert variant="light" color="orange" icon={<IconInfoCircle />}>
+            Something went wrong. We are working on getting this fixed as soon as we can.
+          </Alert>
+        </Flex>
       );
     }
   }
@@ -104,9 +106,15 @@ export const MyAccountAnalyticsPage = memo(() => {
 
   if ((isNil(id) || pathname === "/my-account-analytics") && isNil(authorId)) {
     return (
-      <Stack align="center" justify="center" style={{ height: "100vh"}}>
-        <Text>To receive personalized analytics of your account, please authorize with your TikTok account😌</Text>
-        <Text>We use official authorization method and do not store or have access to your personal information and</Text>
+      <Stack align="center" justify="center" style={{ height: "100vh" }}>
+        <Text>
+          To receive personalized analytics of your account, please authorize with your TikTok
+          account😌
+        </Text>
+        <Text>
+          We use official authorization method and do not store or have access to your personal
+          information and
+        </Text>
         <Text>passwords</Text>
         <StyledButton
           component="a"
@@ -136,4 +144,3 @@ const StyledButton = createPolymorphicComponent<"button", ButtonProps>(styled(Bu
   font-weight: 700;
   color: black;
 `);
-

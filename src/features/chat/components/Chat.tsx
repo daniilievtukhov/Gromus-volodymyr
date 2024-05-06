@@ -76,7 +76,7 @@ export const Chat = memo(() => {
                 <Message
                   message={{
                     message:
-                      "You have run out of requests in your current package, buy a subscription to increase your limits 😔",
+                      "You have run out of requests in your current package, buy a subscription to increase your limits 😔",
                     isCopilot: true,
                     date: new Date().toISOString(),
                   }}

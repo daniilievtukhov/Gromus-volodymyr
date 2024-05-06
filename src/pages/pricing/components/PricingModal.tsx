@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Modal, Button, Group, CloseButton, Flex } from "@mantine/core";
+import { useEffect, useState } from "react";
+import { Modal, CloseButton, Flex } from "@mantine/core";
 import { Pricing } from "./Pricing";
 import styled from "styled-components";
 import { pricingModal } from "../hooks/triggerPricingModalHook";
-import { CloseIcon } from "@mantine/core";
 
 const CustomModal = styled(Modal)`
   .mantine-Modal-header {
@@ -71,10 +70,9 @@ export function PricingModal() {
         <Pricing showFooter={false} showText={false} />
       </CustomModal>
 
-      
-       {/* <Group>
+      {/* <Group>
         <Button onClick={() => setOpened(true)}>Open Modal</Button>
       </Group> */}
-    </> 
+    </>
   );
 }

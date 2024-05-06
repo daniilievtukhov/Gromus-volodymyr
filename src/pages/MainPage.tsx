@@ -16,6 +16,8 @@ import { useLogout } from "../hooks/useLogout";
 import { setChatOpened, toggleSideMenu, useLayoutStore, setNavbarOpened } from "../layoutStore";
 import { pricingModal } from "./pricing/hooks/triggerPricingModalHook";
 import { ModalVideo } from "../features/greeting/components/ModalVideo";
+import { ApiAccount } from "../requests/account/settings";
+import { useUserSettingsStore } from "../features/userSettings/store/user";
 
 export const MainPage = () => {
   const { navbarOpened, chatOpened, showAlert } = useLayoutStore();
@@ -26,14 +28,23 @@ export const MainPage = () => {
   const pricing = pricingModal();
   const { limit } = store;
   const mockLim = 0;
-
+  const setUserRole = useUserSettingsStore((s) => s.setUserRole);
+  const userRole = useUserSettingsStore((s) => s.userRole);
+  useEffect(() => {
+    (async () => {
+      const res = await ApiAccount.getUserSettings();
+      setUserRole(res.subscriptionInfo.userRole.normalizedName);
+    })();
+  }, []);
   useEffect(() => {
     setChatOpened(true);
     setNavbarOpened(true);
-    const interval = setInterval(() => {
-      pricing.openModal();
-    }, 300000);
-    return () => clearInterval(interval);
+    if (userRole === "DEMO") {
+      const interval = setInterval(() => {
+        pricing.openModal();
+      }, 1000000);
+      return () => clearInterval(interval);
+    }
   }, []);
 
   useEffect(() => {
@@ -47,7 +58,6 @@ export const MainPage = () => {
   return (
     <>
       <PricingModal />
-
       <StyledShell
         withBorder={false}
         navbar={{
@@ -102,6 +112,7 @@ export const MainPage = () => {
         </Tooltip>
       )}
       <MusicVideosModal />
+
       <ModalVideo />
       {showAlert && (
         <StyledAlert

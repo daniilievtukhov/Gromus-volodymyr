@@ -49,10 +49,7 @@ export const LinkInsertion = () => {
   } = useTranscriptionHistory();
 
   useEffect(() => {
-    console.log(data);
     if (data && data.lang) {
-      console.log(data);
-      console.log(data.lang);
     }
   }, [data]);
 
@@ -104,7 +101,6 @@ export const LinkInsertion = () => {
   return (
     <form
       onSubmit={form.onSubmit(async (values) => {
-        console.log(values);
         setBtnLoading(true);
 
         await ApiTranscriptionGenerate.post({
@@ -114,7 +110,6 @@ export const LinkInsertion = () => {
         })
           .then((res) => {
             useScriptVideoStore.setState(res.data);
-            console.log("Result Post", res);
             navigate("/video-to-script");
           })
           .catch((error) => {
