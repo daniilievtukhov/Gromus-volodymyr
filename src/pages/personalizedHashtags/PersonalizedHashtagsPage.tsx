@@ -9,7 +9,9 @@ import {
   ScrollArea,
   Tabs,
   Space,
+  Modal,
 } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { IconInfoCircle, IconMoodSad, IconPlayerPlay, IconSparkles } from "@tabler/icons-react";
 import { TopFiveHashtags } from "../../features/hashtags/TopFiveHashtags";
 import { BalancedGroups } from "../../features/hashtags/BalancedGroups";
@@ -20,10 +22,10 @@ import { useState, useEffect } from "react";
 import { useHashtags } from "../../features/hashtags/store/hashtags";
 import { ApiHashtagsAnalytics } from "../../requests/hashtagsAnalytics";
 import { HashtagGroupsTitle } from "../../components/HashtagGroupsTitle";
+import { pricingModal } from "../../pages/pricing/hooks/triggerPricingModalHook";
 
 import { isAxiosError } from "axios";
 import styled from "styled-components";
-import { log } from "console";
 
 import classes from "./HashtagsPage.module.css";
 import { useNavigate } from "react-router-dom";
@@ -42,6 +44,8 @@ export const PersonalizedHashtagsPage = () => {
     category: hashtagsFilter?.category,
   });
 
+  const [opened, { open, close }] = useDisclosure(true);
+  const pricing = pricingModal();
   const clicked = useHowItWorkStore((state) => state.clicked);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isOtherCategory, setIsOtherCategory] = useState(false);
@@ -122,9 +126,38 @@ export const PersonalizedHashtagsPage = () => {
     } else {
       if (isAxiosError(error) && error.response?.status === 403) {
         return (
-          <Stack align="center" justify="center" style={{ height: "100vh" }}>
-            You're over your limit
-          </Stack>
+          <>
+            <Stack align="center" justify="center" style={{ height: "100vh" }}>
+              You're over your limit
+            </Stack>
+            <Modal
+              opened={opened}
+              onClose={close}
+              withCloseButton={false}
+              title="The limit's up."
+              centered
+            >
+              <Stack align="center">
+                You have reached the limit in your plan. For further use, buy a more advanced plan.
+              </Stack>
+              <Flex pt={5} gap={10} justify="center">
+                <Button
+                  variant="filled"
+                  color="rgba(209, 253, 10, 1)"
+                  c="black"
+                  onClick={() => {
+                    close();
+                    pricing.openModal();
+                  }}
+                >
+                  Pricing
+                </Button>
+                <Button variant="filled" color="gray" onClick={close}>
+                  Discard
+                </Button>
+              </Flex>
+            </Modal>
+          </>
         );
       }
       return (
@@ -188,8 +221,6 @@ export const PersonalizedHashtagsPage = () => {
     );
   } else {
     return (
-      //(store.accountHashtagBalancedGroup.length && store.topSoundHashtags.length && store.soundHashtagBalancedGroup.length) ||
-
       <Stack gap={128} px={40} py={32} mih="100vh" bg="#0D0D0E" justify="space-between">
         {isFetching && (
           <Stack>

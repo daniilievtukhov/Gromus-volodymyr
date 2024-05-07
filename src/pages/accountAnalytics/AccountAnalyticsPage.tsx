@@ -7,15 +7,17 @@ import {
   Image,
   Stack,
   Text,
+  Modal,
 } from "@mantine/core";
 import { IconInfoCircle, IconMoodSad } from "@tabler/icons-react";
+import { useDisclosure } from "@mantine/hooks";
 import { isAxiosError } from "axios";
 import { isNil } from "lodash-es";
 import qs from "qs";
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useState, createContext } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-
+import { pricingModal } from "../../pages/pricing/hooks/triggerPricingModalHook";
 import { tiktokSvg } from "../../assets";
 import { getToken } from "../../core/helpers/getToken";
 import { useGlobalStore } from "../../globalStore";
@@ -41,6 +43,12 @@ const Content = ({ authorId }: { authorId: number | string }) => {
     setId(store.authorId);
   }, [store]);
 
+  const searchParams = new URLSearchParams(location.search);
+  const errorParam = searchParams.get("error");
+  const [opened, { open, close }] = useDisclosure(true);
+  const [firstModalOpened, { open: openFirstModal, close: closeFirstModal }] = useDisclosure(true);
+  const pricing = pricingModal();
+
   if (isError) {
     if (isAxiosError(error) && error.response?.status === 400) {
       return (
@@ -53,9 +61,52 @@ const Content = ({ authorId }: { authorId: number | string }) => {
     } else {
       if (isAxiosError(error) && error.response?.status === 403) {
         return (
-          <Stack align="center" justify="center" style={{ height: "100vh" }}>
-            You're over your limit
-          </Stack>
+          <>
+            <Stack align="center" justify="center" style={{ height: "100vh" }}>
+              You're over your limit
+            </Stack>
+            <Modal
+              opened={opened}
+              onClose={close}
+              withCloseButton={false}
+              title="The limit's up."
+              centered
+            >
+              <Stack align="center">
+                You have reached the limit in your plan. For further use, buy a more advanced plan.
+              </Stack>
+              <Flex style={{ paddingTop: 5 }} justify="center">
+                <Button
+                  variant="filled"
+                  color="rgba(209, 253, 10, 1)"
+                  c="black"
+                  onClick={() => {
+                    close();
+                    pricing.openModal();
+                  }}
+                >
+                  Pricing
+                </Button>
+                <Button variant="filled" color="gray" onClick={close} style={{ margin: 3 }}>
+                  Discard
+                </Button>
+              </Flex>
+            </Modal>
+            {errorParam === "dublicate" && (
+              <Modal
+                opened={firstModalOpened}
+                onClose={closeFirstModal}
+                title="Dublicate account"
+                centered
+              >
+                <Stack align="center">
+                  This tiktok account is already synchronised with another account. Use another
+                  tiktok account.
+                </Stack>
+                <Flex style={{ paddingTop: 5 }} justify="center"></Flex>
+              </Modal>
+            )}
+          </>
         );
       }
       return (
@@ -99,38 +150,52 @@ export const MyAccountAnalyticsPage = memo(() => {
   const [id, setId] = useState<undefined | string | number>();
   const store = useAIAuthorAnalyticStore();
   const { pathname } = useLocation();
+  const [opened, { open, close }] = useDisclosure(true);
 
   useEffect(() => {
     setId(store.authorId);
   }, [store]);
 
+  const searchParams = new URLSearchParams(location.search);
+  const errorParam = searchParams.get("error");
   if ((isNil(id) || pathname === "/my-account-analytics") && isNil(authorId)) {
     return (
-      <Stack align="center" justify="center" style={{ height: "100vh" }}>
-        <Text>
-          To receive personalized analytics of your account, please authorize with your TikTok
-          account😌
-        </Text>
-        <Text>
-          We use official authorization method and do not store or have access to your personal
-          information and
-        </Text>
-        <Text>passwords</Text>
-        <StyledButton
-          component="a"
-          href={`//pro.gromus.ai/api/accountapi/gromusbridge${qs.stringify(
-            {
-              token: getToken(),
-              targetUrl: "/Account/TikTokAuth",
-            },
-            { addQueryPrefix: true },
-          )}`}
-          leftSection={<Image w={24} src={tiktokSvg} />}
-        >
-          Sign-in with TikTok
-        </StyledButton>
-        <Text>Find out analytics on any creator by entering their username</Text>
-      </Stack>
+      <>
+        <Stack align="center" justify="center" style={{ height: "100vh" }}>
+          <Text>
+            To receive personalized analytics of your account, please authorize with your TikTok
+            account😌
+          </Text>
+          <Text>
+            We use official authorization method and do not store or have access to your personal
+            information and
+          </Text>
+          <Text>passwords</Text>
+          <StyledButton
+            component="a"
+            href={`//pro.gromus.ai/api/accountapi/gromusbridge${qs.stringify(
+              {
+                token: getToken(),
+                targetUrl: "/Account/TikTokAuth",
+              },
+              { addQueryPrefix: true },
+            )}`}
+            leftSection={<Image w={24} src={tiktokSvg} />}
+          >
+            Sign-in with TikTok
+          </StyledButton>
+          <Text>Find out analytics on any creator by entering their username</Text>
+        </Stack>
+        {errorParam === "dublicate" && (
+          <Modal opened={opened} onClose={close} title="Dublicate account" centered>
+            <Stack align="center">
+              This tiktok account is already synchronised with another account. Use another tiktok
+              account.
+            </Stack>
+            <Flex style={{ paddingTop: 5 }} justify="center"></Flex>
+          </Modal>
+        )}
+      </>
     );
   }
   return <Content authorId={authorId || ""} />;

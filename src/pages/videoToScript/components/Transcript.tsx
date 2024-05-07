@@ -1,23 +1,27 @@
 import { Box, Flex, Text, Paper, Group, Button, Switch, Textarea } from "@mantine/core";
-import { IconCopyCheck, IconSparkles } from "@tabler/icons-react";
-import { IconCopy, IconEdit, IconWorld, IconMessageChatbot } from "@tabler/icons-react";
 import styled from "styled-components";
 import { useScriptVideoStore } from "../store/videoToScript";
 import { startCase } from "lodash";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { EditButton } from "./buttons/EditButton";
 import { SaveButton } from "./buttons/SaveButton";
-import { ApiTranscriptionGenerate } from "../../../requests/transcriptionGenerate";
 import { CopyButtonScript } from "./buttons/CopyButton";
-import { ApiTranscriptionEdit } from "../../../requests/transcriptionEdit";
 import { CancelButton } from "./buttons/CancelButton";
 import { TextareaScript } from "./TextareaScript";
 
 export const Transcript = () => {
-  const { id, lang_generate, language_original, transcription_text } = useScriptVideoStore();
-
+  const store = useScriptVideoStore();
+  const { id, 
+          lang_generate, 
+          language_original, 
+          transcription_text 
+        } = store;
   const [editable, setEditable] = useState<boolean>(false);
   const [onSubmitText, setSubmitText] = useState<string>(transcription_text);
+
+  useEffect(() => {
+    setSubmitText(store.transcription_text)
+  }, [store])
 
   return (
       <Box 
@@ -96,23 +100,16 @@ export const Transcript = () => {
                 { editable 
                 && 
                 <Group>
-                  <SaveButton 
-                    onSubmitText={onSubmitText} 
-                    originalText={transcription_text} 
-                    onSubmit={async () => {
-                        const res = await ApiTranscriptionEdit.updateTranscriptionText({
-                          id: id,
-                          lang: lang_generate,
-                          text: onSubmitText
-                        });
 
-                        // console.log(res)
-                        useScriptVideoStore.setState(res.data)
-                        setEditable(false)
-                      }
-                    
-                    } 
-                  /> 
+                   <SaveButton
+                      onSubmitText={onSubmitText}
+                      originalText={language_original}
+                      id={id}
+                      lang={lang_generate}
+                      onClick={() => setEditable(false)}
+                 
+                    /> 
+
                   <CancelButton
                     setEditable={setEditable}
                     setOnSubmitText={setSubmitText}

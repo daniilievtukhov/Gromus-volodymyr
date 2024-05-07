@@ -1,4 +1,4 @@
-import { darken, Group, Image, ScrollArea, Select, Skeleton, Stack } from "@mantine/core";
+import { darken, Group, Image, ScrollArea, Select, Skeleton, Stack, Text } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { format, setHours } from "date-fns";
 import { useState } from "react";
@@ -48,7 +48,7 @@ export const Calendar = () => {
         value: el.countryCode,
         label: el.countryName,
         flagPath: el.flagPath,
-      }));
+      })).sort((a, b) => a.label.localeCompare(b.label));
 
       const icons = options.reduce<Record<string, string>>(
         (acc, el) => ({ ...acc, [el.value]: el.flagPath }),
@@ -130,7 +130,7 @@ export const Calendar = () => {
             return (
               <Group>
                 <Image w={24} src={`${Links.proDomain}${filters?.icons?.[el.option.value]}`} />
-                {el.option.label}
+                <Text c={country===el.option.value ? "white" : ""}>{el.option.label}</Text>
               </Group>
             );
           }}

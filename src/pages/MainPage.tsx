@@ -1,8 +1,18 @@
 import { useEffect, useState } from "react";
-import { ActionIcon, Alert, AppShell, Avatar, Box, Burger, Flex, Tooltip } from "@mantine/core";
+import {
+  ActionIcon,
+  Alert,
+  AppShell,
+  Avatar,
+  Box,
+  Burger,
+  Flex,
+  Tooltip,
+  Stack,
+} from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { IconBolt } from "@tabler/icons-react";
-import { Outlet } from "react-router-dom";
+import { IconBolt, IconInfoCircle, IconMoodSad } from "@tabler/icons-react";
+import { Outlet, useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 
 import { curvesBg } from "../assets";
@@ -18,6 +28,8 @@ import { pricingModal } from "./pricing/hooks/triggerPricingModalHook";
 import { ModalVideo } from "../features/greeting/components/ModalVideo";
 import { ApiAccount } from "../requests/account/settings";
 import { useUserSettingsStore } from "../features/userSettings/store/user";
+import { isAxiosError } from "axios";
+import { StyledButtonLogIn } from "../features/auth/components/AuthLogIn";
 
 export const MainPage = () => {
   const { navbarOpened, chatOpened, showAlert } = useLayoutStore();
@@ -30,21 +42,60 @@ export const MainPage = () => {
   const mockLim = 0;
   const setUserRole = useUserSettingsStore((s) => s.setUserRole);
   const userRole = useUserSettingsStore((s) => s.userRole);
+  const navigate = useNavigate();
+
   useEffect(() => {
     (async () => {
-      const res = await ApiAccount.getUserSettings();
-      setUserRole(res.subscriptionInfo.userRole.normalizedName);
+      try {
+        const res = await ApiAccount.getUserSettings();
+        setUserRole(res.accessRole.toUpperCase());
+      } catch (error) {
+        if (isAxiosError(error) && error.response?.status === 401) {
+          return (
+            <Stack
+              align="center"
+              justify="center"
+              p={32}
+              pb={102}
+              gap={52}
+              bg="#0D0D0E"
+              mih="100vh"
+            >
+              <Alert
+                variant="light"
+                color="orange"
+                title="Account not found"
+                icon={<IconMoodSad />}
+              >
+                "I noticed that you are not logged in or something happened with your authorization.
+                In order to continue our work together , please try to log in one more time."
+                <StyledButtonLogIn
+                  tabIndex={5}
+                  type="submit"
+                  onClick={() => {
+                    navigate("/auth");
+                  }}
+                >
+                  Log In
+                </StyledButtonLogIn>
+              </Alert>
+            </Stack>
+          );
+        } else {
+          return (
+            <Flex align="center" justify="center">
+              <Alert variant="light" color="orange" icon={<IconInfoCircle />}>
+                Something went wrong. We are working on getting this fixed as soon as we can.
+              </Alert>
+            </Flex>
+          );
+        }
+      }
     })();
   }, []);
   useEffect(() => {
     setChatOpened(true);
     setNavbarOpened(true);
-    if (userRole === "DEMO") {
-      const interval = setInterval(() => {
-        pricing.openModal();
-      }, 1000000);
-      return () => clearInterval(interval);
-    }
   }, []);
 
   useEffect(() => {

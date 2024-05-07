@@ -1,11 +1,11 @@
-import { useState, createContext, useMemo, useEffect } from "react";
+import { useEffect } from "react";
 import { Avatar, Button, Flex, Group, Stack, Text } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { formatDistance } from "date-fns";
 import styled from "styled-components";
 import { FadeBlock } from "../../../components/FadeBlock";
 import { useLayoutStore } from "../../../layoutStore";
-import { IMessage, useChatStore } from "../store";
+import { IMessage } from "../store";
 import AiLogo from "../../../assets/icons/ai_logo.svg";
 
 const _Message = ({ message }: { message: IMessage }) => {

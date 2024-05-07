@@ -7,24 +7,25 @@ export const mainLanguages = {
         flagPath: "/app-assets/fonts/flag-icon-css/flags/4x3/gb.svg",
       },
       {
-        label: "Spainish",
-        value: "es",
-        flagPath: "/app-assets/fonts/flag-icon-css/flags/4x3/es.svg",
-      },
-      {
         label: "German",
         value: "de",
         flagPath: "/app-assets/fonts/flag-icon-css/flags/4x3/de.svg",
-      },
-      {
-        label: "Ukrainian",
-        value: "uk",
-        flagPath: "/app-assets/fonts/flag-icon-css/flags/4x3/ua.svg",
       },
       {
         label: "Russian",
         value: "ru",
         flagPath: "/app-assets/fonts/flag-icon-css/flags/4x3/ru.svg",
       },
-    ].sort((a, b) => a.label.localeCompare(b.label)),
+      {
+        label: "Spanish",
+        value: "es",
+        flagPath: "/app-assets/fonts/flag-icon-css/flags/4x3/es.svg",
+      },
+      {
+        label: "Ukrainian",
+        value: "uk",
+        flagPath: "/app-assets/fonts/flag-icon-css/flags/4x3/ua.svg",
+      },
+
+    ],
 }

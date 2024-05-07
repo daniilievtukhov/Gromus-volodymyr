@@ -69,10 +69,6 @@ export function PricingModal() {
         </FlexContainer>
         <Pricing showFooter={false} showText={false} />
       </CustomModal>
-
-      {/* <Group>
-        <Button onClick={() => setOpened(true)}>Open Modal</Button>
-      </Group> */}
     </>
   );
 }

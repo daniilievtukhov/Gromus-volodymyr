@@ -9,6 +9,7 @@ import { useAuthorStatesAnalyticsData } from "../../hooks/useAuthorStatesAnalyti
 import { IStatesData, IVideoRised } from "../../store/accountStateAnalytics";
 import { GraphAuthorTitle } from "./GraphAuthorTitle";
 import { ApexChart } from "./ApexChart";
+import styled from "styled-components";
 
 export const AuthorGraphicStates = memo(({ authorId }: { authorId: number | string }) => {
   const {
@@ -118,11 +119,12 @@ export const AuthorGraphicStates = memo(({ authorId }: { authorId: number | stri
       )}
       {isSuccess && states.length > 0 && (
         <Stack gap={8}>
-          <ApexChart videoRised={videoRised} states={states} />
+          <StyledDiv>
+            <ApexChart videoRised={videoRised} states={states} />
+          </StyledDiv>
         </Stack>
       )}
 
-      {isSuccess && videoRised.length === 0 && <Stack gap={8}> No videoRised</Stack>}
       {isError && (
         <Alert variant="light" color="orange" icon={<IconInfoCircle />}>
           Something went wrong. We are working on getting this fixed as soon as we can.
@@ -131,3 +133,29 @@ export const AuthorGraphicStates = memo(({ authorId }: { authorId: number | stri
     </Stack>
   );
 });
+
+const StyledDiv = styled.div`
+  .apexcharts-zoom-icon {
+    display: none;
+  }
+  .apexcharts-point-annotations {
+    cursor: pointer;
+    padding: 2rem;
+    border: 2px solid #c2fc46;
+  }
+
+  .apexcharts-legend-series {
+    display: flex !important;
+    align-items: center;
+    padding: 0.5rem 0.8rem;
+    background: #ffffff2b;
+    border-radius: 3em;
+    vertical-align: bottom;
+  }
+  .apexcharts-menu.apexcharts-menu-open {
+    background: rgb(13 13 14 / 78%);
+  }
+  .apexcharts-menu.apexcharts-menu-open:hover {
+    background: rgb(13 13 14);
+  }
+`;

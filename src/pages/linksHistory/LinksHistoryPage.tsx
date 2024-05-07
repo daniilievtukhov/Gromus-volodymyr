@@ -20,7 +20,7 @@ export const LinksHistoryPage = () => {
   const tableData = useMemo(() => {
     return data?.history_requests.map((el, index) => ({
       id: el.id,
-      table_id: index + 1 + ((page - 1) * data.page_size),
+      table_id: index + 1 + (page - 1) * data.page_size,
       date: format(new Date(el.date), "dd.MM.yyyy"),
       title: el.title,
       video: el.url,
@@ -41,7 +41,7 @@ export const LinksHistoryPage = () => {
             ))}
           </Stack>
         )}
-        
+
         {isSuccess && (
           <Stack gap={8}>
             <LinksTable tableData={tableData} />

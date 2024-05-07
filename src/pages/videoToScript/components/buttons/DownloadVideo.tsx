@@ -1,9 +1,10 @@
-import { Input, Button, Select, Flex, Text, Image, Group } from "@mantine/core";
+import { Input, Button, Flex, Text, Image, Group } from "@mantine/core";
 import { downloadSvg } from "../../../../assets/index";
-import { IconCopy, IconCheckbox, IconCircleArrowLeftFilled } from "@tabler/icons-react";
+import { IconCircleArrowLeftFilled } from "@tabler/icons-react";
 import { CopyButtonScript } from "./CopyButton";
 import { useScriptVideoStore } from "../../store/videoToScript";
 import { useNavigate } from "react-router-dom";
+import { useMediaQuery } from '@mantine/hooks';
 
 export const DownloadVideo = () => {
   const url = useScriptVideoStore((state) => state.url);
@@ -27,7 +28,7 @@ export const DownloadVideo = () => {
       </Button>
       <Input
         radius="lg"
-        style={{ width: 665, height: 36, marginRight: -100 }}
+        style={{ width: 400, height: 36, marginRight: -100 }}
         placeholder="The link, which will be copied"
         readOnly
         value={url}

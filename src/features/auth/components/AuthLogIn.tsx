@@ -102,16 +102,16 @@ export const AuthLogIn = ({ onChange }: IProps) => {
             label={<Text fz="xs">Remember Me</Text>}
             {...form.getInputProps("rememberMe", { type: "checkbox" })}
           />
-          <StyledButton tabIndex={5} type="submit" loading={mutation.isPending}>
+          <StyledButtonLogIn tabIndex={5} type="submit" loading={mutation.isPending}>
             Log In
-          </StyledButton>
+          </StyledButtonLogIn>
         </Stack>
       </form>
     </Card>
   );
 };
 
-const StyledButton: typeof Button = styled(Button).attrs({
+export const StyledButtonLogIn: typeof Button = styled(Button).attrs({
   size: "lg",
   variant: "white",
 })`

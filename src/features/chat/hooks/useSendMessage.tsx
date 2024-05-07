@@ -55,6 +55,7 @@ export const useSendMessage = () => {
   const navigate = useNavigate();
   const [prompt, setPrompt] = useState("");
   const chatStore = useChatStore();
+  //console.log("chatStore", chatStore);
 
   const handleButtonClick = async (
     link: string,
@@ -159,7 +160,6 @@ export const useSendMessage = () => {
       if (!data.Actions) {
         addMessage({
           ...messageData,
-          //buttons: defaultButtons,
         });
       } else {
         const buttons =

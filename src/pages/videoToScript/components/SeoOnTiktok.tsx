@@ -3,7 +3,7 @@ import { IconSparkles } from "@tabler/icons-react";
 import { IconCopy, IconEdit, IconWorld, IconMessageChatbot } from "@tabler/icons-react";
 import styled from "styled-components";
 import { useScriptVideoStore } from "../store/videoToScript";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CopyButtonScript } from "./buttons/CopyButton";
 import { EditButton } from "./buttons/EditButton";
 import { SaveButton } from "./buttons/SaveButton";
@@ -12,11 +12,10 @@ import { CancelButton } from "./buttons/CancelButton";
 import { RethinkButton } from "./buttons/RethinkButton";
 import { TextareaScript } from "./TextareaScript";
 
-const sliceStr = (str: string, length = 50) => {
-  return str && str.length > length ? str.slice(0, length) + "..." : str;
-};
 
 export const SeoOnTiktok = () => {
+  const store = useScriptVideoStore();
+
   const {
     id,
     lang_generate,
@@ -27,12 +26,19 @@ export const SeoOnTiktok = () => {
     original_hashtags,
     ai_title,
     url,
-  } = useScriptVideoStore((state) => state);
+
+  } = store;
+
+
+  useEffect(() => {
+    setSubmitText(store.new_generate_text);
+  }, [store])
+  
 
   const [editable, setEditable] = useState<boolean>(false);
   const [onSubmitText, setSubmitText] = useState<string>(new_generate_text);
   const title_seo = ai_title
-    ? sliceStr(ai_title)
+    ? ai_title
     : url.includes("tiktok")
       ? "Tik-tok Reels"
       : "Instagram Reels";
@@ -59,50 +65,42 @@ export const SeoOnTiktok = () => {
 
         <Wrapper>
           <Paper
+
+            p={8}
+
             style={{
               minHeight: "50px",
               backgroundColor: " rgba(33, 33, 34, 1)",
               borderRadius: 10,
               marginTop: "20px",
             }}
+
           >
+          <Group gap={10}>
             <Group align="center">
-              <Text
-                fz={16}
-                fw={600}
-                c={"#ffffff"}
-                lh={1.25}
-                truncate="end"
-                style={{ marginLeft: 8, marginTop: "5px" }}
-              >
-                Original:
-              </Text>
               <Text
                 fz={16}
                 fw={400}
                 c={"#ffffff"}
                 lh={1.25}
-                truncate="end"
-                style={{ marginTop: "5px" }}
               >
-                {original_hashtags || "#Hashtags"}
+                <Text fw={600} style={{ display: "inline-block" }} >Original:</Text> {(original_hashtags || "#Hashtags")}
               </Text>
+              
             </Group>
-            <Group align="center" gap={6}>
+            <Group align="center">
               <Text
                 fz={16}
-                fw={600}
-                c={"rgba(209, 253, 10, 1)"}
+                fw={400}
+                c={"#ffffff"}
                 lh={1.25}
-                truncate="end"
-                style={{ marginLeft: 8 }}
               >
-                AI-Based:
+                <Text fw={600} c={"rgba(209, 253, 10, 1)"} style={{ display: "inline-block" }}>AI-Based:</Text> {( ai_hashtag || "#AIHashtags" )}
               </Text>
-              <Text fz={16} fw={400} c={"#ffffff"} lh={1.25} truncate="end">
-                {sliceStr(ai_hashtag) || "#AIHashtags"}
-              </Text>
+
             </Group>
+            </Group>
+
           </Paper>
           <TextareaScript editable={editable} text={onSubmitText} setSubmitText={setSubmitText} />
 
@@ -114,21 +112,19 @@ export const SeoOnTiktok = () => {
           >
             <CopyButtonScript copiedItem={onSubmitText} size="lg" />
 
+
             {!editable && <EditButton setEditable={setEditable} />}
             {editable && (
               <Group>
                 <SaveButton
                   onSubmitText={onSubmitText}
                   originalText={new_generate_text}
-                  onSubmit={async () => {
-                    const res = await ApiTranscriptionEdit.updateAIText({
-                      id: id,
-                      lang: lang_generate,
-                      text: onSubmitText,
-                    });
-                    useScriptVideoStore.setState(res.data);
-                    setEditable(false);
-                  }}
+
+                  id={id}
+                  lang={lang_generate}
+                  onClick={() => setEditable(false)}
+                 
+
                 />
                 <CancelButton
                   setEditable={setEditable}
@@ -140,16 +136,22 @@ export const SeoOnTiktok = () => {
             {!editable && (
               <>
                 <RethinkButton
-                  onSubmit={async () => {
-                    const res = await ApiTranscriptionEdit.regenerateAIText({
-                      id: id,
-                      lang: lang_generate,
-                      text: transcription_text,
-                    });
-                    useScriptVideoStore.setState(res.data);
-                    setSubmitText(res.data.new_generate_text);
-                    setEditable(false);
-                  }}
+                  id={id}
+                  lang={lang_generate}
+                  text={transcription_text}
+                  // onClick={() => {
+                  //   setEditable(false);
+                  //   setSubmitText(res.data.new_generate_text);
+                  // }}
+                  // onSubmit={async () => {
+                  //   const res = await ApiTranscriptionEdit.regenerateAIText({
+                  //     id: id,
+                  //     lang: lang_generate,
+                  //     text: transcription_text,
+                  //   });
+                  //   useScriptVideoStore.setState(res.data);
+                  // }}
+
                 />
                 {/* <Button size="lg" color="white" fz="md" variant="outline">
                     <IconMessageChatbot style={{ marginRight: 4 }} />
