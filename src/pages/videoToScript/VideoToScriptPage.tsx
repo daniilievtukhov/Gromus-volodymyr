@@ -1,7 +1,7 @@
 import { Flex, Stack, Text, Skeleton } from "@mantine/core";
 import { AccentTitle } from "../../components/AccentTitle";
 import { bulleted_list } from "../../assets/index";
-import { DownloadVideo } from "./components/buttons/DownloadVideo";
+import { DownloadVideo } from "./components/DownloadVideo";
 import { SeoOnTiktok } from "./components/SeoOnTiktok";
 import { Transcript } from "./components/Transcript";
 import { bulletSvg } from "../../assets/index";

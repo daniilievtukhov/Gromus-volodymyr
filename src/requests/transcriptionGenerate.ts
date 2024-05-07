@@ -22,7 +22,7 @@ export namespace ApiTranscriptionGenerate {
         ai_hashtag: string,
         ai_title: string,
         data_type: string,
-        data_music_url: string,
+        download_url: string,
         duration_video: number,
         event_type:"download_generate"
         original_hashtags: string,

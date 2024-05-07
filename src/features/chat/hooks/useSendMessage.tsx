@@ -129,6 +129,7 @@ export const useSendMessage = () => {
     onMutate: (data: { text: string; date: string; conversationId: string }) => {
       setPrompt("");
       addMessage({
+        messageId: "",
         isCopilot: false,
         message: data.text,
         date: data.date,
@@ -139,6 +140,7 @@ export const useSendMessage = () => {
         text: data.text,
       });
     },
+
     onSuccess: async (data: {
       Data: any;
       DataType: any;
@@ -148,7 +150,7 @@ export const useSendMessage = () => {
       Context: any;
     }) => {
       const date = new Date().toISOString();
-
+      
       const messageData = {
         isCopilot: true,
         data: data.Data,
@@ -157,9 +159,19 @@ export const useSendMessage = () => {
         date,
       };
 
+      const savedMessage = await ApiMessage.fromCopilot({
+        conversationId: data.ConversationId,
+        date,
+        text: data.Text,
+        data: JSON.stringify(data.Data),
+        dataType: data.DataType,
+        context: data.Context,
+     });
+
       if (!data.Actions) {
         addMessage({
           ...messageData,
+          messageId: savedMessage.id
         });
       } else {
         const buttons =
@@ -171,6 +183,7 @@ export const useSendMessage = () => {
           })) ?? [];
         addMessage({
           ...messageData,
+          messageId: savedMessage.id,
           buttons,
         });
       }
@@ -221,16 +234,8 @@ export const useSendMessage = () => {
         });
         navigate("/ai-hashtags");
       }
-
-      ApiMessage.fromCopilot({
-        conversationId: data.ConversationId,
-        date,
-        text: data.Text,
-        data: JSON.stringify(data.Data),
-        dataType: data.DataType,
-        context: data.Context,
-      });
     },
+
     onError: (error) => {
       const presetButtons = [
         {
@@ -263,6 +268,7 @@ export const useSendMessage = () => {
         if (error.response?.status === 500 || error.response?.status === 520) {
           addMessage({
             date: new Date().toISOString(),
+            messageId: "",
             isCopilot: true,
             message:
               "Please try another request, as I was unable to process this one. I'm working on your previous request and I will provide you with the answer shortly.",
@@ -271,6 +277,7 @@ export const useSendMessage = () => {
         } else if (error.response?.statusText === "Unauthorized") {
           addMessage({
             date: new Date().toISOString(),
+            messageId: "",
             isCopilot: true,
             message:
               "I noticed that you are not logged in or something happened with your authorization. In order to continue our work together , please try to log in one more time.",
@@ -279,6 +286,7 @@ export const useSendMessage = () => {
         } else if (error.response?.status === 403) {
           addMessage({
             date: new Date().toISOString(),
+            messageId: "",
             isCopilot: true,
             message: `You've reached the limit of interactions available under your current monthly subscription. It's been a pleasure to communicate and collaborate with you! I'll keep an eye on your music and account. If you'd like to resume immediately, consider upgrading your subscription tier. Otherwise, we can pick things up again at the beginning of next month.`,
             buttons: [
@@ -292,6 +300,7 @@ export const useSendMessage = () => {
         } else {
           addMessage({
             date: new Date().toISOString(),
+            messageId: "",
             isCopilot: true,
             message: "Please try another request, as I was unable to process this one.",
             buttons: defaultButtons,

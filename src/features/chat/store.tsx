@@ -17,6 +17,7 @@ type IState = {
 
 export interface IMessage {
   message: ReactNode;
+  messageId: string | number;
   isCopilot: boolean;
   dataType?: string | null;
   data?: ApiSounds.IResponse;
@@ -41,6 +42,7 @@ export const useChatStore = create<IState>(() => ({
     {
       isCopilot: true,
       date: new Date().toISOString(),
+      messageId: "",
       message: (
         <>
           <Message.Text>Hi, I’m G:</Message.Text>

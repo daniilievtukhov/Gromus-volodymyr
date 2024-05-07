@@ -1,13 +1,17 @@
-import { Input, Button, Flex, Text, Image, Group } from "@mantine/core";
-import { downloadSvg } from "../../../../assets/index";
-import { IconCircleArrowLeftFilled } from "@tabler/icons-react";
-import { CopyButtonScript } from "./CopyButton";
-import { useScriptVideoStore } from "../../store/videoToScript";
+import { Input, Button, Select, Flex, Text, Image, Group } from "@mantine/core";
+import {
+  IconCircleArrowLeftFilled,
+  IconDownload,
+} from "@tabler/icons-react";
+import { CopyButtonScript } from "./buttons/CopyButton";
+import { useScriptVideoStore } from "../store/videoToScript";
 import { useNavigate } from "react-router-dom";
-import { useMediaQuery } from '@mantine/hooks';
+import { DownloadButton } from "./buttons/DownloadButton";
 
 export const DownloadVideo = () => {
-  const url = useScriptVideoStore((state) => state.url);
+  const { url, download_url } = useScriptVideoStore((state) => state);
+
+  console.log(useScriptVideoStore());
   const navigate = useNavigate();
   return (
     <Flex gap={10}>
@@ -34,13 +38,7 @@ export const DownloadVideo = () => {
         value={url}
       />
       <CopyButtonScript copiedItem={url} size="sm" />
-      <Button
-        color="rgba(209, 253, 10, 1)"
-        variant="filled"
-        style={{ width: 140, height: 35, color: "black" }}
-      >
-        <Image src={downloadSvg} /> Download
-      </Button>
+      <DownloadButton downloadUrl={download_url} />
     </Flex>
   );
 };
