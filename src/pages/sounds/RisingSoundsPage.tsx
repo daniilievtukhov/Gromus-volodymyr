@@ -53,38 +53,9 @@ export const RisingSoundsPage = () => {
     );
   } else {
     return (
-      <>
-        <Stack align="center" justify="center" style={{ height: "100vh" }}>
-          You're over your limit
-        </Stack>
-        <Modal
-          opened={opened}
-          onClose={close}
-          withCloseButton={false}
-          title="The limit's up."
-          centered
-        >
-          <Stack align="center">
-            You have reached the limit in your plan. For further use, buy a more advanced plan.
-          </Stack>
-          <Flex pt={5} gap={10} justify="center">
-            <Button
-              variant="filled"
-              color="rgba(209, 253, 10, 1)"
-              c="black"
-              onClick={() => {
-                close();
-                pricing.openModal();
-              }}
-            >
-              Pricing
-            </Button>
-            <Button variant="filled" color="gray" onClick={close}>
-              Discard
-            </Button>
-          </Flex>
-        </Modal>
-      </>
+      <Stack align="center" justify="center" style={{ height: "100vh" }}>
+        You're over your limit
+      </Stack>
     );
   }
 };

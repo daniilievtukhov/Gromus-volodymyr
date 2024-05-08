@@ -143,7 +143,7 @@ export const PersonalizedHashtagsPage = () => {
               <Flex pt={5} gap={10} justify="center">
                 <Button
                   variant="filled"
-                  color="rgba(209, 253, 10, 1)"
+                  color="lime.4"
                   c="black"
                   onClick={() => {
                     close();
@@ -308,7 +308,7 @@ export const PersonalizedHashtagsPage = () => {
 export const StyledButton = createPolymorphicComponent<"button", ButtonProps>(styled(Button).attrs({
   size: "lg",
   variant: "white",
-})<ButtonProps>`
+}) <ButtonProps>`
   font-size: var(--mantine-font-size-xs);
   font-weight: 700;
   color: black;

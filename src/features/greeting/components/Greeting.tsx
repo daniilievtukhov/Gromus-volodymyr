@@ -122,7 +122,7 @@ const title = "The GROMUS Universe community! 🎉";
 const text1 = `
   Congratulations on joining us! Before we kickstart this musical journey together, let's get to know each other better.
   <br><br>
-  I am GI, your AI copilot, armed with cutting-edge algorithms and machine learning prowess. I'm here to enhance every step of your musical adventure, from advising you on how to create captivating social media content to optimizing your music release plans.
+  I am G, your AI copilot, armed with cutting-edge algorithms and machine learning prowess. I'm here to enhance every step of your musical adventure, from advising you on how to create captivating social media content to optimizing your music release plans.
   <br><br>
   I’ll dive into your music, genre trends, and audience preferences to guide you towards the most impactful promotional methods, helping you make your mark in the competitive world of music.
   <br><br>

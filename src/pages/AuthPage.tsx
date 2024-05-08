@@ -70,7 +70,7 @@ export const AuthPage = () => {
   }
 };
 
-const Wrapper = styled(Center)`
+export const Wrapper = styled(Center)`
   min-height: 100vh;
   padding: 50px 0;
   background-image: url(${ellipseBg});
