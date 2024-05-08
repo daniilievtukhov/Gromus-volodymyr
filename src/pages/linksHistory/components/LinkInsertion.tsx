@@ -24,6 +24,7 @@ import { notify } from "../../../features/notification";
 import { useScriptVideoStore } from "../../videoToScript/store/videoToScript";
 import { useNavigate } from "react-router-dom";
 
+
 export const LinkInsertion = () => {
   const [selectedItem, setSelectedItem] = useState<string>("en");
   const [label, setSelectedLabel] = useState<string>("English");
@@ -36,6 +37,10 @@ export const LinkInsertion = () => {
       url: "",
       lang: selectedItem,
     },
+
+    validate: {
+      url: (value) => (/^(https?:\/\/)(www\.)?\w+\.\w+(\.\w+)?\/?\S*$/g.test(value) ? null : "Invalid url")
+    }
   });
 
   useEffect(() => {
@@ -110,7 +115,7 @@ export const LinkInsertion = () => {
         })
           .then((res) => {
             useScriptVideoStore.setState(res.data);
-            navigate("/video-to-script");
+            navigate(`/video-to-script/${res.data.id}`);
           })
           .catch((error) => {
             setError(true);

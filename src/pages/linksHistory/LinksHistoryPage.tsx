@@ -17,12 +17,14 @@ export const LinksHistoryPage = () => {
     setPage,
   } = useTranscriptionHistory();
 
+  console.log(data);
+
   const tableData = useMemo(() => {
     return data?.history_requests.map((el, index) => ({
       id: el.id,
       table_id: index + 1 + (page - 1) * data.page_size,
       date: format(new Date(el.date), "dd.MM.yyyy"),
-      title: el.title,
+      title: el.label,
       video: el.url,
     })) as ILinkData[];
   }, [data?.history_requests]);

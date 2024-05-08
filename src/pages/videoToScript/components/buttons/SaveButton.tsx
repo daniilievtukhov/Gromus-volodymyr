@@ -12,6 +12,7 @@ interface SaveButtonProps {
   id: string | number;
   lang: string;
   onClick: () => void;
+  onSubmit: any
 }
 
 export const SaveButton: React.FC<SaveButtonProps> = ({
@@ -20,18 +21,24 @@ export const SaveButton: React.FC<SaveButtonProps> = ({
   originalText,
   id,
   lang,
+  onSubmit
 }) => {
 
   const [errorMessage, setErrorMessage] = useState<boolean>(false);
 
   const { mutate, isPending } = useMutation({
-    mutationFn: () =>
-      ApiTranscriptionEdit.updateAIText({
+    mutationFn: async (values: ApiTranscriptionEdit.IRequest) => {
+      const {id, lang, text} = values
+
+      return await onSubmit({
         id,
         lang,
-        text: onSubmitText,
-      }),
-    onSuccess: (res) => {
+        text,
+      })
+    },
+    onSuccess: (res: any) => {
+      console.log(res);
+
       useScriptVideoStore.setState(res.data);
       onClick()
     },
@@ -57,7 +64,11 @@ export const SaveButton: React.FC<SaveButtonProps> = ({
 
 
   const handleSave = async () => {
-    mutate();
+    mutate({
+      id,
+      lang,
+      text: onSubmitText
+    });
   };
 
   return (
