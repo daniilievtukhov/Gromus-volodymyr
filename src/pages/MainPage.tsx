@@ -173,7 +173,7 @@ export const MainPage = () => {
           autoContrast
         >
           Gromus works in Demo Mode. Every week we will improve and add new functionality to our AI
-          Copilot GI
+          Copilot G
         </StyledAlert>
       )}
     </>

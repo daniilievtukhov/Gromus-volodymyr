@@ -30,7 +30,7 @@ export const AuthSignUp = ({ onChange }: IProps) => {
     mutationFn: (data: IForm) =>
       ApiAuth.signUp({
         ...data,
-        phoneNumber: data.phone.replace(/\D/g, ""),
+        phoneNumber: localStorage.getItem('selectedCountry') + data.phone.replace(/\D/g, ""),
         returnUrl: Environment.feDomain,
       }),
     onSuccess: async (_, form) => {
@@ -58,7 +58,7 @@ export const AuthSignUp = ({ onChange }: IProps) => {
         value !== values.password ? "Passwords did not match" : null,
       firstName: (value) => (value.length < 2 ? "Must have at least 2 letters" : null),
       lastName: (value) => (value.length < 2 ? "Must have at least 2 letters" : null),
-      phone: (value) => (value.replace(/\D/g, "").length !== 10 ? "Invalid phone" : null),
+      phone: (value) => (value.replace(/\D/g, "").length !== 9 ? "Invalid phone" : null),
       termsOfService: (value) => (value === false ? "Required" : null),
     },
   });

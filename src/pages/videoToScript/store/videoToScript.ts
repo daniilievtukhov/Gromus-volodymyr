@@ -7,7 +7,7 @@ const initial: ApiTranscriptionGenerate.IResponse = {
     ai_title: "",
     data_type: "",
     lang_generate: "",
-    data_music_url: "",
+    download_url: "",
     duration_video: 0,
     event_type: "download_generate",
     id: "",

@@ -10,12 +10,18 @@ import AiLogo from "../../../assets/icons/ai_logo.svg";
 
 const _Message = ({ message }: { message: IMessage }) => {
   const isMobile = useMediaQuery(`(max-width: 768px)`);
+  const { messageId } = message;
+  console.log(messageId);
+  console.log(message);
+
 
   useEffect(() => {
     if (message.buttons && message.buttons[0] && message.buttons[0].onClick) {
       message.buttons[0].onClick();
     }
   }, [message]);
+
+  
 
   const ButtonPresets = () => {
     return (
@@ -71,7 +77,10 @@ const _Message = ({ message }: { message: IMessage }) => {
         <StyledText component={typeof message.message === "string" ? "p" : "div"}>
           {message.message}
         </StyledText>
+        {/* <RateMessageForm />  */}
         <ButtonPresets />
+
+
       </Stack>
     </FadeBlock>
   );

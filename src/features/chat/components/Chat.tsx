@@ -64,6 +64,7 @@ export const Chat = memo(() => {
                 <Message
                   message={{
                     message: "Typing...",
+                    messageId: "",
                     isCopilot: true,
                     date: new Date().toISOString(),
                   }}
@@ -77,6 +78,7 @@ export const Chat = memo(() => {
                   message={{
                     message:
                       "You have run out of requests in your current package, buy a subscription to increase your limits 😔",
+                    messageId: "",
                     isCopilot: true,
                     date: new Date().toISOString(),
                   }}

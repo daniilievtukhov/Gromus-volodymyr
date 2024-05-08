@@ -78,7 +78,7 @@ const Content = ({ authorId }: { authorId: number | string }) => {
               <Flex style={{ paddingTop: 5 }} justify="center">
                 <Button
                   variant="filled"
-                  color="rgba(209, 253, 10, 1)"
+                  color="lime.4"
                   c="black"
                   onClick={() => {
                     close();
@@ -204,7 +204,7 @@ export const MyAccountAnalyticsPage = memo(() => {
 const StyledButton = createPolymorphicComponent<"button", ButtonProps>(styled(Button).attrs({
   size: "lg",
   variant: "white",
-})<ButtonProps>`
+}) <ButtonProps>`
   font-size: var(--mantine-font-size-xs);
   font-weight: 700;
   color: black;

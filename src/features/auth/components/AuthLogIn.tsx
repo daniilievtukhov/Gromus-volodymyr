@@ -90,6 +90,7 @@ export const AuthLogIn = ({ onChange }: IProps) => {
                   component="button"
                   c="lime.4"
                   tabIndex={6}
+                  onClick={() => { navigate("/forgot-password") }}
                 >
                   Forgot Password?
                 </Anchor>

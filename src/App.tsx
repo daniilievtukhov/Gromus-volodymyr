@@ -31,6 +31,9 @@ import { mantineTheme } from "./theme/mantine-theme";
 import { VoiceToScriptPage } from "./pages/voiceHistory/components/components/VoiceToScriptPage";
 import { HashtagDataPage } from "./pages/HashtagDataPage";
 import { VideoPage } from "../src/pages/videoPage/VideoPage";
+import { ForgotPassword } from "./features/auth/components/ForgotPassword";
+import { CheckEmail } from "./features/auth/components/CheckEmail";
+import { ResetPassword } from "./features/auth/components/ResetPassword";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -149,6 +152,18 @@ const router = createBrowserRouter([
   {
     path: "/video",
     element: <VideoPage />,
+  },
+  {
+    path: '/forgot-password',
+    element: <ForgotPassword />,
+  },
+  {
+    path: '/check-email',
+    element: <CheckEmail />,
+  },
+  {
+    path: '/reset-password',
+    element: <ResetPassword />,
   },
 ]);
 export default function App() {
