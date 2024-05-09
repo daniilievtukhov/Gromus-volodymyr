@@ -9,20 +9,11 @@ export namespace ApiTranscriptionDownload {
     id: number | string;
   }
 
-//   export interface IResponse {
-//     id: string | number;
-//     data_type: string;
-//     event_type: "download_generate";
-//     url: string;
-//     data_music_url: string;
-//     transcription_text: string;
-//     title: string;
-//     language_original: string;
-//     new_generate_text: string;
-//     lang_generate: string;
-//   }
+  export interface IResponse {
+    download_url: "download_generate";
+  }
 
   export const getLink = async (params: IRequest) => {
-    return await axios.get(`${link}?${queryString.stringify(params)}`)
+    return await axios.get<IResponse>(`${link}?${queryString.stringify(params)}`)
   };
 }
