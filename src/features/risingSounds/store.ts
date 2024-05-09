@@ -8,8 +8,8 @@ interface IState {
 
 export const useRisingSoundsStore = create<IState>((set) => ({
   tableData: [],
-  setTableData: (tableData) => set(state => ({ ...state, tableData })),
-  clearTableData: () => set(state => ({ ...state, tableData: [] })),
+  setTableData: (tableData) => set((state) => ({ ...state, tableData })),
+  clearTableData: () => set((state) => ({ ...state, tableData: [] })),
 }));
 
 export type ISoundData = {
@@ -29,4 +29,6 @@ export type ISoundData = {
   dailyRise: number;
   topAudienceLocation: string;
   notAvailable: boolean;
+  musicStatus?: number;
+  viralStatus?: string;
 };

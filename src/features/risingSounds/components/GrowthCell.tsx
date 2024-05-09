@@ -1,40 +1,33 @@
 import { Tooltip } from "@mantine/core";
-import { isNumber } from "lodash-es";
 
-export const GrowthCell = ({ value }: { value: number | null }) => {
-  if (!isNumber(value) || isNaN(value)) return "-";
-
-  if (value > 20) {
-    return (
-      <Tooltip label={"> Top 20% of video growth"}>
-        <div>Trending 🔥🔥🔥🔥</div>
-      </Tooltip>
-    );
+export const GrowthCell = ({ value }: { value: string | undefined }) => {
+  if (!value) return "-";
+  switch (value.toLocaleLowerCase()) {
+    case "viral":
+      return (
+        <Tooltip label={"> 5% daily rise from summ in location group"}>
+          <div>Viral 🔥🔥🔥🔥</div>
+        </Tooltip>
+      );
+    case "trending":
+      return (
+        <Tooltip label={"> 3% daily rise from summ in location group"}>
+          <div>Trending 🔥🔥🔥</div>
+        </Tooltip>
+      );
+    case "rising":
+      return (
+        <Tooltip label={"> 1% daily rise from summ in location group"}>
+          <div>Rising 🔥🔥</div>
+        </Tooltip>
+      );
+    case "emerging":
+      return (
+        <Tooltip label={"< 1% daily rise from summ in location group"}>
+          <div>Emerging 🔥</div>
+        </Tooltip>
+      );
+    default:
+      return "-";
   }
-
-  if (value > 10) {
-    return (
-      <Tooltip label={"> Top 10% of video growth"}>
-        <div>Rising 🔥🔥🔥</div>
-      </Tooltip>
-    );
-  }
-
-  if (value > 5) {
-    return (
-      <Tooltip label={"> Top 5% of video growth"}>
-        <div>Emerging 🔥🔥</div>
-      </Tooltip>
-    );
-  }
-
-  if (value > 1) {
-    return (
-      <Tooltip label={"> Top 1% of video growth"}>
-        <div>Viral 🔥</div>
-      </Tooltip>
-    );
-  }
-
-  return "-";
 };

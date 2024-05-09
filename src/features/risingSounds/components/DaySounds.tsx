@@ -13,10 +13,7 @@ export const DaySounds = () => {
   const clicked = useHowItWorkStore((state) => state.clicked);
   const handleHowItWorks = () => {
     useHowItWorkStore.setState({ clicked: true });
-    openVideoModalTutorial(
-      "https://www.loom.com/share/6d55162e69774f078205a6e206e2bee7?sid=a9387e4e-fe00-489b-8889-f64cb9960239",
-      "Rising Sounds for today",
-    );
+    openVideoModalTutorial("", "Rising Sounds for today");
   };
   return (
     <Stack gap={16}>

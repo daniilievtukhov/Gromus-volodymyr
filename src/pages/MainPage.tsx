@@ -48,7 +48,7 @@ export const MainPage = () => {
     (async () => {
       try {
         const res = await ApiAccount.getUserSettings();
-        setUserRole(res.accessRole.toUpperCase());
+        setUserRole(res.subscriptionInfo.userRole.normalizedName);
       } catch (error) {
         if (isAxiosError(error) && error.response?.status === 401) {
           return (

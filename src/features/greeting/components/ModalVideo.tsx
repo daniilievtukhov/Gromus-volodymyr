@@ -22,6 +22,7 @@ const CustomModal = styled(Modal)`
 const ResponsiveIframeContainer = styled.div`
   position: relative;
   overflow: hidden;
+  border-radius: 1rem;
 `;
 const StyledIframe = styled.iframe`
   position: absolute;
@@ -61,7 +62,7 @@ export const ModalVideo = () => {
         <Grid justify="center" align="center" style={{ margin: "30px" }}>
           <Group style={{ justifyContent: "center" }}>
             <ResponsiveIframeContainer>
-              <StyledIframe></StyledIframe>
+              <ReactPlayer url={link} width="100%" controls={true} />
             </ResponsiveIframeContainer>
           </Group>
         </Grid>

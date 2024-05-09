@@ -10,38 +10,45 @@ import {
 } from "@mantine/core";
 import { IMaskInput } from "react-imask";
 import styled from "styled-components";
-import { countries } from 'countries-list';
+import { countries } from "countries-list";
 import { useState } from "react";
-import create from 'zustand';
 
 export const PhoneInput = ({
-
   label,
   error,
   ...rest
 }: PolymorphicComponentProps<"input", InputProps> & InputWrapperProps) => {
-  const countryOptions = Object.values(countries).map(country => ({
+  const countryOptions = Object.values(countries).map((country) => ({
     name: country.name,
     dialCode: `+${country.phone}`,
   }));
 
-  const [selectedCountry, setSelectedCountry] = useState({ name: countryOptions[0].name, dialCode: countryOptions[0].dialCode });
+  const [selectedCountry, setSelectedCountry] = useState({
+    name: countryOptions[0].name,
+    dialCode: countryOptions[0].dialCode,
+  });
   const handleCountryChange = (country: any) => {
-    const foundCountry = countryOptions.find(c => c.name === country);
-    const code = foundCountry ? foundCountry.dialCode : '';
-    localStorage.setItem('selectedCountry', code);
+    const foundCountry = countryOptions.find((c) => c.name === country);
+    const code = foundCountry ? foundCountry.dialCode : "";
+    localStorage.setItem("selectedCountry", code);
     setSelectedCountry({ name: country, dialCode: code });
   };
 
   return (
     <Input.Wrapper label={label} error={error}>
       <Wrapper>
-        <StyledSelect tabIndex={-1} data={countryOptions.map(country => country.name)} onChange={handleCountryChange} />
+        <StyledSelect
+          tabIndex={-1}
+          data={countryOptions.map((country) => country.name)}
+          onChange={handleCountryChange}
+        />
         <Divider mx={16} />
         <StyledInput
           leftSection={selectedCountry.dialCode}
           placeholder="(00) 000-0000"
           mask="(00) 000-0000"
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          //@ts-ignore
           component={IMaskInput}
           {...rest}
         />
@@ -75,4 +82,3 @@ const StyledSelect = styled(Select)`
     border-radius: 0;
   }
 `;
-

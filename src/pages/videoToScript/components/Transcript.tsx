@@ -8,6 +8,7 @@ import { SaveButton } from "./buttons/SaveButton";
 import { CopyButtonScript } from "./buttons/CopyButton";
 import { CancelButton } from "./buttons/CancelButton";
 import { TextareaScript } from "./TextareaScript";
+import { ApiTranscriptionEdit } from "../../../requests/transcriptionEdit";
 
 export const Transcript = () => {
   const store = useScriptVideoStore();
@@ -102,6 +103,7 @@ export const Transcript = () => {
                 <Group>
 
                    <SaveButton
+                      onSubmit={(request: ApiTranscriptionEdit.IRequest) => ApiTranscriptionEdit.updateTranscriptionText(request)}
                       onSubmitText={onSubmitText}
                       originalText={language_original}
                       id={id}

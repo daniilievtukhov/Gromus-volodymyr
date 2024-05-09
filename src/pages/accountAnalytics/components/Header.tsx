@@ -66,7 +66,7 @@ export const Header = ({ authorId }: { authorId: number | string }) => {
   const handleHowItWorks = () => {
     useHowItWorkStore.setState({ clicked: true });
     openVideoModalTutorial(
-      "https://www.loom.com/share/ad65f4670ea34d3da57004aa53bd1958?sid=413ace28-637d-4c5e-ae9f-42863893278e",
+      "https://youtube.com/shorts/8EGIcOFNG7M",
       "Personalized Account Analytics",
     );
   };

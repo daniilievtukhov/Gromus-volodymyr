@@ -51,7 +51,7 @@ export const closeMusicVideoModal = () => {
     },
   });
 };
-export const openVideoModalTutorial = (link: string, title: string, text?: string) => {
+export const openVideoModalTutorial = (link: string, title: string) => {
   useGlobalStore.setState({
     videosModalTutorial: {
       opened: true,

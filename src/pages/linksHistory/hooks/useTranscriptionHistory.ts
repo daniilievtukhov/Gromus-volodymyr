@@ -13,7 +13,7 @@ export const useTranscriptionHistory = () => {
       ({
         eventType: "download_generate",
         page,
-      } as ApiTranscriptionHistory.IRequestHistory),
+      }) as ApiTranscriptionHistory.IRequestHistory,
     [searchParams, page, setPage],
   );
 
@@ -22,7 +22,6 @@ export const useTranscriptionHistory = () => {
       queryKey: ["transcriptionHistory", params],
       queryFn: () => ApiTranscriptionHistory.get(params),
     }),
-
     page,
     setPage,
   };

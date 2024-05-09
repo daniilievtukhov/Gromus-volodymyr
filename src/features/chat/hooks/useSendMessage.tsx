@@ -150,7 +150,7 @@ export const useSendMessage = () => {
       Context: any;
     }) => {
       const date = new Date().toISOString();
-
+      
       const messageData = {
         isCopilot: true,
         data: data.Data,
@@ -166,7 +166,8 @@ export const useSendMessage = () => {
         data: JSON.stringify(data.Data),
         dataType: data.DataType,
         context: data.Context,
-      });
+     });
+
 
       if (!data.Actions) {
         addMessage({

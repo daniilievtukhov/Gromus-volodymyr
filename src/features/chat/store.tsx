@@ -1,13 +1,10 @@
 import { Badge, Group } from "@mantine/core";
 import { ReactNode } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { create, createStore } from "zustand";
-
+import { create } from "zustand";
 import { ApiSounds } from "../../requests/stats/sounds";
 import { Message } from "./components/Message";
-
 import { ApiSchedule } from "../../requests/schedule";
-import { Url } from "url";
 
 type IState = {
   chatId: string;

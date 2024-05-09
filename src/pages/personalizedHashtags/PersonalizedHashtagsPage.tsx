@@ -127,8 +127,18 @@ export const PersonalizedHashtagsPage = () => {
       if (isAxiosError(error) && error.response?.status === 403) {
         return (
           <>
-            <Stack align="center" justify="center" style={{ height: "100vh" }}>
-              You're over your limit
+            <Stack
+              align="center"
+              justify="center"
+              p={32}
+              pb={102}
+              gap={52}
+              bg="#0D0D0E"
+              mih="100vh"
+            >
+              <Alert variant="light" color="orange" title="Limitation" icon={<IconMoodSad />}>
+                You're over your limit
+              </Alert>
             </Stack>
             <Modal
               opened={opened}
@@ -176,10 +186,7 @@ export const PersonalizedHashtagsPage = () => {
 
   const handleHowItWorks = () => {
     useHowItWorkStore.setState({ clicked: true });
-    openVideoModalTutorial(
-      "https://www.loom.com/embed/1cf8b73bc30a413db3877cd3f27a0826?sid=db711b31-66a8-4b28-a64f-aee3ba57e5d3",
-      "Personalized Hashtags",
-    );
+    openVideoModalTutorial("https://youtube.com/shorts/u0SZHFHPbhs", "Personalized Hashtags");
   };
   if (isSuccessHashtagsFilter && isSuccess && data && isOtherCategory) {
     return (
@@ -308,7 +315,7 @@ export const PersonalizedHashtagsPage = () => {
 export const StyledButton = createPolymorphicComponent<"button", ButtonProps>(styled(Button).attrs({
   size: "lg",
   variant: "white",
-}) <ButtonProps>`
+})<ButtonProps>`
   font-size: var(--mantine-font-size-xs);
   font-weight: 700;
   color: black;

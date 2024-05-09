@@ -24,6 +24,7 @@ export namespace ApiTranscriptionHistory {
     new_generate_text: string;
     url: string;
     title: string;
+    label: string;
   }
 
   export interface IResponse {

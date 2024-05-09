@@ -28,14 +28,18 @@ export const RisingTable = ({ tableData }: { tableData: ISoundData[] }) => {
       {
         field: "musicOriginal",
         title: "Type",
-        render: (data) => <SoundType type={data.musicOriginal ? "original" : "official"} />,
+        render: (data) => (
+          <SoundType
+            type={data.musicOriginal ? "original" : data.musicStatus === 3 ? "official" : "repost"}
+          />
+        ),
       },
       {
-        field: "growth",
+        field: "viralStatus",
         title: "Status",
         render: (data) => (
           <Flex>
-            <GrowthCell value={data.growth} />
+            <GrowthCell value={data.viralStatus} />
           </Flex>
         ),
       },

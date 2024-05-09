@@ -12,7 +12,7 @@ export const SchedulePage = () => {
   const handleHowItWorks = () => {
     useHowItWorkStore.setState({ clicked: true });
     openVideoModalTutorial(
-      "https://www.loom.com/embed/1cf8b73bc30a413db3877cd3f27a0826?sid=db711b31-66a8-4b28-a64f-aee3ba57e5d3",
+      "https://youtube.com/shorts/Sh7CUYq0cqQ",
       "Personalized Best Time & Day to Post",
     );
   };
@@ -34,15 +34,12 @@ export const SchedulePage = () => {
             />
           </Flex>
         </Flex>
-        <Text size="lg" fw={500} c="white" ff="mono">
-          This recommendation is built on the analytics of your account, competitors, audience, and
-          the content that is released in the country associated with your account. If you want to
-          change the country of distribution for your content, you will receive personalized data
-          for any country.
+        <Text size="lg" fw={500} c="white">
+          I have analyzed your account and created a personalized schedule for your posts This
+          recommendation is built on the analytics of your account, competitors, audience, and the
+          content that is released in the country associated with your account.
         </Text>
-        <Text size="lg" fw={500} c="white" ff="mono">
-          The recommended time for postings is updated weekly.
-        </Text>
+
         <Calendar />
       </Stack>
 

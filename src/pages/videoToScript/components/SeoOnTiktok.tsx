@@ -119,7 +119,7 @@ export const SeoOnTiktok = () => {
                 <SaveButton
                   onSubmitText={onSubmitText}
                   originalText={new_generate_text}
-
+                  onSubmit={(request: ApiTranscriptionEdit.IRequest) => ApiTranscriptionEdit.updateAIText(request)}
                   id={id}
                   lang={lang_generate}
                   onClick={() => setEditable(false)}

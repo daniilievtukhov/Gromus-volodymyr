@@ -1,4 +1,4 @@
-import { Button, createTheme, Flex, Input, TextInput, Tooltip, Grid } from "@mantine/core";
+import { Button, createTheme, Flex, Input, TextInput, Tooltip, Grid, Select } from "@mantine/core";
 
 export const mantineTheme = createTheme({
   fontFamily: "Montserrat",

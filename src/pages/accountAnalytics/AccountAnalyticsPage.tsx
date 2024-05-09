@@ -62,8 +62,18 @@ const Content = ({ authorId }: { authorId: number | string }) => {
       if (isAxiosError(error) && error.response?.status === 403) {
         return (
           <>
-            <Stack align="center" justify="center" style={{ height: "100vh" }}>
-              You're over your limit
+            <Stack
+              align="center"
+              justify="center"
+              p={32}
+              pb={102}
+              gap={52}
+              bg="#0D0D0E"
+              mih="100vh"
+            >
+              <Alert variant="light" color="orange" title="Limitation" icon={<IconMoodSad />}>
+                You're over your limit
+              </Alert>
             </Stack>
             <Modal
               opened={opened}
@@ -204,7 +214,7 @@ export const MyAccountAnalyticsPage = memo(() => {
 const StyledButton = createPolymorphicComponent<"button", ButtonProps>(styled(Button).attrs({
   size: "lg",
   variant: "white",
-}) <ButtonProps>`
+})<ButtonProps>`
   font-size: var(--mantine-font-size-xs);
   font-weight: 700;
   color: black;

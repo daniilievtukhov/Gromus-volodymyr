@@ -1,4 +1,4 @@
-import { Grid, Group, lighten, Stack, Text, Title, TypographyStylesProvider } from "@mantine/core";
+import { Grid, Group, lighten, Stack, Text, Title, TypographyStylesProvider, Popover, Button, Flex } from "@mantine/core";
 import {
   IconBrandYoutubeFilled,
   IconHash,
@@ -11,17 +11,17 @@ import { TextPlugin } from "gsap/all";
 import { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useThrottledCallback } from "use-debounce";
-
 import { useLayoutStore } from "../../../layoutStore";
 import { useGreetingStore } from "../store";
 import { Benefit } from "./Benefit";
 import { ModalVideo } from "./ModalVideo";
+import { useDisclosure } from "@mantine/hooks";
 
 gsap.registerPlugin(TextPlugin);
 
 export const Greeting = () => {
   const ref = useAnimation();
-
+  const [opened, { close, open }] = useDisclosure(false);
   return (
     <Wrapper
       onClick={(e) => {
@@ -92,10 +92,30 @@ export const Greeting = () => {
               </Grid.Col>
             </Grid>
             <Text className="text2" />
+            <Flex justify={"space-around"}>
+              <Popover width={200} position="bottom" withArrow shadow="md" id="button">
+                <Popover.Target>
+                  <Button c="black">Pro Mode</Button>
+                </Popover.Target>
+                <Popover.Dropdown>
+                  <Text size="xs">Prefer to navigate the platform on your own? Switch to <a href="https://pro.gromus.ai/" target="_blank">Pro mode</a> and have access to data and analytics using menu navigation without me.</Text>
+                </Popover.Dropdown>
+              </Popover>
+
+              <Popover width={200} position="bottom" withArrow shadow="md" id="button">
+                <Popover.Target>
+                  <Button c="black">Copilot AI Mode</Button>
+                </Popover.Target>
+                <Popover.Dropdown>
+                  <Text size="xs">Let me be your personal assistant. Simply share a link to your sound or account, and I'll provide you with personalized recommendations and analytics. You can also ask me about any account or sound, and I'll swiftly provide you with analytics or a summary of the results.</Text>
+                </Popover.Dropdown>
+              </Popover>
+            </Flex>
+            <Text className="text3" />
           </Stack>
         </TypographyStylesProvider>
-      </Stack>
-    </Wrapper>
+      </Stack >
+    </Wrapper >
   );
 };
 
@@ -116,7 +136,6 @@ const Wrapper = styled.div`
     text-decoration: underline;
   }
 `;
-
 const title = "The GROMUS Universe community! 🎉";
 
 const text1 = `
@@ -135,17 +154,11 @@ const text2 = `
   <b>I’m all ears. What’s your question?</b>
   <br><br>
   Also, there are 2 ways to navigate the platform: OR Choose your way to navigate our platform
-  <br><br>
-  <span class="link-button" data-type="pro-mode">Pro Mode:</span>
-  <br><br>
-  Prefer to navigate the platform on your own? Switch to <a href="https://pro.gromus.ai/" target="_blank">Pro mode</a> and have access to data and analytics using menu navigation without me.
-  <br><br>
-  <span class="link-button" data-type="ai-mode">AI Copilot Mode:</span>
-  <br><br>
-  Let me be your personal assistant. Simply share a link to your sound or account, and I'll provide you with personalized recommendations and analytics. You can also ask me about any account or sound, and I'll swiftly provide you with analytics or a summary of the results.
-  <br><br>
-  Why choose Me? I will help to empower you with the tools and knowledge you need to thrive in the dynamic world of music. Let's make some magic together!
 `;
+
+const text3 = `
+<br><br>Why choose Me? I will help to empower you with the tools and knowledge you need to thrive in the dynamic world of music. Let's make some magic together!
+`
 
 const useAnimation = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -172,7 +185,9 @@ const useAnimation = () => {
     const titleEl = ref.current.querySelector(".title");
     const text1El = ref.current.querySelector(".text1");
     const text2El = ref.current.querySelector(".text2");
+    const text3El = ref.current.querySelector(".text3");
     const benefitEls = ref.current.querySelectorAll(".benefit");
+    const buttons = ref.current.querySelectorAll("#button-target");
 
     tl.to(titleEl, { text: title, duration: 1, delay: 1 });
     tl.to(text1El, { text: text1, duration: 5 });
@@ -184,11 +199,16 @@ const useAnimation = () => {
       ),
     );
     tl.to(text2El, { text: text2, duration: 15 });
-
+    buttons.forEach((el) =>
+      tl.fromTo(
+        el,
+        { display: "none", opacity: 0, y: -10 },
+        { display: "block", opacity: 1, y: 0, duration: 0.5 },
+      ))
+    tl.to(text3El, { text: text3, duration: 10 })
     return () => {
       tl.kill();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);

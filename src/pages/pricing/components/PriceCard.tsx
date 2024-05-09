@@ -1,17 +1,13 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { Grid, Button } from "@mantine/core";
-
+import { Grid, Button, Anchor } from "@mantine/core";
 import Check from "../../../assets/icons/check.svg";
 import Close from "../../../assets/icons/close.svg";
-import { Anchor } from "react-bootstrap";
 import { useState } from "react";
-import { useGlobalStore } from "../../../globalStore";
-import { unsubscribe } from "diagnostics_channel";
-import { ApiAccount } from "../../../requests/account/settings";
 import axios from "axios";
 import { getToken } from "../../../core/helpers/getToken";
 import { useUserSettingsStore } from "../../../features/userSettings/store/user";
+import { useGlobalStore } from "../../../globalStore";
 
 const PricingHeader = styled.div`
   height: 100px;
@@ -109,10 +105,7 @@ const SignedText = styled.label`
   color: #d1fd0a;
 `;
 
-export const SubscribePackageBtn: React.FC<{ subscribeLink: string; clientId: string }> = ({
-  subscribeLink,
-  clientId,
-}) => {
+export const SubscribePackageBtn: React.FC<{ subscribeLink: string }> = ({ subscribeLink }) => {
   const [hover, setHover] = useState(false);
 
   const buttonStyle = {
@@ -135,7 +128,7 @@ export const SubscribePackageBtn: React.FC<{ subscribeLink: string; clientId: st
   };
 
   return (
-    <Anchor href={`${subscribeLink}?client_reference_id=sub-${clientId}`}>
+    <Anchor href={subscribeLink}>
       <Button
         style={buttonStyle}
         onMouseEnter={() => setHover(true)}
@@ -146,27 +139,6 @@ export const SubscribePackageBtn: React.FC<{ subscribeLink: string; clientId: st
     </Anchor>
   );
 };
-
-// https://buy.stripe.com/test_9AQaGz3QIeUN2KkaEE
-//   styled(Button)`
-// background: #d1fd0a;
-// border-color: #d1fd0a;
-// color: black;
-// font-size: 15px;
-// font-weight: 700;
-// letter-spacing: 12%;
-// width: 90%;
-// height: 60px;
-// border-radius: 8px;
-// margin-bottom: 10px;
-
-// &:hover {
-//   background: #d1fd0b;
-//   border-color: #d1fd0a;
-//   color: black;
-//   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-// }
-// `;
 
 const BtnDescription = styled.label`
   color: #cbcbcb;
@@ -247,7 +219,6 @@ const PriceCard: React.FC<{ priceCard: IPriceCard }> = ({ priceCard }) => {
   const user = useGlobalStore();
 
   const stripeSubscription = user.userInfo?.stripeSubscription;
-  // console.log(localStorage.getItem("BEARER_TOKEN"))
 
   const account = useUserSettingsStore((s) => s.userRole);
 
@@ -263,7 +234,7 @@ const PriceCard: React.FC<{ priceCard: IPriceCard }> = ({ priceCard }) => {
         </PricingHeader>
         <Separator />
         {isMonth && (account !== categoryLabel.toUpperCase() || !stripeSubscription) ? (
-          <SubscribePackageBtn subscribeLink={subscribeLink} clientId={user.userInfo?.id} />
+          <SubscribePackageBtn subscribeLink={subscribeLink} />
         ) : (
           <FreePackageBtn category={categoryLabel} activeCategory={account}>
             {isMonth ? "CANCEL" : "ACTIVATE FOR FREE"}

@@ -1,4 +1,15 @@
-import { darken, Group, Image, ScrollArea, Select, Skeleton, Stack, Text } from "@mantine/core";
+import {
+  darken,
+  Flex,
+  Group,
+  Image,
+  rem,
+  ScrollArea,
+  Select,
+  Skeleton,
+  Stack,
+  Text,
+} from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { format, setHours } from "date-fns";
 import { useState } from "react";
@@ -9,7 +20,9 @@ import { Links } from "../../../core/links";
 import { ApiSchedule } from "../../../requests/schedule";
 import { usePostsStore } from "../../chat/store";
 import { useEffect } from "react";
-
+import classes from "./Calendar.module.css";
+import { IconCaretDownFilled, IconComponents } from "@tabler/icons-react";
+import { UAFlag, USFlag } from "mantine-flagpack";
 export const Calendar = () => {
   const store = usePostsStore();
 
@@ -35,43 +48,62 @@ export const Calendar = () => {
   useEffect(() => {
     setPosts(store);
     setCountry(store.country);
+    setCategory(store.categoryId.toString());
   }, [store]);
 
   const [country, setCountry] = useState<string | null>(null);
+  const [category, setCategory] = useState<string | null>(null);
 
   const { data: filters } = useQuery({
     queryKey: ["scheduleFilters"],
     queryFn: async () => {
       const res = await ApiSchedule.getFilters();
 
-      const options = res.data.countriesList.map((el) => ({
-        value: el.countryCode,
-        label: el.countryName,
-        flagPath: el.flagPath,
-      })).sort((a, b) => a.label.localeCompare(b.label));
+      const options = res.data.countriesList
+        .map((el) => ({
+          value: el.countryCode,
+          label: el.countryName,
+          flagPath: el.flagPath,
+        }))
+        .sort((a, b) => a.label.localeCompare(b.label));
 
       const icons = options.reduce<Record<string, string>>(
         (acc, el) => ({ ...acc, [el.value]: el.flagPath }),
         {},
       );
+      const categoriesList = res.data.categoriesList
+        .map((el) => ({
+          value: el.id.toString(),
+          label: el.categoryName,
+          authors: el.authors,
+          sounds: el.sounds,
+          videos: el.videos,
+        }))
+        .sort((a, b) => a.label.localeCompare(b.label));
 
       setCountry(res.data.country);
-
-      return { options, icons, category: res.data.category, followers: res.data.followers };
+      setCategory(res.data.category.toString());
+      return {
+        options,
+        icons,
+        categoriesList,
+        category: res.data.category,
+        followers: res.data.followers,
+      };
     },
   });
 
   const schedule = useQuery({
-    queryKey: ["schedule", country, posts, filters?.category, filters?.followers],
+    queryKey: ["schedule", country, posts, category, filters?.followers],
     queryFn: async () => {
       if (!country) return null;
-
+      if (!category) return null;
       let res;
       let stats;
       if (!posts.daysStats.length) {
         res = await ApiSchedule.get({
           country,
-          category: filters?.category,
+          category: parseInt(category),
           followers: filters?.followers,
         });
 
@@ -116,25 +148,83 @@ export const Calendar = () => {
       return result;
     },
   });
+  const [focus, setFocus] = useState<boolean>(false);
+  const handleFocus = () => {
+    setFocus(true);
+  };
+  const icon = (
+    <IconCaretDownFilled
+      style={{
+        width: rem(16),
+        height: rem(16),
+        color: focus ? "rgb(209, 253, 10)" : "initial",
+      }}
+    />
+  );
+
+  let IconFlag;
+  const flag = filters?.options.find((option) => option.value === country);
+  if (flag) {
+    IconFlag = <Image w={24} src={`${Links.proDomain}${filters?.icons?.[flag.value]}`} />;
+  }
 
   return (
     <ScrollArea type="auto" mx={-40} offsetScrollbars>
       <Stack gap={16} px={40}>
-        <Select
-          value={country}
-          onChange={setCountry}
-          allowDeselect={false}
-          data={filters?.options}
-          searchable
-          renderOption={(el) => {
-            return (
-              <Group>
-                <Image w={24} src={`${Links.proDomain}${filters?.icons?.[el.option.value]}`} />
-                <Text c={country===el.option.value ? "white" : ""}>{el.option.label}</Text>
-              </Group>
-            );
-          }}
-        />
+        <Flex gap={10}>
+          <Select
+            classNames={{
+              option: classes.option,
+              input: classes.input,
+            }}
+            onFocus={handleFocus}
+            onBlur={() => setFocus(false)}
+            label="Country"
+            w="50%"
+            value={country}
+            onChange={setCountry}
+            allowDeselect={false}
+            data={filters?.options}
+            searchable
+            nothingFoundMessage="Nothing found..."
+            rightSection={icon}
+            leftSection={IconFlag}
+            comboboxProps={{ transitionProps: { transition: "pop", duration: 200 } }}
+            renderOption={(el) => {
+              return (
+                <Group>
+                  <Image w={24} src={`${Links.proDomain}${filters?.icons?.[el.option.value]}`} />
+                  <Text c={country === el.option.value ? "white" : ""}>{el.option.label}</Text>
+                </Group>
+              );
+            }}
+          />
+          <Select
+            label="Category"
+            classNames={{
+              option: classes.option,
+              input: classes.input,
+            }}
+            w="50%"
+            checkIconPosition="left"
+            value={category}
+            onChange={setCategory}
+            allowDeselect={false}
+            data={filters?.categoriesList}
+            searchable
+            rightSection={icon}
+            nothingFoundMessage="Nothing found..."
+            comboboxProps={{ transitionProps: { transition: "pop", duration: 200 } }}
+            renderOption={(el) => {
+              return (
+                <Group>
+                  <Text c={category === el.option.value ? "white" : ""}>{el.option.label}</Text>
+                </Group>
+              );
+            }}
+          />
+        </Flex>
+
         {schedule.isLoading && (
           <Stack gap={4}>
             <Skeleton h={48} />
@@ -146,7 +236,6 @@ export const Calendar = () => {
             <Skeleton h={48} />
           </Stack>
         )}
-
         <Wrapper>
           {schedule.data?.map((el) => (
             <Fragment key={el.day}>
