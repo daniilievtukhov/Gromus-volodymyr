@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { DownloadButton } from "./buttons/DownloadButton";
 
 export const DownloadVideo = () => {
-  const { url, download_url } = useScriptVideoStore((state) => state);
+  const { url, id, title } = useScriptVideoStore((state) => state);
 
   console.log(useScriptVideoStore());
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ export const DownloadVideo = () => {
         value={url}
       />
       <CopyButtonScript copiedItem={url} size="sm" />
-      <DownloadButton downloadUrl={download_url} />
+      <DownloadButton id={id} title={title} />
     </Flex>
   );
 };
