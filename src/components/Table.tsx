@@ -1,6 +1,7 @@
 import { ScrollArea, Table as TableComponent } from "@mantine/core";
 import { get } from "lodash-es";
 import React, { ReactNode } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 export type ColumnDef<T extends Record<"id", string | number | null>> = {
@@ -19,6 +20,7 @@ export const Table = <T extends Record<"id", string | number | null>>({
   columns,
   data,
 }: IProps<T>) => {
+  const navigate = useNavigate();
   return (
     <ScrollArea scrollbars="x" mx={-32} offsetScrollbars pb={12}>
       <StyledTable>
@@ -34,7 +36,14 @@ export const Table = <T extends Record<"id", string | number | null>>({
         <TableComponent.Tbody>
           {data.map((el) => {
             return (
-              <TableComponent.Tr key={el.id}>
+              <TableComponent.Tr
+                key={el.id}
+                onClick={() => {
+                  if (typeof el.id === "string" && el.id.match(/[a-zA-Z]/)) {
+                    navigate(`/video-to-script/${el.id}`);
+                  }
+                }}
+              >
                 {columns.map((col) => (
                   <TableComponent.Th key={col.field} ta={col.align}>
                     {col.render ? col.render(el) : get(el, col.field)}

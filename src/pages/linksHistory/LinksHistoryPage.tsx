@@ -28,7 +28,7 @@ export const LinksHistoryPage = () => {
       video: el.url,
     })) as ILinkData[];
   }, [data?.history_requests]);
-
+  console.log(tableData);
   return (
     <Stack p={32} gap={32} bg="#0D0D0E" mih="100vh">
       <Stack gap={16}>
