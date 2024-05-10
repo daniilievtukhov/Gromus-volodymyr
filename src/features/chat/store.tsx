@@ -1,10 +1,11 @@
-import { Badge, Group } from "@mantine/core";
+import { Badge, Group, Space } from "@mantine/core";
 import { ReactNode } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { create } from "zustand";
 import { ApiSounds } from "../../requests/stats/sounds";
-import { Message } from "./components/Message";
+import { Message, StyledButton } from "./components/Message";
 import { ApiSchedule } from "../../requests/schedule";
+import { Presets } from "../presets";
 
 type IState = {
   chatId: string;
@@ -49,14 +50,26 @@ export const useChatStore = create<IState>(() => ({
               AI Assistant Beta
             </Badge>
             <Message.Text>
-              I'm constantly evolving and introducing new features. At the moment, you're welcome to
-              inquire about:
+              I'm constantly evolving and introducing new features. At the moment, I analyze your
               <ul>
-                <li>Rising sounds across any country in the world or check out global hits</li>
-                <li>Optimal posting times for music content (TikTok authorization is needed)</li>
+                <li> account</li>
+                <li> competitors</li>
+                <li> listen to your sounds</li>
+                <li> watch your videos</li>
+                <li> analyze all global viral content</li>
+                <li> and train to provide the best personalized recommendations</li>
+              </ul>
+              Just ask me:
+              <ul>
+                <li>Show Top sounds in the USA with #dance</li>
+                <li>Show best sounds in the UA with #dance duration 15 sec</li>
                 <li>
-                  Insights and analytics for your profile or any other content creator's account
+                  Analyze account @creatorname or Analyze account
+                  https://www.tiktok.com/@creatorname
                 </li>
+                <li>Analyze my account</li>
+                <li>What is the best time for posting in category music</li>
+                <li>Propose top hashtags in the Germany</li>
               </ul>
             </Message.Text>
           </Group>

@@ -1,4 +1,4 @@
-import { Avatar, Stack, Title } from "@mantine/core";
+import { Avatar, Stack, Text, Title } from "@mantine/core";
 import { IconSparkles, IconVinyl } from "@tabler/icons-react";
 import styled from "styled-components";
 import { Pricing } from "../../../pages/pricing/components/Pricing";
@@ -27,9 +27,8 @@ export const MainStart = () => {
 
           <StyledTitle textWrap="wrap">
             Hello, {userInfo.firstname || userInfo.userName}!
-            <br />
-            How can I help you today?
           </StyledTitle>
+          <Text> I am constantly learning to understand all your requests 😉 </Text>
         </Block>
       ) : (
         <Greeting />

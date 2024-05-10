@@ -22,7 +22,7 @@ import { usePostsStore } from "../../chat/store";
 import { useEffect } from "react";
 import classes from "./Calendar.module.css";
 import { IconCaretDownFilled, IconComponents } from "@tabler/icons-react";
-import { UAFlag, USFlag } from "mantine-flagpack";
+
 export const Calendar = () => {
   const store = usePostsStore();
 
@@ -128,9 +128,9 @@ export const Calendar = () => {
         return array.map((el) =>
           el
             ? {
-                time: format(setHours(new Date(0), el.hour), "h aaa"),
-                percent: el.percent,
-              }
+              time: format(setHours(new Date(0), el.hour), "h aaa"),
+              percent: el.percent,
+            }
             : null,
         );
       };
@@ -251,9 +251,9 @@ export const Calendar = () => {
                     style={
                       el?.percent
                         ? {
-                            backgroundColor: darken("#D1FD0A", (1 - 0.01 * el.percent) / 2),
-                            color: el.percent > 50 ? "black" : "white",
-                          }
+                          backgroundColor: darken("#D1FD0A", (1 - 0.01 * el.percent) / 2),
+                          color: el.percent > 50 ? "black" : "white",
+                        }
                         : {}
                     }
                   >

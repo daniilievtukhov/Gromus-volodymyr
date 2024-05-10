@@ -1,4 +1,4 @@
-import { Modal, Group, Grid, Paper, Container, Text } from "@mantine/core";
+import { Modal, Group, Grid, Paper, Container, Text, Stack } from "@mantine/core";
 import ReactPlayer from "react-player/lazy";
 import styled from "styled-components";
 import { SignedText, SubscribePackageBtn } from "../../../pages/pricing/components/Pricing";
@@ -17,19 +17,6 @@ const CustomModal = styled(Modal)`
   .mantine-Paper-root {
     background: #0d0d0e;
   }
-`;
-
-const ResponsiveIframeContainer = styled.div`
-  position: relative;
-  overflow: hidden;
-  border-radius: 1rem;
-`;
-const StyledIframe = styled.iframe`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
 `;
 
 export const ModalVideo = () => {
@@ -58,14 +45,9 @@ export const ModalVideo = () => {
           <h2 style={{ fontSize: "48px" }}>{title} </h2>
           <SignedText>{text}</SignedText>
         </Paper>
-
-        <Grid justify="center" align="center" style={{ margin: "30px" }}>
-          <Group style={{ justifyContent: "center" }}>
-            <ResponsiveIframeContainer>
-              <ReactPlayer url={link} width="100%" controls={true} />
-            </ResponsiveIframeContainer>
-          </Group>
-        </Grid>
+        <Stack w="70%" style={{ margin: "0 auto" }}>
+          <ReactPlayer url={link} width="100%" controls={true} />
+        </Stack>
         <Grid justify="center" style={{ margin: "50px" }}>
           <Paper
             style={{
