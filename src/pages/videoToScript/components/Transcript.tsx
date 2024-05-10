@@ -1,4 +1,14 @@
-import { Box, Flex, Text, Paper, Group, Button, Switch, Textarea } from "@mantine/core";
+import { 
+  Box, 
+  Flex, 
+  Text, 
+  Paper, 
+  Group, 
+  Button, 
+  Switch, 
+  Textarea,
+  Skeleton 
+} from "@mantine/core";
 import styled from "styled-components";
 import { useScriptVideoStore } from "../store/videoToScript";
 import { startCase } from "lodash";
@@ -9,6 +19,8 @@ import { CopyButtonScript } from "./buttons/CopyButton";
 import { CancelButton } from "./buttons/CancelButton";
 import { TextareaScript } from "./TextareaScript";
 import { ApiTranscriptionEdit } from "../../../requests/transcriptionEdit";
+import { useTranscriptionTranslate } from "../hooks/useTranslate";
+import { isString } from "lodash";
 
 export const Transcript = () => {
   const store = useScriptVideoStore();
@@ -19,10 +31,32 @@ export const Transcript = () => {
         } = store;
   const [editable, setEditable] = useState<boolean>(false);
   const [onSubmitText, setSubmitText] = useState<string>(transcription_text);
+  const [ checked, setChecked ] = useState<boolean>(true);
 
   useEffect(() => {
     setSubmitText(store.transcription_text)
-  }, [store])
+  }, [])
+
+  const { 
+          data,
+          isSuccess, 
+          isLoading,
+          isError 
+        } = useTranscriptionTranslate(id);
+  
+  const translation_text = data?.data?.translation_text;
+
+  useEffect(() => {
+    if(!checked && (isString(translation_text) || isError)) {
+      console.log("True")
+
+      !isError && isString(translation_text) ? setSubmitText(translation_text) : setSubmitText(`Error, something went wrong...`);
+    } else {
+      console.log("false")
+
+      setSubmitText(transcription_text);
+    }
+  }, [checked, translation_text])
 
   return (
       <Box 
@@ -53,18 +87,19 @@ export const Transcript = () => {
                 variant="filled"
                 style={{ minWidth: 100, height: 30, color: "black", marginLeft: 10 }}
               >
-                {startCase(Object.values(language_original)[0])}
+                {!checked ? "English" : startCase(Object.values(language_original)[0])}
               </Button>
             </Flex>
             <Flex align="center" style={{ height: "100%", alignItems: "flex-end" }}>
               <Text fz={16} fw={600} c={"#ffffff"} lh={1.25} truncate="end">
-                English
+              English
               </Text>
               <Switch
                 style={{ marginLeft: 10, marginRight: 10 }}
-                defaultChecked
+                checked={checked}
                 color="rgba(209, 253, 10, 1)"
                 size="md"
+                onClick={() => setChecked(checked => !checked)}
                 thumbIcon={
                   <span
                     style={{
@@ -82,12 +117,17 @@ export const Transcript = () => {
               </Text>
             </Flex>
           </Flex>
-          <Box>
-            <TextareaScript 
-              editable={editable}
-              text={onSubmitText}
-              setSubmitText={setSubmitText}
-            />
+          <Box 
+            p={"1rem"}
+          >
+          { (!checked && isLoading ) 
+            ? <Skeleton h={"20vh"} />
+            : <TextareaScript 
+                editable={editable}
+                text={onSubmitText}
+                setSubmitText={setSubmitText}
+              />
+          }
             
             <Flex
               align="center"
@@ -97,8 +137,8 @@ export const Transcript = () => {
             >                
                 <CopyButtonScript copiedItem={onSubmitText} size="lg" />
               
-                { !editable && <EditButton setEditable={setEditable} /> }
-                { editable 
+                { !editable && checked && <EditButton setEditable={setEditable} /> }
+                { editable && checked
                 && 
                 <Group>
 

@@ -40,7 +40,7 @@ export const Table = <T extends Record<"id", string | number | null>>({
                 key={el.id}
                 onClick={(e) => {
 
-                  if (typeof el.id === "string" && el.id.match(/[a-zA-Z]/) && (!e.target.closest("svg") && !e.target.closest("a"))) {
+                  if (typeof el.id === "string" && el.id.match(/[a-zA-Z]/) && !((e.target as Element).closest("svg") || (e.target as Element).closest("a"))) {
                     navigate(`/video-to-script/${el.id}`);
                   }
                 }}
