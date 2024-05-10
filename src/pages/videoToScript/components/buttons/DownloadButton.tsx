@@ -53,17 +53,18 @@ export const DownloadButton = ({ id, title }: { id: string | number, title: stri
       role="link"
       color="rgba(209, 253, 10, 1)"
       variant="filled"
+      w={200}
       style={{ height: 35, color: "black" }}
       loading={isLoading}
       onClick={handleDownload}
     >
       {isError ? (
         <>
-          <IconAlertCircle /> Error
+          <IconAlertCircle size={20} style={{ marginRight: 4 }} /> Error
         </>
       ) : (
         <>
-          <IconDownload /> Download
+          <IconDownload size={20} style={{ marginRight: 4 }}  /> Download
         </>
       )}
     </Button>

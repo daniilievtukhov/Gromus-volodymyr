@@ -1,4 +1,4 @@
-import { Input, Button, Select, Flex, Text, Image, Group } from "@mantine/core";
+import { Input, Button, Select, Flex, Text, Image, Group, TextInput } from "@mantine/core";
 import {
   IconCircleArrowLeftFilled,
   IconDownload,
@@ -16,6 +16,7 @@ export const DownloadVideo = () => {
   return (
     <Flex gap={10}>
       <Button
+        w={200}
         role="link"
         bg="#3A3A3A"
         style={{ border: "1.5px solid #3A3A3A" }}
@@ -30,14 +31,19 @@ export const DownloadVideo = () => {
           </Text>
         </Flex>
       </Button>
-      <Input
+      <TextInput
         radius="lg"
-        style={{ width: 400, height: 36, marginRight: -100 }}
+        style={{ width: "100%", height: 36 }}
         placeholder="The link, which will be copied"
         readOnly
         value={url}
+        rightSectionWidth={100}
+        rightSection = {
+          <div style={{ marginLeft: 15 }}>
+            <CopyButtonScript copiedItem={url} size="sm" />
+          </div>
+        }
       />
-      <CopyButtonScript copiedItem={url} size="sm" />
       <DownloadButton id={id} title={title} />
     </Flex>
   );

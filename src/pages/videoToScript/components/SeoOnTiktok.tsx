@@ -76,7 +76,7 @@ export const SeoOnTiktok = () => {
             }}
 
           >
-          <Group gap={10}>
+          <Flex gap={10} direction="column" align={"flex-start"}>
             <Group align="center">
               <Text
                 fz={16}
@@ -99,7 +99,7 @@ export const SeoOnTiktok = () => {
               </Text>
 
             </Group>
-            </Group>
+          </Flex>
 
           </Paper>
           <TextareaScript editable={editable} text={onSubmitText} setSubmitText={setSubmitText} />
