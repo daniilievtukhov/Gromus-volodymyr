@@ -28,8 +28,7 @@ export const TextareaScript: React.FC<Props> = ({ editable, text, setSubmitText 
       p={10}
       placeholder="Input Transcription..."
       style={{
-        marginTop: "10px",
-        marginBottom: "20px",
+
         borderRadius: "8px",
       }}
       value={text}

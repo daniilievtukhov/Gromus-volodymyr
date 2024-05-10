@@ -1,7 +1,7 @@
 import { Anchor, Button, Loader, Text } from "@mantine/core";
 import { IconDownload, IconAlertCircle } from "@tabler/icons-react";
 import { useState, useEffect } from "react";
-import { ApiTranscriptionDownload } from "../../../../requests/transcription/DownloadVideo";
+import { ApiTranscriptionDownload } from "../../../../requests/transcription/downloadVideo"
 
 export const DownloadButton = ({ id, title }: { id: string | number, title: string }) => {
   const [isLoading, setIsLoading] = useState(false);
