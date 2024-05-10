@@ -8,6 +8,9 @@ interface Props {
 }
 
 export const TextareaScript: React.FC<Props> = ({ editable, text, setSubmitText }) => {
+
+  const cleanedTranscription = text.replace(/\\\\n|\\'|"/g, '').replace(/\\n|"/g, '');
+
   return (
     <Textarea
       unstyled
@@ -31,7 +34,7 @@ export const TextareaScript: React.FC<Props> = ({ editable, text, setSubmitText 
 
         borderRadius: "8px",
       }}
-      value={text}
+      value={cleanedTranscription}
       disabled={!editable}
       autosize={false}
       minRows={20}

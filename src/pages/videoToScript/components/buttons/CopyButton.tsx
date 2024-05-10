@@ -1,11 +1,11 @@
 import React from "react"
 import { IconEdit } from "@tabler/icons-react"
-import { Button, CopyButton } from "@mantine/core"
+import { Button, CopyButton, Group } from "@mantine/core"
 import { IconCopyCheck, IconCopy } from "@tabler/icons-react"
 
 interface Props {
     copiedItem: any
-    size: string
+    size: string,
 }
 
 export const CopyButtonScript:React.FC<Props> = ({copiedItem, size}) => {
@@ -19,7 +19,8 @@ export const CopyButtonScript:React.FC<Props> = ({copiedItem, size}) => {
                     style={{ color: "white" }}
                     onClick={copy}
                 >
-                    {copied ? <IconCopyCheck/> : <IconCopy size={18} style={{ marginRight: 4 }} />}
+                    
+                    {copied ? <IconCopyCheck/> : <IconCopy size={"1rem"} style={{ marginRight: 4 }} />}
                     Copy
                 </Button>
             )}

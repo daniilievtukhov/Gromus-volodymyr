@@ -41,22 +41,22 @@ export const Transcript = () => {
           data,
           isSuccess, 
           isLoading,
-          isError 
+          isError,
+          error
         } = useTranscriptionTranslate(id);
   
   const translation_text = data?.data?.translation_text;
 
   useEffect(() => {
-    if(!checked && (isString(translation_text) || isError)) {
-      console.log("True")
-
-      !isError && isString(translation_text) ? setSubmitText(translation_text) : setSubmitText(`Error, something went wrong...`);
+    const shouldTranslate = !checked && (isString(translation_text) || isError);
+    const translationSuccessful = !isError && isString(translation_text);
+  
+    if (shouldTranslate) {
+      setSubmitText(translationSuccessful ? translation_text : "Can't translate text");
     } else {
-      console.log("false")
-
       setSubmitText(transcription_text);
     }
-  }, [checked, translation_text])
+  }, [checked, translation_text]);
 
   return (
       <Box 
