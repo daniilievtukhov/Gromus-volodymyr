@@ -14,8 +14,9 @@ export const DownloadVideo = () => {
   console.log(useScriptVideoStore());
   const navigate = useNavigate();
   return (
-    <Flex gap={10} wrap={"wrap"}>
+    <Flex gap={10}>
       <Button
+        w={200}
         role="link"
         bg="#3A3A3A"
         style={{ border: "1.5px solid #3A3A3A" }}
@@ -32,13 +33,13 @@ export const DownloadVideo = () => {
       </Button>
       <TextInput
         radius="lg"
-        style={{ width: 400, height: 36 }}
+        style={{ width: "100%", height: 36 }}
         placeholder="The link, which will be copied"
         readOnly
         value={url}
         rightSectionWidth={100}
         rightSection = {
-          <div style={{ marginLeft: 10 }}>
+          <div style={{ marginLeft: 15 }}>
             <CopyButtonScript copiedItem={url} size="sm" />
           </div>
         }

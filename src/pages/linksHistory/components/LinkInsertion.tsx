@@ -230,7 +230,7 @@ export const LinkInsertion = () => {
           }}
           p={"0px"}
           wrapperProps={{ padding: "0px" }}
-          placeholder={"Enter the link here..."}
+          placeholder={"Enter link on video from instagram or tiktok"}
           leftSectionWidth={90}
           leftSection={
             <Group
