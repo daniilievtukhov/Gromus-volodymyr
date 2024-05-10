@@ -24,7 +24,7 @@ const SocialMediaLink: React.FC<{ id: string | number; path: string; title: stri
       <div style={{ borderRadius: "100%", padding: "15px", background: "#212122", margin: "3px" }}>
         <Image src={socialMediaSvg(path)} width={"20px"} height={"20px"} />
       </div>
-      <Text c={"white"} underline="never" fw={"600"}>
+      <Text c={"white"} fw={"600"}>
         {title
           ? title?.length > 25
             ? title.slice(0, 18) + "..."

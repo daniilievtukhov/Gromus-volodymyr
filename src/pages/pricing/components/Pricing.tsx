@@ -1,5 +1,3 @@
-import React, { useEffect } from "react";
-
 import styled from "styled-components";
 import { Grid, Button } from "@mantine/core";
 import { Footer } from "./FooterPricing";
@@ -66,61 +64,10 @@ export const Pricing = ({ showFooter = true, showText = true }) => {
   if (data) {
     priceCards = [
       {
-        categoryLabel: "BASIC",
-        price: "FREE",
-        priceDescription: "Use completely free.",
-        subscribeLink: "",
-        isMonth: false,
-        options: [
-          {
-            isAvalible: true,
-            signedText: "10 requests",
-            text: "to your personal AI Assistant",
-            comingSoon: false,
-          },
-          {
-            isAvalible: true,
-            signedText: "3 times",
-            text: "of viral TikTok sounds",
-            comingSoon: false,
-          },
-          {
-            isAvalible: true,
-            signedText: "3 min",
-            text: "video to text AI scripts (TikTok / Instagram)",
-            comingSoon: false,
-          },
-          {
-            isAvalible: false,
-            signedText: "",
-            text: "AI personalized best time & day to post",
-            comingSoon: false,
-          },
-          { isAvalible: false, signedText: "", text: "Trending Hashtags", comingSoon: false },
-          {
-            isAvalible: true,
-            signedText: "3 times",
-            text: "of Your account analytics",
-            comingSoon: false,
-          },
-          {
-            isAvalible: true,
-            signedText: "3 times",
-            text: "of any platform TikTok account analytics",
-            comingSoon: false,
-          },
-          {
-            isAvalible: true,
-            signedText: "3 times",
-            text: "of Gromus Pro using",
-            comingSoon: false,
-          },
-        ],
-      },
-
-      {
         categoryLabel: "PRO",
         price: "$9.99",
+        discount: "",
+        isDiscount: false,
         priceDescription: "$9.99/month.",
         isMonth: true,
         subscribeLink: data.pro,
@@ -133,107 +80,140 @@ export const Pricing = ({ showFooter = true, showText = true }) => {
           },
           {
             isAvalible: true,
-            signedText: "20 times",
-            text: "of viral TikTok sounds",
-            comingSoon: false,
-          },
-          {
-            isAvalible: true,
-            signedText: "100 min",
+            signedText: "50 min",
             text: "video to text AI scripts (TikTok / Instagram)",
             comingSoon: false,
           },
           {
             isAvalible: true,
-            signedText: "20 times",
-            text: "of AI personalized best time & day to post",
-            comingSoon: false,
-          },
-          {
-            isAvalible: true,
-            signedText: "20 times",
-            text: "of Trending Hashtags",
-            comingSoon: false,
-          },
-          {
-            isAvalible: true,
-            signedText: "20 times",
-            text: "of Your account analytics",
-            comingSoon: false,
-          },
-          {
-            isAvalible: true,
-            signedText: "20 times",
-            text: "of any TikTok account analytics",
-            comingSoon: false,
-          },
-          {
-            isAvalible: true,
-            signedText: "20 times",
-            text: "of Gromus Pro using",
+            signedText: "20 results for:",
+            text: "",
             comingSoon: false,
           },
         ],
+        priceList: [
+          {
+            listItem: "Viral TiikTok sounds",
+          },
+          {
+            listItem: "AI personalized best time & day to post",
+          },
+          {
+            listItem: "Trending Hashtags",
+          },
+          {
+            listItem: "Your account analitics",
+          },
+          {
+            listItem: "Any TikTok account analitics",
+          },
+          {
+            listItem: "GROMUS Pro platform",
+          },
+        ]
       },
       {
         categoryLabel: "ADVANCED",
         price: "$19.99",
+        discount: "$99.99",
+        isDiscount: true,
         priceDescription: "$19.99/month.",
         subscribeLink: data.advance,
         isMonth: true,
         options: [
           {
             isAvalible: true,
-            signedText: "1000 questions",
+            signedText: "300 questions",
             text: "to your personal AI Assistant",
             comingSoon: false,
           },
           {
             isAvalible: true,
-            signedText: "Unlimited",
-            text: "of viral TikTok sounds",
-            comingSoon: false,
-          },
-          {
-            isAvalible: true,
-            signedText: "300 min",
+            signedText: "150 min",
             text: "video to text AI scripts (TikTok / Instagram)",
             comingSoon: false,
           },
           {
             isAvalible: true,
-            signedText: "Unlimited",
-            text: "AI personalized best time & day to post",
-            comingSoon: false,
-          },
-          {
-            isAvalible: true,
-            signedText: "Unlimited",
-            text: "Trending Hashtags",
-            comingSoon: false,
-          },
-          {
-            isAvalible: true,
-            signedText: "Unlimited",
-            text: "Your account analytics",
-            comingSoon: false,
-          },
-          {
-            isAvalible: true,
-            signedText: "Unlimited",
-            text: "any TikTok account analytics",
-            comingSoon: false,
-          },
-          {
-            isAvalible: true,
-            signedText: "Unlimited",
-            text: "of Gromus Pro using",
+            signedText: "100 results for:",
+            text: "",
             comingSoon: false,
           },
         ],
+        priceList: [
+          {
+            listItem: "Viral TiikTok sounds",
+          },
+          {
+            listItem: "AI personalized best time & day to post",
+          },
+          {
+            listItem: "Trending Hashtags",
+          },
+          {
+            listItem: "Your account analitics",
+          },
+          {
+            listItem: "Any TikTok account analitics",
+          },
+          {
+            listItem: "GROMUS Pro platform",
+          },
+        ]
+      },
+      {
+        categoryLabel: "CUSTOM",
+        price: "$999.99",
+        discount: "",
+        isDiscount: false,
+        priceDescription: "$999.99/month.",
+        subscribeLink: data.advance,
+        isMonth: true,
+        options: [
+          {
+            isAvalible: true,
+            signedText: "Unlimited",
+            text: "to your personal AI Assistant",
+            comingSoon: false,
+          },
+          {
+            isAvalible: true,
+            signedText: "1000 min",
+            text: "video to text AI scripts (TikTok / Instagram)",
+            comingSoon: false,
+          },
+          {
+            isAvalible: true,
+            signedText: "Unlimited results for:",
+            text: "",
+            comingSoon: false,
+          },
+        ],
+        priceList: [
+          {
+            listItem: "Viral TiikTok sounds",
+          },
+          {
+            listItem: "AI personalized best time & day to post",
+          },
+          {
+            listItem: "Trending Hashtags",
+          },
+          {
+            listItem: "Your account analitics",
+          },
+          {
+            listItem: "Any TikTok account analitics",
+          },
+          {
+            listItem: "GROMUS Pro platform",
+          },
+        ]
       },
     ];
   }
+
+
   return (
     <PricingContainer
       style={{
@@ -257,6 +237,7 @@ export const Pricing = ({ showFooter = true, showText = true }) => {
       >
         {priceCards.map((priceCard) => (
           <PriceCard priceCard={priceCard} />
+
         ))}
       </Grid>
       {showFooter && isPricingPage && <Footer />}

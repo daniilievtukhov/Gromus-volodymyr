@@ -22,12 +22,12 @@ export const DaySounds = () => {
           Sounds <AccentTitle.Color>of the day</AccentTitle.Color>
         </AccentTitle>
         <Flex align="center" justify="center" w="45%">
-          <AnimatedButtonDark
+          {/*<AnimatedButtonDark
             clicked={clicked}
             onClick={handleHowItWorks}
             title="How it works"
             icon={<IconPlayerPlay size={10} />}
-          />
+          /> */}
         </Flex>
       </Flex>
       <ScrollArea mx={-32} type="never">

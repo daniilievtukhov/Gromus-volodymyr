@@ -38,6 +38,9 @@ export const PhoneInput = ({
     <Input.Wrapper label={label} error={error}>
       <Wrapper>
         <StyledSelect
+          allowDeselect={false}
+          searchable
+          nothingFoundMessage="Nothing found..."
           tabIndex={-1}
           data={countryOptions.map((country) => country.name)}
           onChange={handleCountryChange}

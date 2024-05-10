@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { Grid, Button, Anchor } from "@mantine/core";
+import { Grid, Button, Anchor, Stack, Container } from "@mantine/core";
 import Check from "../../../assets/icons/check.svg";
 import Close from "../../../assets/icons/close.svg";
 import { useState } from "react";
@@ -28,6 +28,12 @@ const FreeLabel = styled.label`
   color: #d1fd0a;
 `;
 
+const DiscountLabel = styled.label`
+  font-weight: 500;
+  font-size: 35px;
+  color: #fff;
+`;
+
 const FreePackageBtn: React.FC<{ children: string; category: string; activeCategory: string }> = ({
   children,
   category,
@@ -53,12 +59,10 @@ const FreePackageBtn: React.FC<{ children: string; category: string; activeCateg
   };
 
   const onSubmit = async () => {
-    // e.preventDefault();
     const res = await axios.get("https://react.gromus.ai/api/Subscription/StripeUnsubscribe", {
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    //console.log(res);
   };
 
   return (
@@ -76,21 +80,6 @@ const FreePackageBtn: React.FC<{ children: string; category: string; activeCateg
   );
 };
 
-// styled(Button)`
-//     background: rgba(255, 255, 255, 0.04);
-//     border-color: rgba(255, 255, 255, 0.04);
-//     font-size: 15px;
-//     font-weight: 700;
-//     letter-spacing: 12%;
-//     width: 90%;
-//     height: 60px;
-//     border-radius: 8px;
-//     margin-bottom: 10px;
-
-//       &:hover {
-//         background: rgba(255, 255, 255, 0.1);
-//         border-color: rgba(255, 255, 255, 0.1);
-// `;
 
 const Separator = styled.hr`
   color: rgba(255, 255, 255, 0.05);
@@ -103,6 +92,16 @@ const CardContainer = styled.div`
 
 const SignedText = styled.label`
   color: #d1fd0a;
+`;
+
+const DiscountText = styled.label`
+  color: #fff;
+  font-size: 20px;
+`;
+
+const DiscountContainer = styled.div`
+  color: #fff !important;
+  font-size: 30px;
 `;
 
 export const SubscribePackageBtn: React.FC<{ subscribeLink: string }> = ({ subscribeLink }) => {
@@ -165,7 +164,8 @@ const PackageCardContainer = styled.div`
 
 const PriceCardOptions: React.FC<{
   options: IPriceCardOption[];
-}> = ({ options }) => {
+  priceList: IPriceCardList[];
+}> = ({ options, priceList }) => {
   return (
     <ul style={{ listStyleType: "none", paddingLeft: "0px" }}>
       {options.map(({ isAvalible, signedText, text, comingSoon }, index: number) => (
@@ -184,6 +184,11 @@ const PriceCardOptions: React.FC<{
           </div>
           {comingSoon && <CustomBudget text="coming soon" />}
         </li>
+      ))}
+      {priceList.map((item, index) => (
+        <ul key={index} style={{ textAlign: "left", listStyle: "inside" }}>
+          <li style={{ marginBottom: "20px" }}>{item.listItem}</li>
+        </ul>
       ))}
     </ul>
   );
@@ -205,17 +210,24 @@ interface IPriceCardOption {
   comingSoon: boolean;
 }
 
+interface IPriceCardList {
+  listItem: string;
+}
+
 export interface IPriceCard {
-  categoryLabel: "BASIC" | "PRO" | "ADVANCED";
+  categoryLabel: "PRO" | "ADVANCED" | "CUSTOM";
   price: string;
+  discount: string;
+  isDiscount: boolean;
   subscribeLink: string;
   isMonth: boolean;
   priceDescription: string;
   options: IPriceCardOption[];
+  priceList: IPriceCardList[];
 }
 
 const PriceCard: React.FC<{ priceCard: IPriceCard }> = ({ priceCard }) => {
-  const { categoryLabel, price, options, priceDescription, isMonth, subscribeLink } = priceCard;
+  const { categoryLabel, price, discount, isDiscount, options, priceDescription, isMonth, subscribeLink, priceList } = priceCard;
   const user = useGlobalStore();
 
   const stripeSubscription = user.userInfo?.stripeSubscription;
@@ -227,10 +239,17 @@ const PriceCard: React.FC<{ priceCard: IPriceCard }> = ({ priceCard }) => {
       <PackageCardContainer>
         <PricingHeader>
           <BasicLabel>{categoryLabel}</BasicLabel>
-          <div>
-            <FreeLabel>{price}</FreeLabel>
-            {isMonth && <SignedText>/ mo</SignedText>}
-          </div>
+          <Stack>
+            <Container>
+              <FreeLabel>{price}</FreeLabel>
+              {isMonth && <SignedText>/ mo</SignedText>}
+            </Container>
+            <DiscountContainer>
+              <DiscountLabel style={{ textDecorationLine: "line-through red", textDecorationColor: "red" }}>{discount}</DiscountLabel>
+              {isDiscount && <DiscountText> / mo </DiscountText>}
+            </DiscountContainer>
+          </Stack>
+
         </PricingHeader>
         <Separator />
         {isMonth && (account !== categoryLabel.toUpperCase() || !stripeSubscription) ? (
@@ -242,7 +261,7 @@ const PriceCard: React.FC<{ priceCard: IPriceCard }> = ({ priceCard }) => {
         )}
 
         <CardContainer>
-          <PriceCardOptions options={options} />
+          <PriceCardOptions options={options} priceList={priceList} />
 
           <BtnDescription>{priceDescription} Cancel anytime.</BtnDescription>
         </CardContainer>

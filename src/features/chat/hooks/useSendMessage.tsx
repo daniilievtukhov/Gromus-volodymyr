@@ -12,7 +12,6 @@ import { useAIAuthorAnalyticStore } from "../../../pages/accountAnalytics/store/
 // import { io } from "socket.io-client";
 import axios from "axios";
 const userRegion = navigator.language;
-import { useHashtags } from "../../hashtags/store/hashtags";
 import { setPosts } from "../store";
 
 type Payload = Pick<ApiMessage.IGetLastMessagesRequest, "conversationId" | "text" | "date">;
@@ -150,7 +149,7 @@ export const useSendMessage = () => {
       Context: any;
     }) => {
       const date = new Date().toISOString();
-      
+
       const messageData = {
         isCopilot: true,
         data: data.Data,
@@ -166,13 +165,12 @@ export const useSendMessage = () => {
         data: JSON.stringify(data.Data),
         dataType: data.DataType,
         context: data.Context,
-     });
-
+      });
 
       if (!data.Actions) {
         addMessage({
           ...messageData,
-          messageId: savedMessage.id
+          messageId: savedMessage.id,
         });
       } else {
         const buttons =
